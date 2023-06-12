@@ -1,0 +1,9 @@
+{
+  "endpoint": "pos-s3uat.thaibevapp.com",
+  "accessKey": "IGQnCLHYdrjeENlC",
+  "secretKey": "hF5sB2qtZUU12p7lNKJkbPg0kECWFPs1",
+  "pathBannerUrl": "https://pos-s3uat.thaibevapp.com/banner/",
+  "bucketBanner": "banner",
+  "pathNotiUrl": "https://pos-s3uat.thaibevapp.com/noti/",
+  "bucketNoti": "noti"
+}

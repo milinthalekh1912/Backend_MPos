@@ -1,0 +1,159 @@
+version: '3.4'
+
+services:
+  cache:
+    image: redis:latest
+    container_name: cache
+    restart: always
+    ports:
+      - "6379:6379"
+
+  seq:
+    image: datalust/seq:2022.1
+    environment:
+      - "ACCEPT_EULA=Y"
+    volumes:
+      - seq_volume:/var/lib/seq
+    container_name: seq
+    restart: always
+    ports:
+      - "55341:5341"
+      - "8000:80"
+
+
+  gatewaydb:
+    build:
+      context: .
+      dockerfile: TCCPOS.Backend.Gateway.Database\Dockerfile
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    container_name: gatewaydb
+    restart: always
+    environment:
+      - "MYSQL_RANDOM_ROOT_PASSWORD=1"
+      - "MYSQL_DATABASE=gatewaydb"
+      - "MYSQL_USER=devadmin"
+      - "MYSQL_PASSWORD=devadmin1234"
+    ports:
+      - "33061:3306"
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    build:
+      context: .
+      dockerfile: TCCPOS.Backend.Gateway.WebApi\Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - cache
+      - securityservice
+      - saleservice
+      - inventoryservice
+#      - masterdataservice
+    container_name: gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=dev
+    ports:
+      - "44301:443"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  securityservice:
+    image: ${DOCKER_REGISTRY-}securityservice
+    build:
+      context: .
+      dockerfile: TCCPOS.Backend.SecurityService.WebApi\Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - cache
+    container_name: securityservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=dev
+    ports:
+      - "8002:80"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  saleservice:
+    image: ${DOCKER_REGISTRY-}saleservice
+    build:
+      context: .
+      dockerfile: TCCPOS.Backend.SaleService.WebApi\Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - cache
+    container_name: saleservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=dev
+    ports:
+      - "8003:80"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  inventoryservice:
+    image: ${DOCKER_REGISTRY-}inventoryservice
+    build:
+      context: .
+      dockerfile: TCCPOS.Backend.InventoryService.WebApi\Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - cache
+    container_name: inventoryservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=dev
+    ports:
+      - "8004:80"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  reportservice:
+    image: ${DOCKER_REGISTRY-}reportservice
+    build:
+      context: .
+      dockerfile: TCCPOS.Backend.ReportService.WebApi\Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - cache
+    container_name: reportservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=dev
+    ports:
+      - "8005:80"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+#  masterdataservice:
+#    image: ${DOCKER_REGISTRY-}masterdataservice
+#    build:
+#      context: .
+#      dockerfile: TCCPOS.Backend.MasterDataService.WebApi\Dockerfile
+#    networks:
+#      - backend
+#    depends_on:
+#      - cache
+#    container_name: masterdataservice
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=dev
+#    ports:
+#      - "8009:80"
+#    volumes:
+#      - ~/.aspnet/https:/root/.aspnet/https:ro
+#      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+networks:
+  backend:
+    name: backend
+    driver: bridge
+
+volumes:
+  seq_volume:
+  mysql_volume:

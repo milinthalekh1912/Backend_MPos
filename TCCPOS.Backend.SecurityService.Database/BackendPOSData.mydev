@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), the Project File -->
+<!-- Modifying this generated file will probably render it invalid -->
+<DatabaseProject Version="1.0.2" Guid="59f90733-4d68-4fdf-82a7-f0fcbf5460aa">
+  <Provider Guid="59f90733-4d68-4fdf-82a7-f0fcbf5460aa" />
+  <Include>
+    <Folder Name="Events" />
+    <Folder Name="Functions" />
+    <Folder Name="Procedures" />
+    <Folder Name="Triggers" />
+    <Folder Name="Views" />
+    <File RelPath="Tables" Link=".\Tables\ss_tsaccount.Tables.sql" />
+    <File RelPath="" Link=".\Overview.dbd" />
+  </Include>
+  <Configurations Active="Default">
+    <Configuration Name="Default" CheckReferences="True" IgnoreErrors="False" OutputPath="" Target="" OutputType="SingleFile" KeepOriginalObjects="True" RecreateObjects="False" RecreateDatabase="False" ServerVersion="8.0.99" Database="backendposdata" UseRegions="False" FullPaths="False" Definer="CURRENT_USER" ScriptDelimiter="$$" StorageEngine="INNODB" Collation="utf8mb4_0900_ai_ci" ConvertToLowercase="True" AnalyzePreAndPostDeploymentFilesAttribute="False" DefinerEffect="Keep" InnoDbDefaultRowFormat="dynamic" ServerTypeAttribute="MySql">
+      <ConnectionModel>
+        <PropertyValue Name="Database">59f90733-4d68-4fdf-82a7-f0fcbf5460aa</PropertyValue>
+        <PropertyValue Name="ConnectionString" xml:space="preserve">User Id=root;Host=localhost;Character Set=compatibility</PropertyValue>
+        <PropertyValue Name="ExecutionTimeout">0</PropertyValue>
+      </ConnectionModel>
+      <Build>
+        <File RelPath="Tables" Name="ss_tsaccount.Tables.sql" BuildAction="Build" />
+      </Build>
+    </Configuration>
+  </Configurations>
+</DatabaseProject>

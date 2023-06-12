@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Start Services": {
+      "commandName": "DockerCompose",
+      "composeLaunchServiceName": "gateway",
+      "serviceActions": {
+        "gateway": "StartDebugging",
+        "securityservice": "StartDebugging",
+        "saleservice": "StartDebugging",
+        "reportservice": "StartDebugging",
+        "cache": "StartWithoutDebugging",
+        "gatewaydb": "StartWithoutDebugging"
+      },
+      "composeLaunchAction": "LaunchBrowser",
+      "commandVersion": "1.0",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}"
+    }
+  }
+}
