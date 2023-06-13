@@ -1,18 +1,17 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.SecurityService.Application.Feature;
-using TCCPOS.Backend.SecurityService.Application.Feature.Login.Command.Login;
-using TCCPOS.Backend.SecurityService.Application.Feature.LoginWithLine.Command.LoginWithLine;
+using TCCPOS.Backend.SecurityService.Application.Feature.LoginWith.Command.LineLogin;
 
 namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
 {
-    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class LoginWithLineController : ApiControllerBase
+    public class LoginWithLineController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ILogger<LoginWithLineController> _logger;
@@ -25,32 +24,17 @@ namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
             _config = config;
         }
 
-        /// <summary>
-        /// Login challenge
-        /// </summary>
-        /// <remarks>(Ready)</remarks>
-        /// <response code="200">Login success</response>
-        /// <response code="500">
-        /// Login failed&lt;br&gt;
-        /// SE001 = Username not found.&lt;br&gt;
-        /// SE002 = Password not match.&lt;br&gt;
-        /// </response>
         [AllowAnonymous]
         [HttpPost]
-        [SwaggerOperation(Summary = "Login with Line OA", Description = "")]
-        [ProducesResponseType(typeof(LoginWithLineResult), (int)HttpStatusCode.OK)]
+        [SwaggerOperation(Summary = "", Description = "")]
+        [ProducesResponseType(typeof(LineLoginCommand), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> LoginWithLine([FromBody] LoginWithLineRequest request)
+        public async Task<IActionResult> Post([FromBody] LineLoginRequest request)
         {
-            var cmd = new LoginWithLineCommand();
-            cmd.LoginID = request.UserID;
-            cmd.ConfigJWTValidIssuer = _config["JWT:ValidIssuer"];
-            cmd.ConfigJWTValidAudience = _config["JWT:ValidAudience"];
-            cmd.ConfigJWTSecret = _config["JWT:Secret"];
-
+            var cmd = new LineLoginCommand();
+            cmd.accessToken = request.accessToken;
             var res = await _mediator.Send(cmd);
             return Ok(res);
         }
-
     }
 }

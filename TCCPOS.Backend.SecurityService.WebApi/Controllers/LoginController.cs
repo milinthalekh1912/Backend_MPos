@@ -1,17 +1,20 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 using TCCPOS.Backend.SecurityService.Application.Feature;
-using TCCPOS.Backend.SecurityService.Application.Feature.Login.Command.Login;
+using TCCPOS.Backend.SecurityService.Application.Feature.LoginUser.Query.Login;
 
 namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
 {
-    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class LoginController : ApiControllerBase
+    public class LoginController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ILogger<LoginController> _logger;
@@ -24,35 +27,18 @@ namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
             _config = config;
         }
 
-        /// <summary>
-        /// Login challenge
-        /// </summary>
-        /// <remarks>(Ready)</remarks>
-        /// <response code="200">Login success</response>
-        /// <response code="500">
-        /// Login failed&lt;br&gt;
-        /// SE001 = Username not found.&lt;br&gt;
-        /// SE002 = Password not match.&lt;br&gt;
-        /// </response>
         [AllowAnonymous]
         [HttpPost]
         [SwaggerOperation(Summary = "", Description = "")]
-        [ProducesResponseType(typeof(LoginResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(LoginQuery), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Post([FromBody] LoginRequest request)
         {
-            var cmd = new LoginCommand();
-            cmd.Username = request.Username;
-            cmd.Password = request.Password;
-            cmd.POSClientID = request.POSClientID;
-            cmd.Version = request.Version;
-            cmd.ConfigJWTValidIssuer = _config["JWT:ValidIssuer"];
-            cmd.ConfigJWTValidAudience = _config["JWT:ValidAudience"];
-            cmd.ConfigJWTSecret = _config["JWT:Secret"];
-
-            var res = await _mediator.Send(cmd);
+            var query = new LoginQuery();
+            query.Username = request.Username;
+            query.Password = request.Password;
+            var res = await _mediator.Send(query);
             return Ok(res);
         }
-
     }
 }

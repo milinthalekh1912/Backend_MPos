@@ -22,11 +22,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure
             services.AddDbContext<InventoryContext>(x => x.UseMySql(mysqlconnstr, ServerVersion.AutoDetect(mysqlconnstr)));
 
             services.AddScoped<IInventoryRepository, InventoryRepository>();
-            /*services.AddScoped<ISaleServiceWebApi, SaleServiceWebApi>(x =>
-            {
-                var baseurl = configuration["BaseUrl:SaleService"] ?? "";
-                return new SaleServiceWebApi(baseurl, GetAuthorization(x));
-            });*/
+            services.AddScoped<ITargetRepository, TargetRepository>();
             return services;
         }
     }

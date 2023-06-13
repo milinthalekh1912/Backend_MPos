@@ -5,23 +5,17 @@ namespace TCCPOS.Backend.SecurityService.Entities
 {
     public partial class sku
     {
-        public string? SKUID { get; set; }
-        public string? Barcode { get; set; }
-        public string? Title { get; set; }
-        public string? AliasTitle { get; set; }
-        public int? BrandID { get; set; }
-        public int? ProductCategoryID { get; set; }
-        public int? ProductSizeID { get; set; }
-        public int? ProductUnit { get; set; }
-        public string? PackSize { get; set; }
-        public int? Unit { get; set; }
-        public int? BanForPracharat { get; set; }
-        public bool? IsVat { get; set; }
-        public string? CreateBy { get; set; }
-        public DateTime CreateDate { get; set; }
-        public bool IsActive { get; set; }
-        public string? MerchantID { get; set; }
-        public string? MapSKU { get; set; }
-        public bool IsFixPrice { get; set; }
+        public string sku_id { get; set; } = null!;
+        public string? title { get; set; }
+        public string? alias_title { get; set; }
+        public string? barcode { get; set; }
+        public string? image_url { get; set; }
+        public string? category_id { get; set; }
+        public string? supplier_id { get; set; }
+        public string? unit_id { get; set; }
+        public DateTime? created_date { get; set; }
+        public string? created_by { get; set; }
+        public DateTime? updated_date { get; set; }
+        public string? updated_by { get; set; }
     }
 }

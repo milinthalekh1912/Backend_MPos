@@ -12,7 +12,6 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure
         {
             var mysqlconnstr = configuration.GetConnectionString("ConnectionString");
             services.AddDbContext<SecurityContext>(x => x.UseMySql(mysqlconnstr, ServerVersion.AutoDetect(mysqlconnstr)));
-
             services.AddScoped<ISecurityRepository, SecurityRepository>();
             return services;
         }

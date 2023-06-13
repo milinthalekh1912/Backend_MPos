@@ -18,6 +18,10 @@
         public static SecurityServiceException SE014 { get; } = new SecurityServiceException(nameof(SE014), "The user not login yet.");
         public static SecurityServiceException SE015 { get; } = new SecurityServiceException(nameof(SE015), "The userLogin not found.");
         public static SecurityServiceException SE016 { get; } = new SecurityServiceException(nameof(SE016), "The userAccount not found.");
+        public static SecurityServiceException SE017 { get; } = new SecurityServiceException(nameof(SE017), "Username already exists.");
+        public static SecurityServiceException SE018 { get; } = new SecurityServiceException(nameof(SE018), "Line AccessToken is not valid");
+        public static SecurityServiceException SE019 { get; } = new SecurityServiceException(nameof(SE019), "This User already have Shop");
+
 
         public string Code { get; set; }
         private SecurityServiceException(string code) : base()

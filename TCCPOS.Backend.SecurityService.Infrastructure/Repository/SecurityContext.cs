@@ -17,405 +17,461 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
         {
         }
 
-        public virtual DbSet<branch> branch { get; set; } = null!;
-        public virtual DbSet<currentversion> currentversion { get; set; } = null!;
-        public virtual DbSet<customer> customer { get; set; } = null!;
-        public virtual DbSet<customer_address> customer_address { get; set; } = null!;
-        public virtual DbSet<merchant> merchant { get; set; } = null!;
-        public virtual DbSet<payment> payment { get; set; } = null!;
-        public virtual DbSet<posclient> posclient { get; set; } = null!;
-        public virtual DbSet<saleitem> saleitem { get; set; } = null!;
-        public virtual DbSet<saleorder> saleorder { get; set; } = null!;
+        public virtual DbSet<category> category { get; set; } = null!;
+        public virtual DbSet<deliverydetail> deliverydetail { get; set; } = null!;
+        public virtual DbSet<employeelogin> employeelogin { get; set; } = null!;
+        public virtual DbSet<employeetenant> employeetenant { get; set; } = null!;
+        public virtual DbSet<order> order { get; set; } = null!;
+        public virtual DbSet<orderdetail> orderdetail { get; set; } = null!;
+        public virtual DbSet<orderstatus> orderstatus { get; set; } = null!;
+        public virtual DbSet<pricetier> pricetier { get; set; } = null!;
+        public virtual DbSet<pricetiergroup> pricetiergroup { get; set; } = null!;
+        public virtual DbSet<promotion> promotion { get; set; } = null!;
+        public virtual DbSet<rewardtarget> rewardtarget { get; set; } = null!;
+        public virtual DbSet<shop> shop { get; set; } = null!;
+        public virtual DbSet<shopaddress> shopaddress { get; set; } = null!;
+        public virtual DbSet<shopgroup> shopgroup { get; set; } = null!;
         public virtual DbSet<sku> sku { get; set; } = null!;
-        public virtual DbSet<sku_branch_price> sku_branch_price { get; set; } = null!;
-        public virtual DbSet<third_party_login> third_party_login { get; set; } = null!;
-        public virtual DbSet<useraccount> useraccount { get; set; } = null!;
-        public virtual DbSet<useractivity> useractivity { get; set; } = null!;
-        public virtual DbSet<userlogin> userlogin { get; set; } = null!;
+        public virtual DbSet<supplier> supplier { get; set; } = null!;
+        public virtual DbSet<unit> unit { get; set; } = null!;
+        public virtual DbSet<user> user { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=127.0.0.1;port=3306;userid=root;password=root;database=backendmpos", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
+                optionsBuilder.UseMySql("server=127.0.0.1;port=3306;userid=root;password=Pass@word12;database=sql12624485", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
-                .HasCharSet("utf8mb4");
+            modelBuilder.UseCollation("latin1_swedish_ci")
+                .HasCharSet("latin1");
 
-            modelBuilder.Entity<branch>(entity =>
+            modelBuilder.Entity<category>(entity =>
             {
-                entity.UseCollation("utf8mb4_0900_as_ci");
-
-                entity.Property(e => e.BranchID).HasMaxLength(36);
-
-                entity.Property(e => e.AccountCode).HasMaxLength(255);
-
-                entity.Property(e => e.AccountName).HasMaxLength(255);
-
-                entity.Property(e => e.BranchAddress).HasMaxLength(255);
-
-                entity.Property(e => e.BranchAddress2).HasMaxLength(255);
-
-                entity.Property(e => e.BranchDistrict).HasMaxLength(30);
-
-                entity.Property(e => e.BranchEmail).HasMaxLength(50);
-
-                entity.Property(e => e.BranchName).HasMaxLength(50);
-
-                entity.Property(e => e.BranchNo).HasMaxLength(10);
-
-                entity.Property(e => e.BranchProvince).HasMaxLength(30);
-
-                entity.Property(e => e.BranchSubdistrict).HasMaxLength(30);
-
-                entity.Property(e => e.BranchZipcode).HasMaxLength(10);
-
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
-            });
-
-            modelBuilder.Entity<currentversion>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.UseCollation("utf8mb4_0900_as_ci");
-            });
-
-            modelBuilder.Entity<customer>(entity =>
-            {
-                entity.Property(e => e.CustomerID).HasMaxLength(36);
-
-                entity.Property(e => e.BranchID).HasMaxLength(36);
-
-                entity.Property(e => e.BranchNo).HasMaxLength(5);
-
-                entity.Property(e => e.CreateBy).HasMaxLength(255);
-
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Email).HasMaxLength(255);
-
-                entity.Property(e => e.Fax).HasMaxLength(50);
-
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
-
-                entity.Property(e => e.Mobile).HasMaxLength(50);
-
-                entity.Property(e => e.Name).HasMaxLength(255);
-
-                entity.Property(e => e.TaxID).HasMaxLength(13);
-
-                entity.Property(e => e.Tel).HasMaxLength(50);
-
-                entity.Property(e => e.UpdateBy).HasMaxLength(255);
-
-                entity.Property(e => e.UpdateDate).HasColumnType("datetime");
-            });
-
-            modelBuilder.Entity<customer_address>(entity =>
-            {
-                entity.HasKey(e => e.CustomerAddressID)
+                entity.HasKey(e => e.category_id)
                     .HasName("PRIMARY");
 
-                entity.Property(e => e.CustomerAddressID).HasMaxLength(36);
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.Address1).HasMaxLength(255);
+                entity.Property(e => e.category_id).HasMaxLength(36);
 
-                entity.Property(e => e.Address2).HasMaxLength(255);
+                entity.Property(e => e.category_name).HasMaxLength(255);
 
-                entity.Property(e => e.CreateBy).HasMaxLength(255);
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.supplier_id).HasMaxLength(36);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<deliverydetail>(entity =>
+            {
+                entity.HasKey(e => e.delivery_detail_id)
+                    .HasName("PRIMARY");
+
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
+
+                entity.Property(e => e.delivery_detail_id).HasMaxLength(36);
+
+                entity.Property(e => e.due_date).HasColumnType("datetime");
+
+                entity.Property(e => e.estimate_date).HasColumnType("datetime");
+
+                entity.Property(e => e.note).HasMaxLength(100);
+
+                entity.Property(e => e.order_id).HasMaxLength(36);
+            });
+
+            modelBuilder.Entity<employeelogin>(entity =>
+            {
+                entity.HasKey(e => e.Username)
+                    .HasName("PRIMARY");
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(25)
+                    .HasDefaultValueSql("''")
+                    .UseCollation("utf8mb3_unicode_ci")
+                    .HasCharSet("utf8mb3");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(25)
+                    .UseCollation("utf8mb3_unicode_ci")
+                    .HasCharSet("utf8mb3");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(255)
+                    .UseCollation("utf8mb3_unicode_ci")
+                    .HasCharSet("utf8mb3");
+            });
+
+            modelBuilder.Entity<employeetenant>(entity =>
+            {
+                entity.HasKey(e => e.TanantID)
+                    .HasName("PRIMARY");
+
+                entity.Property(e => e.AgentName).HasMaxLength(50);
 
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
-                entity.Property(e => e.CustomerID).HasMaxLength(36);
-
-                entity.Property(e => e.District).HasMaxLength(255);
-
-                entity.Property(e => e.Province).HasMaxLength(255);
-
-                entity.Property(e => e.Subdistrict).HasMaxLength(255);
-
-                entity.Property(e => e.UpdateBy).HasMaxLength(255);
-
-                entity.Property(e => e.UpdateDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Zipcode).HasMaxLength(5);
+                entity.Property(e => e.CreatedBy).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<merchant>(entity =>
+            modelBuilder.Entity<order>(entity =>
             {
-                entity.UseCollation("utf8mb4_0900_as_ci");
+                entity.HasKey(e => e.order_id)
+                    .HasName("PRIMARY");
 
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.MerchantAddress).HasMaxLength(255);
+                entity.Property(e => e.order_id).HasMaxLength(36);
 
-                entity.Property(e => e.MerchantName).HasMaxLength(255);
+                entity.Property(e => e.address_id).HasMaxLength(36);
 
-                entity.Property(e => e.MerchantTel).HasMaxLength(50);
+                entity.Property(e => e.coupon_id).HasMaxLength(36);
 
-                entity.Property(e => e.TaxID).HasMaxLength(20);
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.delivery_detail_id).HasMaxLength(36);
+
+                entity.Property(e => e.shop_id).HasMaxLength(36);
+
+                entity.Property(e => e.supplier_id).HasMaxLength(36);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+
+                entity.Property(e => e.user_id).HasMaxLength(36);
             });
 
-            modelBuilder.Entity<payment>(entity =>
+            modelBuilder.Entity<orderdetail>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.order_item_id)
+                    .HasName("PRIMARY");
 
-                entity.UseCollation("utf8mb4_0900_as_ci");
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.Amount).HasPrecision(16, 4);
+                entity.Property(e => e.order_item_id).HasMaxLength(36);
 
-                entity.Property(e => e.AmountRecieve).HasPrecision(16, 4);
+                entity.Property(e => e.created_by).HasMaxLength(255);
 
-                entity.Property(e => e.BranchID).HasMaxLength(36);
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.CreateBy).HasMaxLength(36);
+                entity.Property(e => e.order_id).HasMaxLength(36);
 
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+                entity.Property(e => e.sku_id).HasMaxLength(36);
 
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
+                entity.Property(e => e.updated_by).HasMaxLength(255);
 
-                entity.Property(e => e.POSClientID).HasMaxLength(36);
-
-                entity.Property(e => e.PaymentID).HasMaxLength(36);
-
-                entity.Property(e => e.SaleOrderID).HasMaxLength(36);
-
-                entity.Property(e => e.VoidBy).HasMaxLength(36);
-
-                entity.Property(e => e.VoidDate).HasColumnType("datetime");
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<posclient>(entity =>
+            modelBuilder.Entity<orderstatus>(entity =>
             {
-                entity.UseCollation("utf8mb4_0900_as_ci");
-
-                entity.Property(e => e.POSClientID).HasMaxLength(36);
-
-                entity.Property(e => e.BranchID).HasMaxLength(36);
-
-                entity.Property(e => e.CustomerID).HasMaxLength(36);
-
-                entity.Property(e => e.FRPOSRunning).HasMaxLength(5);
-
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
-
-                entity.Property(e => e.POSRunning).HasMaxLength(5);
-
-                entity.Property(e => e.RDNumber).HasMaxLength(36);
+                entity.Property(e => e.StatusDescription).HasMaxLength(255);
             });
 
-            modelBuilder.Entity<saleitem>(entity =>
+            modelBuilder.Entity<pricetier>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.price_tier_id)
+                    .HasName("PRIMARY");
 
-                entity.UseCollation("utf8mb4_0900_as_ci");
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.AfterVat).HasPrecision(16, 4);
+                entity.Property(e => e.price_tier_id).HasMaxLength(36);
 
-                entity.Property(e => e.AliasTitle).HasMaxLength(255);
+                entity.Property(e => e.created_by).HasMaxLength(255);
 
-                entity.Property(e => e.Barcode).HasMaxLength(36);
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.BeforeVat).HasPrecision(16, 4);
+                entity.Property(e => e.price_tier_group_id).HasMaxLength(36);
 
-                entity.Property(e => e.BranchID).HasMaxLength(36);
+                entity.Property(e => e.sku_id).HasMaxLength(36);
 
-                entity.Property(e => e.CompCode).HasMaxLength(36);
+                entity.Property(e => e.updated_by).HasMaxLength(255);
 
-                entity.Property(e => e.CreateBy).HasMaxLength(36);
-
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
-
-                entity.Property(e => e.FullPrice).HasPrecision(16, 4);
-
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
-
-                entity.Property(e => e.POSClientID).HasMaxLength(36);
-
-                entity.Property(e => e.Price).HasPrecision(16, 4);
-
-                entity.Property(e => e.Quantity).HasPrecision(16, 4);
-
-                entity.Property(e => e.SKUID).HasMaxLength(36);
-
-                entity.Property(e => e.SaleItemID).HasMaxLength(36);
-
-                entity.Property(e => e.SaleOrderID).HasMaxLength(36);
-
-                entity.Property(e => e.Title).HasMaxLength(255);
-
-                entity.Property(e => e.VoidBy).HasMaxLength(36);
-
-                entity.Property(e => e.VoidDate).HasColumnType("datetime");
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<saleorder>(entity =>
+            modelBuilder.Entity<pricetiergroup>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.UseCollation("utf8mb4_0900_as_ci");
+                entity.Property(e => e.id).HasMaxLength(36);
 
-                entity.Property(e => e.BeforeVAT).HasPrecision(16, 4);
+                entity.Property(e => e.created_by).HasMaxLength(255);
 
-                entity.Property(e => e.BranchID).HasMaxLength(36);
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.CreateBy).HasMaxLength(36);
+                entity.Property(e => e.description).HasMaxLength(255);
 
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+                entity.Property(e => e.price_tier_title).HasMaxLength(36);
 
-                entity.Property(e => e.DocNo).HasMaxLength(16);
+                entity.Property(e => e.supplier_id).HasMaxLength(36);
 
-                entity.Property(e => e.MemberID).HasMaxLength(36);
+                entity.Property(e => e.updated_by).HasMaxLength(255);
 
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
 
-                entity.Property(e => e.POSClientID).HasMaxLength(36);
+            modelBuilder.Entity<promotion>(entity =>
+            {
+                entity.HasKey(e => e.promotion_id)
+                    .HasName("PRIMARY");
 
-                entity.Property(e => e.POSSessionID).HasMaxLength(36);
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.SaleOrderID).HasMaxLength(36);
+                entity.Property(e => e.promotion_id).HasMaxLength(36);
 
-                entity.Property(e => e.TotalDiscount).HasColumnType("decimal(10,0) unsigned");
+                entity.Property(e => e.conditions).HasColumnType("text");
 
-                entity.Property(e => e.TotalSale).HasPrecision(16, 4);
+                entity.Property(e => e.created_by).HasMaxLength(255);
 
-                entity.Property(e => e.VATSale).HasPrecision(16, 4);
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.VoidBy).HasMaxLength(36);
+                entity.Property(e => e.description).HasMaxLength(1024);
 
-                entity.Property(e => e.VoidDate).HasColumnType("datetime");
+                entity.Property(e => e.end_date).HasColumnType("datetime");
+
+                entity.Property(e => e.start_date).HasColumnType("datetime");
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<rewardtarget>(entity =>
+            {
+                entity.HasKey(e => e.reward_id)
+                    .HasName("PRIMARY");
+
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
+
+                entity.Property(e => e.reward_id).HasMaxLength(36);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.end_date).HasColumnType("datetime");
+
+                entity.Property(e => e.reward).HasMaxLength(100);
+
+                entity.Property(e => e.shop_group_id).HasMaxLength(36);
+
+                entity.Property(e => e.sku_id).HasMaxLength(36);
+
+                entity.Property(e => e.start_date).HasColumnType("datetime");
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<shop>(entity =>
+            {
+                entity.HasKey(e => e.shop_id)
+                    .HasName("PRIMARY");
+
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
+
+                entity.Property(e => e.shop_id).HasMaxLength(36);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.price_tier_id).HasMaxLength(36);
+
+                entity.Property(e => e.shop_group_id).HasMaxLength(36);
+
+                entity.Property(e => e.shop_name).HasMaxLength(36);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<shopaddress>(entity =>
+            {
+                entity.HasKey(e => e.address_id)
+                    .HasName("PRIMARY");
+
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
+
+                entity.Property(e => e.address_id).HasMaxLength(36);
+
+                entity.Property(e => e.address1).HasMaxLength(255);
+
+                entity.Property(e => e.address2).HasMaxLength(255);
+
+                entity.Property(e => e.address3).HasMaxLength(255);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.phone_number).HasMaxLength(10);
+
+                entity.Property(e => e.shop_id).HasMaxLength(36);
+
+                entity.Property(e => e.shop_title).HasMaxLength(255);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+
+                entity.Property(e => e.zipcode).HasMaxLength(5);
+            });
+
+            modelBuilder.Entity<shopgroup>(entity =>
+            {
+                entity.HasKey(e => e.shop_group_id)
+                    .HasName("PRIMARY");
+
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
+
+                entity.Property(e => e.shop_group_id).HasMaxLength(36);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.group_name).HasMaxLength(255);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<sku>(entity =>
             {
-                entity.HasNoKey();
-
-                entity.UseCollation("utf8mb4_0900_as_ci");
-
-                entity.Property(e => e.AliasTitle).HasMaxLength(255);
-
-                entity.Property(e => e.Barcode).HasMaxLength(20);
-
-                entity.Property(e => e.CreateBy).HasMaxLength(36);
-
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
-
-                entity.Property(e => e.MapSKU).HasMaxLength(36);
-
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
-
-                entity.Property(e => e.PackSize).HasMaxLength(255);
-
-                entity.Property(e => e.SKUID).HasMaxLength(36);
-
-                entity.Property(e => e.Title).HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<sku_branch_price>(entity =>
-            {
-                entity.HasKey(e => new { e.SKUID, e.MerchantID, e.BranchID })
-                    .HasName("PRIMARY")
-                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
-
-                entity.UseCollation("utf8mb4_0900_as_ci");
-
-                entity.Property(e => e.SKUID).HasMaxLength(36);
-
-                entity.Property(e => e.MerchantID).HasMaxLength(36);
-
-                entity.Property(e => e.BranchID).HasMaxLength(36);
-
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Price).HasPrecision(16, 4);
-
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
-            });
-
-            modelBuilder.Entity<third_party_login>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.Property(e => e.CreateBy).HasMaxLength(255);
-
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
-
-                entity.Property(e => e.LoginID).HasMaxLength(36);
-
-                entity.Property(e => e.ProviderName).HasMaxLength(255);
-
-                entity.Property(e => e.UserID).HasMaxLength(36);
-            });
-
-            modelBuilder.Entity<useraccount>(entity =>
-            {
-                entity.HasKey(e => e.UserID)
+                entity.HasKey(e => e.sku_id)
                     .HasName("PRIMARY");
 
-                entity.UseCollation("utf8mb4_0900_as_ci");
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.UserID).HasMaxLength(36);
+                entity.Property(e => e.sku_id).HasMaxLength(36);
 
-                entity.Property(e => e.AuthType).HasMaxLength(1);
+                entity.Property(e => e.alias_title).HasMaxLength(36);
 
-                entity.Property(e => e.CreateBy).HasMaxLength(36);
+                entity.Property(e => e.barcode).HasMaxLength(36);
 
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+                entity.Property(e => e.category_id).HasMaxLength(36);
 
-                entity.Property(e => e.LastLogin).HasColumnType("datetime");
+                entity.Property(e => e.created_by).HasMaxLength(255);
 
-                entity.Property(e => e.Login).HasMaxLength(255);
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.Password).HasMaxLength(255);
+                entity.Property(e => e.image_url).HasMaxLength(36);
 
-                entity.Property(e => e.UpdateBy).HasMaxLength(36);
+                entity.Property(e => e.supplier_id).HasMaxLength(36);
 
-                entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+                entity.Property(e => e.title).HasMaxLength(36);
 
-                entity.Property(e => e.UserType).HasMaxLength(1);
+                entity.Property(e => e.unit_id).HasMaxLength(36);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<useractivity>(entity =>
+            modelBuilder.Entity<supplier>(entity =>
             {
-                entity.HasKey(e => e.UAID)
+                entity.HasKey(e => e.supplier_id)
                     .HasName("PRIMARY");
 
-                entity.UseCollation("utf8mb4_0900_as_ci");
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.Activity).HasMaxLength(255);
+                entity.Property(e => e.supplier_id).HasMaxLength(36);
 
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+                entity.Property(e => e.created_by).HasMaxLength(255);
 
-                entity.Property(e => e.Note1).HasMaxLength(255);
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.POSClientID).HasMaxLength(36);
+                entity.Property(e => e.supplier_image).HasColumnType("text");
 
-                entity.Property(e => e.POSSessionID).HasMaxLength(36);
+                entity.Property(e => e.supplier_name).HasMaxLength(36);
 
-                entity.Property(e => e.UserID).HasMaxLength(36);
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<userlogin>(entity =>
+            modelBuilder.Entity<unit>(entity =>
             {
-                entity.HasKey(e => e.UserID)
+                entity.HasKey(e => e.unit_id)
                     .HasName("PRIMARY");
 
-                entity.UseCollation("utf8mb4_0900_as_ci");
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
 
-                entity.Property(e => e.UserID).HasMaxLength(36);
+                entity.Property(e => e.unit_id).HasMaxLength(36);
 
-                entity.Property(e => e.LastLogin).HasColumnType("datetime");
+                entity.Property(e => e.created_by).HasMaxLength(255);
 
-                entity.Property(e => e.LastLogout).HasColumnType("datetime");
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.POSClientID).HasMaxLength(36);
+                entity.Property(e => e.unit1).HasColumnName("unit");
 
-                entity.Property(e => e.Version).HasMaxLength(255);
+                entity.Property(e => e.unit_name).HasMaxLength(255);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<user>(entity =>
+            {
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
+
+                entity.Property(e => e.id).HasMaxLength(36);
+
+                entity.Property(e => e.authtype).HasMaxLength(1);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.line_sub_Id).HasMaxLength(36);
+
+                entity.Property(e => e.password).HasMaxLength(36);
+
+                entity.Property(e => e.shop_id).HasMaxLength(36);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+
+                entity.Property(e => e.username).HasMaxLength(36);
+
+                entity.Property(e => e.usertype).HasMaxLength(36);
             });
 
             OnModelCreatingPartial(modelBuilder);
