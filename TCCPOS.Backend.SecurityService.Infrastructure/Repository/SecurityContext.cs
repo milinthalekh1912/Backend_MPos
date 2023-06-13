@@ -19,11 +19,12 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
 
         public virtual DbSet<category> category { get; set; } = null!;
         public virtual DbSet<deliverydetail> deliverydetail { get; set; } = null!;
+        public virtual DbSet<deliverystatus> deliverystatus { get; set; } = null!;
         public virtual DbSet<employeelogin> employeelogin { get; set; } = null!;
         public virtual DbSet<employeetenant> employeetenant { get; set; } = null!;
         public virtual DbSet<order> order { get; set; } = null!;
         public virtual DbSet<orderdetail> orderdetail { get; set; } = null!;
-        public virtual DbSet<orderstatus> orderstatus { get; set; } = null!;
+        public virtual DbSet<paymentstatus> paymentstatus { get; set; } = null!;
         public virtual DbSet<pricetier> pricetier { get; set; } = null!;
         public virtual DbSet<pricetiergroup> pricetiergroup { get; set; } = null!;
         public virtual DbSet<promotion> promotion { get; set; } = null!;
@@ -47,8 +48,8 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("latin1_swedish_ci")
-                .HasCharSet("latin1");
+            modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
+                .HasCharSet("utf8mb4");
 
             modelBuilder.Entity<category>(entity =>
             {
@@ -92,10 +93,24 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
                 entity.Property(e => e.order_id).HasMaxLength(36);
             });
 
+            modelBuilder.Entity<deliverystatus>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.HasComment("ตารางไว้เก็บคำอธิบาย status ของ delivery")
+                    .HasCharSet("latin1")
+                    .UseCollation("latin1_swedish_ci");
+
+                entity.Property(e => e.status_description).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<employeelogin>(entity =>
             {
                 entity.HasKey(e => e.Username)
                     .HasName("PRIMARY");
+
+                entity.HasCharSet("latin1")
+                    .UseCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.Username)
                     .HasMaxLength(25)
@@ -120,6 +135,9 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
             {
                 entity.HasKey(e => e.TanantID)
                     .HasName("PRIMARY");
+
+                entity.HasCharSet("latin1")
+                    .UseCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.AgentName).HasMaxLength(50);
 
@@ -148,6 +166,8 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
 
                 entity.Property(e => e.delivery_detail_id).HasMaxLength(36);
 
+                entity.Property(e => e.order_no).HasMaxLength(45);
+
                 entity.Property(e => e.shop_id).HasMaxLength(36);
 
                 entity.Property(e => e.supplier_id).HasMaxLength(36);
@@ -175,6 +195,8 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
 
                 entity.Property(e => e.order_id).HasMaxLength(36);
 
+                entity.Property(e => e.promotion_id).HasMaxLength(36);
+
                 entity.Property(e => e.sku_id).HasMaxLength(36);
 
                 entity.Property(e => e.updated_by).HasMaxLength(255);
@@ -182,9 +204,15 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
                 entity.Property(e => e.updated_date).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<orderstatus>(entity =>
+            modelBuilder.Entity<paymentstatus>(entity =>
             {
-                entity.Property(e => e.StatusDescription).HasMaxLength(255);
+                entity.HasKey(e => e.payment_status_id)
+                    .HasName("PRIMARY");
+
+                entity.HasCharSet("latin1")
+                    .UseCollation("latin1_swedish_ci");
+
+                entity.Property(e => e.status_description).HasMaxLength(255);
             });
 
             modelBuilder.Entity<pricetier>(entity =>
@@ -302,7 +330,9 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
 
                 entity.Property(e => e.created_date).HasColumnType("datetime");
 
-                entity.Property(e => e.price_tier_id).HasMaxLength(36);
+                entity.Property(e => e.price_tier_id)
+                    .HasMaxLength(36)
+                    .HasDefaultValueSql("'DEFAULT'");
 
                 entity.Property(e => e.shop_group_id).HasMaxLength(36);
 
@@ -409,6 +439,8 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
                     .UseCollation("utf8mb3_general_ci");
 
                 entity.Property(e => e.supplier_id).HasMaxLength(36);
+
+                entity.Property(e => e.DocNo).HasMaxLength(6);
 
                 entity.Property(e => e.created_by).HasMaxLength(255);
 

@@ -10,6 +10,7 @@ namespace TCCPOS.Backend.SecurityService.Entities
         public string? supplier_image { get; set; }
         public bool? is_show_price { get; set; }
         public bool? is_show_stock { get; set; }
+        public string? DocNo { get; set; }
         public bool? is_active { get; set; }
         public DateTime? created_date { get; set; }
         public string? created_by { get; set; }

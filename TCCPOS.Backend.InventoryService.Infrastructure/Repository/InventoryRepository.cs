@@ -36,7 +36,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 address_id = addressId,
                 coupon_id = coupon,
                 is_read = false,
-                order_status = 1,
+                payment_status = 1,
                 created_by = userId,
                 updated_by = userId,
                 created_date = _dtnow,

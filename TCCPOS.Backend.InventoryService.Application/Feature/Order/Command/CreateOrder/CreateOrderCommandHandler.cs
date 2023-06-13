@@ -39,7 +39,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
             {
                 shop_id = newOrder.shop_id,
                 supplier_id = newOrder.supplier_id,
-                address_id = newOrder.supplier_id,
+                address_id = newOrder.address_id,
                 user_id = newOrder.user_id,
                 coupon_id = newOrder.coupon_id,
                 order_items = newOrderItem.Select(e =>

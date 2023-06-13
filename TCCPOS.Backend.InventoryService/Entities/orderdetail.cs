@@ -14,5 +14,7 @@ namespace TCCPOS.Backend.InventoryService.Entities
         public string? created_by { get; set; }
         public DateTime? updated_date { get; set; }
         public string? updated_by { get; set; }
+        public string? promotion_id { get; set; }
+        public double? full_price { get; set; }
     }
 }

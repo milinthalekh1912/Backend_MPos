@@ -12,5 +12,6 @@ namespace TCCPOS.Backend.SecurityService.Entities
         public DateTime? due_date { get; set; }
         public bool? is_express { get; set; }
         public string? note { get; set; }
+        public sbyte? delivery_status_id { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
         }
         public async Task<user> getUserById(string id)
         {
-            var acc = await _context.user.AsNoTracking().FirstOrDefaultAsync(e => e.id == id);
+            var acc = await _context.user.FirstOrDefaultAsync(e => e.id == id);
             return acc;
         }
 
