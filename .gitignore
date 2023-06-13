@@ -334,3 +334,4 @@ ASALocalRun/
 /TCCPOS.Backend/TCCPOS.Backend.InventoryService.Application/Feature/GR/Query/GetGRDocument/GetGRDocumentQueryHandler.cs
 /TCCPOS.Backend/TCCPOS.Backend.InventoryService.Application/Feature/GR/Query/GetGRDocument/GetGRDocumentResult.cs
 /TCCPOS.Backend/TCCPOS.Backend.InventoryService.Tests/Unit/SaleOrderInventoryTest.cs
+TCCPOS.Backend.InventoryService.WebApi/appsettings.dev.json

@@ -49,11 +49,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return newOrder;
         }
 
-        public async Task<List<orderitem>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId)
+        public async Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId)
         {
-            List<orderitem> newOrderItems = orderItems.Select(e =>
+            List<orderdetail> newOrderItems = orderItems.Select(e =>
             {
-                return new orderitem
+                return new orderdetail
                 {
                     order_item_id = Guid.NewGuid().ToString(),
                     sku_id = e.sku_id,
@@ -149,10 +149,10 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return deliverysDetail;
         }
 
-        public async Task<GetOrderByIdResult> getOrderByIdAsync(string order_id)
+        public async Task<GetOrderByIdResult> getOrderByIdAsync(string order_id, string shopId)
         {
             var query = from order in _context.order
-                        where order.order_id == order_id
+                        where order.order_id == order_id && order.shop_id == shopId
                         join orderItem in (
                             from sku in _context.sku
                             join oi in _context.orderdetail on sku.sku_id equals oi.sku_id

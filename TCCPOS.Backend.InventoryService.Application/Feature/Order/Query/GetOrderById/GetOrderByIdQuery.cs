@@ -11,5 +11,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
     public class GetOrderByIdQuery : IRequest<GetOrderByIdResult>
     {
         public string orderId { get; set; }
+
+        public string shopId { get; set; }
     }
 }

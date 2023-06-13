@@ -14,7 +14,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     {
         public Task<order> createOrderAsync(string userId, string shopId, string supplierId, string addressId, string coupon);
 
-        public Task<List<orderitem>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId);
+        public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId);
 
         public Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId);
 
@@ -22,7 +22,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         public Task<List<deliverydetail>> getDeliveryDetailsByOrderIdAsync(string order_id);
 
-        public Task<GetOrderByIdResult> getOrderByIdAsync(string order_id);
+        public Task<GetOrderByIdResult> getOrderByIdAsync(string order_id, string shopId);
 
         public Task<shopgroup> createNewGroupAsync(string shopGroupId, string shopGroupName, string userId);
 

@@ -77,6 +77,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             var res = await _mediator.Send(new GetOrderByIdQuery
             {
                 orderId = orderId,
+                shopId = Identity.GetShopID(),
             });
             return Ok(res);
         }

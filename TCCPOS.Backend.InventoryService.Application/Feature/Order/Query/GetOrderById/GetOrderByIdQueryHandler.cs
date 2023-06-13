@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
 
         public async Task<GetOrderByIdResult> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            var orderDetail = await _repo.getOrderByIdAsync(request.orderId);
+            var orderDetail = await _repo.getOrderByIdAsync(request.orderId, request.shopId);
 
             var deliverysDetail = await _repo.getDeliveryDetailsByOrderIdAsync(request.orderId);
 
