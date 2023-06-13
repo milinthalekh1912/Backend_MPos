@@ -12,5 +12,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Co
         public string shop_id { get; set; }
         public string order_id { get; set; }
         public string delivery_detail_id { get; set; }
+        public string address_id { get; set; }
     }
 }

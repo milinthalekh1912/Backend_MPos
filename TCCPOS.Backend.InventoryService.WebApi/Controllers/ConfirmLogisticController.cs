@@ -32,7 +32,8 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
                 shop_id = Identity.GetShopID(),
                 user_id = Identity.GetUserID(),
                 order_id =  request.order_id,
-                delivery_detail_id = request.delivery_detail_id
+                address_id = request.address_id,
+                delivery_detail_id = request.delivery_detail_id,
             };
             var res = await _mediator.Send(data);
             return Ok(res);
