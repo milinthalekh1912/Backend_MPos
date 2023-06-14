@@ -53,7 +53,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return results;
         }
 
-        public async Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id, string user_id, string order_id, string delivery_detail_id,string address_id)
+        public async Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id, string user_id, string order_id, string delivery_detail_id)
         {
             var order = await _context.order.Where(e => e.order_id == order_id).FirstOrDefaultAsync();
             if (order == null)
@@ -61,17 +61,16 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 throw InventoryServiceException.IE001;
             }
             order.delivery_detail_id = delivery_detail_id;
-            order.address_id = address_id;
             order.updated_date = _dtnow;
             order.updated_by = user_id;
-            
+            order.order_status = '2';
+
             var updatedelivery = new ConfirmLogisticResult
             {
                 delivery_detail_id = delivery_detail_id,
                 user_id = user_id,
                 shop_id = shop_id,
                 order_id = order_id,
-                address_id = address_id,
             };
 
             await _context.SaveChangesAsync();

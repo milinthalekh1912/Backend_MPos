@@ -17,14 +17,13 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Co
 
         public async Task<ConfirmLogisticResult> Handle(ConfirmLogisticCommand request, CancellationToken cancellationToken)
         {
-            var selectdelivery = await _repo.ConfirmLogistic(request.shop_id, request.user_id, request.order_id, request.delivery_detail_id,request.address_id);
+            var selectdelivery = await _repo.ConfirmLogistic(request.shop_id, request.user_id, request.order_id, request.delivery_detail_id);
             return new ConfirmLogisticResult
             {
                 shop_id = selectdelivery.shop_id,
                 user_id = selectdelivery.user_id,
                 order_id = selectdelivery.order_id,
                 delivery_detail_id = selectdelivery.delivery_detail_id,
-                address_id = selectdelivery.address_id,
             };
         }
     }

@@ -8,6 +8,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     {
         Task SaveChangeAsyncWithCommit();
         Task<List<AllAddressResult>> GetAllAddress(string shopId);
-        Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id,string user_id, string order_id, string delivery_detail_id,string address_id);
+        Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id,string user_id, string order_id, string delivery_detail_id);
     }
 }
