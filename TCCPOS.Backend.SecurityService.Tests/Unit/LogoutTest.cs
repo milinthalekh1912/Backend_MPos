@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+/*using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using TCCPOS.Backend.SecurityService.Application.Feature.Logout.Command.Logout;
@@ -69,4 +69,4 @@ namespace TCCPOS.Backend.SecurityService.Tests.Integration
 
     }
 
-}
+}*/

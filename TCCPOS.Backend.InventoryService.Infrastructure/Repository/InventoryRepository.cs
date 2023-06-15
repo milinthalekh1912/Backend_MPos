@@ -6,10 +6,14 @@ using TCCPOS.Backend.InventoryService.Application.Exceptions;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
+using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
+using TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Query.GetProductRecommend;
+using TCCPOS.Backend.InventoryService.Application.Feature.Promotion.Query.GetPromotion;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupId;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShopGroup;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetShopGroupById;
+using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupplier;
 using TCCPOS.Backend.InventoryService.Entities;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
@@ -376,6 +380,148 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task<List<SupplierResult>> GetSupplier()
+        {
+            var suppliers = await _context.supplier.Where(x => true).ToListAsync(); // Retrieve all suppliers
+
+            List<SupplierResult> result = new List<SupplierResult>();
+
+            foreach (var supplier in suppliers)
+            {
+                SupplierResult obj = new SupplierResult();
+                obj.shopId = supplier.supplier_id;
+                obj.shopTitle = supplier.supplier_name;
+                obj.shopImageUrl = supplier.supplier_image;
+                obj.isPriceShow = supplier.is_show_price ?? false;
+                obj.isStockShow = supplier.is_show_stock ?? false;
+
+                result.Add(obj);
+            }
+
+
+            return result;
+        }
+
+        public async Task<List<ProductRecommendResult>> GetProductRecommend(string supplier_id)
+        {
+            var skus = await _context.sku.Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
+                    (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
+                    .Where(x => x.SKU.supplier_id == supplier_id)
+                    .ToListAsync();
+
+            List<ProductRecommendResult> result = new List<ProductRecommendResult>();
+
+            foreach (var SKU in skus)
+            {
+                ProductRecommendResult obj = new ProductRecommendResult();
+                obj.title = SKU.SKU.title;
+                obj.aliasTitle = SKU.SKU.alias_title;
+                obj.sku = SKU.SKU.sku_id;
+                obj.barcode = SKU.SKU.barcode;
+                obj.imageUrl = SKU.SKU.image_url;
+                obj.categoryId = SKU.SKU.category_id;
+                obj.price = SKU.PriceTier.price;
+
+                bool isPurchaseBefore = await _context.order.AnyAsync(item => item.created_by == SKU.SKU.created_by);
+                obj.isPurchaseBefore = isPurchaseBefore;
+
+                result.Add(obj);
+            }
+
+            return result;
+        }
+
+
+        public async Task<List<ProductByKeywordResult>> GetProductByKeyword(string? keyword)
+        {
+            var query = _context.sku.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => x.alias_title == keyword || x.title == keyword || x.barcode == keyword);
+            }
+
+            var products = await query
+                .Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
+                    (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
+                .ToListAsync();
+
+
+
+            var result = new List<ProductByKeywordResult>();
+
+            foreach (var product in products)
+            {
+                ProductByKeywordResult obj = new ProductByKeywordResult();
+
+                obj.title = product.SKU.title;
+                obj.aliasTitle = product.SKU.alias_title;
+                obj.sku = product.SKU.sku_id;
+                obj.barcode = product.SKU.barcode;
+                obj.imageUrl = product.SKU.image_url;
+                obj.categoryId = product.SKU.category_id;
+                obj.price = product.PriceTier.price;
+
+                result.Add(obj);
+            }
+
+            return result;
+        }
+
+        public async Task<List<PromotionResult>> GetPromotion()
+        {
+            var promotions = await _context.promotion.Where(x => true).ToListAsync();
+            List<PromotionResult> result = new List<PromotionResult>();
+
+            foreach (var promotion in promotions)
+            {
+                PromotionResult obj = new PromotionResult();
+                obj.promotionId = promotion.promotion_id;
+                obj.promotionType = promotion.promotion_type;
+                obj.promotionDescription = new List<PromotionResult.PromotionDetails>();
+
+                var promotionConditions = promotion.conditions?.Split(',').ToList();
+
+
+                foreach (var condition in promotionConditions)
+                {
+                    var skus = await _context.sku.Where(y => true).ToListAsync();
+
+                    if (skus != null)
+                    {
+                        PromotionResult.PromotionDetails promotionDetail = new PromotionResult.PromotionDetails
+                        {
+                            condition = condition,
+                            groupSkuA = new List<PromotionResult.PromotionDetails.GroupSku>()
+                        };
+
+                        foreach (var sku in skus)
+                        {
+                            PromotionResult.PromotionDetails.GroupSku groupSku = new PromotionResult.PromotionDetails.GroupSku
+                            {
+                                title = sku.title,
+                                sku = sku.sku_id,
+                                barcode = sku.barcode,
+                                imageUrl = sku.image_url,
+                                aliasTitle = sku.alias_title
+                            };
+
+                            promotionDetail.groupSkuA.Add(groupSku);
+                        }
+
+                        obj.promotionDescription.Add(promotionDetail);
+                    }
+                }
+
+
+                result.Add(obj);
+            }
+
+            return result;
+        }
+
     }
 }
 
