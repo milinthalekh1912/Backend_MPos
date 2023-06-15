@@ -19,12 +19,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public virtual DbSet<category> category { get; set; } = null!;
         public virtual DbSet<deliverydetail> deliverydetail { get; set; } = null!;
-        public virtual DbSet<deliverystatus> deliverystatus { get; set; } = null!;
         public virtual DbSet<employeelogin> employeelogin { get; set; } = null!;
         public virtual DbSet<employeetenant> employeetenant { get; set; } = null!;
         public virtual DbSet<order> order { get; set; } = null!;
         public virtual DbSet<orderdetail> orderdetail { get; set; } = null!;
-        public virtual DbSet<paymentstatus> paymentstatus { get; set; } = null!;
+        public virtual DbSet<orderstatus> orderstatus { get; set; } = null!;
         public virtual DbSet<pricetier> pricetier { get; set; } = null!;
         public virtual DbSet<pricetiergroup> pricetiergroup { get; set; } = null!;
         public virtual DbSet<promotion> promotion { get; set; } = null!;
@@ -42,7 +41,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=127.0.0.1;port=3306;userid=root;password=Pass@word12;database=sql12624485", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
+                optionsBuilder.UseMySql("server=127.0.0.1;port=3306;userid=root;password=earth4102;database=ordering", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.31-mysql"));
             }
         }
 
@@ -56,8 +55,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.category_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.category_id).HasMaxLength(36);
 
@@ -79,8 +78,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.delivery_detail_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.delivery_detail_id).HasMaxLength(36);
 
@@ -115,20 +114,20 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.Property(e => e.Username)
                     .HasMaxLength(25)
                     .HasDefaultValueSql("''")
-                    .UseCollation("utf8mb3_unicode_ci")
-                    .HasCharSet("utf8mb3");
+                    .UseCollation("utf8_unicode_ci")
+                    .HasCharSet("utf8");
 
                 entity.Property(e => e.CreatedBy)
                     .HasMaxLength(25)
-                    .UseCollation("utf8mb3_unicode_ci")
-                    .HasCharSet("utf8mb3");
+                    .UseCollation("utf8_unicode_ci")
+                    .HasCharSet("utf8");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Password)
                     .HasMaxLength(255)
-                    .UseCollation("utf8mb3_unicode_ci")
-                    .HasCharSet("utf8mb3");
+                    .UseCollation("utf8_unicode_ci")
+                    .HasCharSet("utf8");
             });
 
             modelBuilder.Entity<employeetenant>(entity =>
@@ -151,8 +150,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.order_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.order_id).HasMaxLength(36);
 
@@ -184,8 +183,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.order_item_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.order_item_id).HasMaxLength(36);
 
@@ -217,21 +216,20 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             modelBuilder.Entity<pricetier>(entity =>
             {
-                entity.HasKey(e => e.price_tier_id)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => new { e.price_tier_group_id, e.sku_id })
+                    .HasName("PRIMARY")
+                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
-
-                entity.Property(e => e.price_tier_id).HasMaxLength(36);
-
-                entity.Property(e => e.created_by).HasMaxLength(255);
-
-                entity.Property(e => e.created_date).HasColumnType("datetime");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.price_tier_group_id).HasMaxLength(36);
 
                 entity.Property(e => e.sku_id).HasMaxLength(36);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
 
                 entity.Property(e => e.updated_by).HasMaxLength(255);
 
@@ -240,8 +238,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             modelBuilder.Entity<pricetiergroup>(entity =>
             {
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.id).HasMaxLength(36);
 
@@ -265,8 +263,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.promotion_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.promotion_id).HasMaxLength(36);
 
@@ -289,13 +287,18 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             modelBuilder.Entity<rewardtarget>(entity =>
             {
-                entity.HasKey(e => e.reward_id)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => new { e.reward_id, e.shop_group_id, e.sku_id })
+                    .HasName("PRIMARY")
+                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.reward_id).HasMaxLength(36);
+
+                entity.Property(e => e.shop_group_id).HasMaxLength(36);
+
+                entity.Property(e => e.sku_id).HasMaxLength(36);
 
                 entity.Property(e => e.created_by).HasMaxLength(255);
 
@@ -304,10 +307,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.Property(e => e.end_date).HasColumnType("datetime");
 
                 entity.Property(e => e.reward).HasMaxLength(100);
-
-                entity.Property(e => e.shop_group_id).HasMaxLength(36);
-
-                entity.Property(e => e.sku_id).HasMaxLength(36);
 
                 entity.Property(e => e.start_date).HasColumnType("datetime");
 
@@ -321,8 +320,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.shop_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.shop_id).HasMaxLength(36);
 
@@ -348,8 +347,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.address_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.address_id).HasMaxLength(36);
 
@@ -381,8 +380,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.shop_group_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.shop_group_id).HasMaxLength(36);
 
@@ -402,8 +401,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.sku_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.sku_id).HasMaxLength(36);
 
@@ -435,8 +434,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.supplier_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.supplier_id).HasMaxLength(36);
 
@@ -460,8 +459,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.HasKey(e => e.unit_id)
                     .HasName("PRIMARY");
 
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.unit_id).HasMaxLength(36);
 
@@ -480,8 +479,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             modelBuilder.Entity<user>(entity =>
             {
-                entity.HasCharSet("utf8mb3")
-                    .UseCollation("utf8mb3_general_ci");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.Property(e => e.id).HasMaxLength(36);
 
