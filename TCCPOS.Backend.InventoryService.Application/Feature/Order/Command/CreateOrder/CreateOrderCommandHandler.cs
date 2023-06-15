@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TCCPOS.Backend.InventoryService.Application.Contract;
+using TCCPOS.Backend.InventoryService.Application.Exceptions;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder
 {
@@ -32,8 +33,19 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
 
         public async Task<CreateOrderResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var newOrder = await _repo.createOrderAsync(request.user_id, request.shop_id, request.supplier_id, request.address_id, request.coupon_id);
-            var newOrderItem = await _repo.createOrderItemAsync(newOrder.order_id, request.order_items, request.user_id);
+            var order_id = Guid.NewGuid().ToString();
+            var all_sku = await _repo.getAllSkuAsync();
+
+            request.order_items.ForEach(e =>
+            {
+                var index = all_sku.FindIndex(x => x.sku_id == e.sku_id);
+                if(index == -1) {
+                    throw InventoryServiceException.IE016;
+                }
+            });
+
+            var newOrderItem = await _repo.createOrderItemAsync(order_id, request.order_items, request.user_id);
+            var newOrder = await _repo.createOrderAsync(order_id, request.user_id, request.shop_id, request.supplier_id, request.address_id, request.coupon_id);
             var newDeliveryDetail = await _repo.createOrderDeliveryDetailAsync(newOrder.order_id, request.user_id);
             return new CreateOrderResult
             {

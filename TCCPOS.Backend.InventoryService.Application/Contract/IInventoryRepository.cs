@@ -12,7 +12,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
     public interface IInventoryRepository
     {
-        public Task<order> createOrderAsync(string userId, string shopId, string supplierId, string addressId, string coupon);
+        public Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon);
 
         public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId);
 
@@ -39,6 +39,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<List<GetAllShopResult>> getAllShopAsync();
 
         public Task updateNameByGroupId(string groupName, string shopGroupId, string userId);
+
+        public Task<List<sku>> getAllSkuAsync();
 
 
 

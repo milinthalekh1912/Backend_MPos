@@ -25,11 +25,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             _dtnow = DateTime.Now;
         }
 
-        public async Task<order> createOrderAsync(string userId, string shopId, string supplierId, string addressId, string coupon)
+        public async Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon)
         {
             var newOrder = new order
             {
-                order_id = Guid.NewGuid().ToString(),
+                order_id = order_id,
                 user_id = userId,
                 shop_id = shopId,
                 supplier_id = supplierId,
@@ -49,8 +49,15 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return newOrder;
         }
 
+        public async Task<List<sku>> getAllSkuAsync()
+        {
+            var all_sku = await _context.sku.AsNoTracking().Where(e => true).ToListAsync();
+            return all_sku;
+        }
+
         public async Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId)
         {
+
             List<orderdetail> newOrderItems = orderItems.Select(e =>
             {
                 return new orderdetail
