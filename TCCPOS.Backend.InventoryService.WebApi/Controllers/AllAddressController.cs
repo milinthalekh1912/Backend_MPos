@@ -22,6 +22,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpGet(Name = "getAllAddress")]
         [ProducesResponseType(typeof(AllAddressResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]

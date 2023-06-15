@@ -63,7 +63,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             order.delivery_detail_id = delivery_detail_id;
             order.updated_date = _dtnow;
             order.updated_by = user_id;
-            order.order_status = '2';
+            order.order_status = 2;
 
             var updatedelivery = new ConfirmLogisticResult
             {

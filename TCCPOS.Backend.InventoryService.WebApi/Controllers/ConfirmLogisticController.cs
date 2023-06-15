@@ -22,6 +22,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpPost(Name = "confirmLogistic")]
         [ProducesResponseType(typeof(ConfirmLogisticResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
