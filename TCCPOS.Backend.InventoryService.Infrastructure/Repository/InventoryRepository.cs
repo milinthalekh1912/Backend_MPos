@@ -21,6 +21,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllC
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
+using System.Collections.Generic;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -252,7 +253,51 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<GetAllOrdersResult>> getAllOrderBackOfficeAsync(string supplierId, string userId)
         {
-            var query = from order in _context.order
+            var orders = new List<GetAllOrdersResult>();
+            var order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync();
+
+
+            foreach (var ord in order_context)
+            {
+                GetAllOrdersResult getOrder = new GetAllOrdersResult();
+
+                var custommer = await _context.shop.FirstOrDefaultAsync(x => x.shop_id == ord.shop_id);
+                var sku_list = await _context.sku.Where(x =>  x.supplier_id == supplierId).ToListAsync();
+
+                getOrder.order_id = ord.order_id;
+                getOrder.is_read = ord.is_read ?? true;
+                getOrder.order_status = ord.order_status ?? 1;
+                getOrder.shop_id = ord.shop_id;
+                getOrder.user_id = ord.user_id;
+                getOrder.supplier_name = ord.supplier_id;
+                getOrder.customer_name = custommer.shop_name ?? "";
+                getOrder.order_amount = 0;
+                getOrder.address_id = ord.address_id;
+                getOrder.order_items = new List<OrderItemResult>();
+                var count_amount_item = 0;
+                var item_context = await _context.orderdetail.Where(x => x.order_id == ord.order_id).ToListAsync();
+                foreach (var item in item_context)
+                {
+                    OrderItemResult item_res = new OrderItemResult();
+                    var sku = sku_list.FirstOrDefault(x => x.sku_id == item.sku_id);
+                    item_res.order_item_id = item.order_item_id;
+                    item_res.sku_id = item.sku_id;
+                    item_res.amount = item.amount ?? 0;
+                    item_res.price = item.price ?? 0;
+                    item_res.sku_title = sku.title ?? "";
+                    item_res.sku_alias_title = sku!.alias_title ?? sku.title!;
+                    item_res.sku_barcode = sku.sku_id;
+                    item_res.image_url = sku.image_url ?? "";
+                    item_res.sku_category_id = sku.category_id;
+                    count_amount_item = count_amount_item + item_res.amount;
+
+                    getOrder.order_items.Add(item_res);
+                }
+
+                orders.Add(getOrder);
+            }
+
+            /*var query = from order in _context.order
                         where order.supplier_id == supplierId
                         join orderItem in (
                             from sku in _context.sku
@@ -290,7 +335,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         sku_category_id = r.SKU.category_id,
                     }).ToList()
                 })
-                .ToList();
+                .ToList();*/
 
             return orders;
         }
