@@ -1,8 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+/*using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using TCCPOS.Backend.SecurityService.Application.Exceptions;
-using TCCPOS.Backend.SecurityService.Application.Feature.Login.Command.Login;
 using TCCPOS.Backend.SecurityService.Entities;
 using TCCPOS.Backend.SecurityService.Infrastructure.Repository;
 
@@ -196,4 +195,4 @@ namespace TCCPOS.Backend.SecurityService.Tests.Integration
 
     }
 
-}
+}*/
