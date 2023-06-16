@@ -527,27 +527,24 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<ProductRecommendResult>> GetProductRecommend(string supplier_id)
         {
-            var skus = await _context.sku.Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
-                    (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
-                    .Where(x => x.SKU.supplier_id == supplier_id)
-                    .ToListAsync();
+            //var skus = await _context.sku.Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
+            //        (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
+            //        .Where(x => x.SKU.supplier_id == supplier_id)
+            //        .ToListAsync();
+
+            var skus = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplier_id).ToListAsync();
 
             List<ProductRecommendResult> result = new List<ProductRecommendResult>();
 
             foreach (var SKU in skus)
             {
                 ProductRecommendResult obj = new ProductRecommendResult();
-                obj.title = SKU.SKU.title;
-                obj.aliasTitle = SKU.SKU.alias_title;
-                obj.sku = SKU.SKU.sku_id;
-                obj.barcode = SKU.SKU.barcode;
-                obj.imageUrl = SKU.SKU.image_url;
-                obj.categoryId = SKU.SKU.category_id;
-                obj.price = SKU.PriceTier.price;
-
-                bool isPurchaseBefore = await _context.order.AnyAsync(item => item.created_by == SKU.SKU.created_by);
-                obj.isPurchaseBefore = isPurchaseBefore;
-
+                obj.title = SKU.title;
+                obj.aliasTitle = SKU.alias_title;
+                obj.sku = SKU.sku_id;
+                obj.barcode = SKU.barcode;
+                obj.imageUrl = SKU.image_url;
+                obj.categoryId = SKU.category_id;
                 result.Add(obj);
             }
 

@@ -35,11 +35,11 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Conf
         {
             var res = new ConfirmOrderResult();
             var com = await _repo.ConfirmOrderByOrderId(command);
-            
+
             if (command.is_boardcase)
             {
                 var user = await _repo.GetUserByUserID(command.userId);
-                if (user != null)
+                if (user != null && user.line_sub_Id != null)
                 {
                     var chanelToken = "8MGabTsr+8vXmZt39lv/CvuoTLi56qiS/hH+EW4npP++z0eQ9axdV/XimTLWZ1oNkJpvg5IqO0gY3ITT7+K0yC6MxOXkslBkgI8eEi5N+CGCzxLs7839NS74w9+0t+4Eu6Lgiu9x+q+JR2OLQ3QvBgdB04t89/1O/w1cDnyilFU=";
                     var httpClient = new HttpClient();
@@ -56,12 +56,12 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Conf
                     pushMessageModel.to = user.line_sub_Id;
                     pushMessageModel.messages.Add(mss);
 
-                var content = JsonConvert.SerializeObject(pushMessageModel);
-                var requestContent = new StringContent(content, Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync("https://api.line.me/v2/bot/message/push", requestContent);
-                response.EnsureSuccessStatusCode();
-                
-            }
+                    var content = JsonConvert.SerializeObject(pushMessageModel);
+                    var requestContent = new StringContent(content, Encoding.UTF8, "application/json");
+                    var response = await httpClient.PostAsync("https://api.line.me/v2/bot/message/push", requestContent);
+                    response.EnsureSuccessStatusCode();
+
+                }
 
             }
             return res;
