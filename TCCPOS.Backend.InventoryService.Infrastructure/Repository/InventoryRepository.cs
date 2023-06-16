@@ -18,6 +18,8 @@ using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAl
 using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Entities;
 using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -618,6 +620,57 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return results;
 
 
+        }
+
+        public async Task<List<GetProductByCatResult>> GetProductBycat(string categoryId, string supplierId, string shopId)
+        {
+            var productinfo = await _context.sku.AsNoTracking().Where(x => x.category_id == categoryId && x.supplier_id == supplierId).ToListAsync();
+            List<GetProductByCatResult> results = new List<GetProductByCatResult>();
+            if (productinfo == null || !productinfo.Any())
+            {
+                throw InventoryServiceException.IE001;
+            }
+
+            foreach (var item in productinfo)
+            {
+                GetProductByCatResult obj = new GetProductByCatResult();
+                obj.title = item.title;
+                obj.aliasTitle = item.alias_title;
+                obj.sku = item.sku_id;
+                obj.barcode = item.barcode;
+                obj.imageUrl = item.image_url;
+                obj.categoryId = item.category_id;
+                results.Add(obj);
+            }
+            return results;
+        }
+
+        public async Task<order> ConfirmOrderByOrderId(ConfirmOrderCommand command)
+        {
+            var order_obj = await _context.order.FirstOrDefaultAsync(x => x.order_id == command.orderId);
+
+            if (order_obj == null) throw InventoryServiceException.IE018;
+
+            if (order_obj.order_status != 1) throw InventoryServiceException.IE019;
+
+            order_obj.order_status = 2;
+            order_obj.updated_date = DateTime.Now;
+            order_obj.updated_by = command.userId;
+
+            deliverydetail deli_Details = new deliverydetail
+            {
+                delivery_detail_id = Guid.NewGuid().ToString(),
+                order_id = command.orderId,
+                cost = 0,
+                estimate_date = command.esimate_date,
+                due_date = command.due_date,
+                is_express = false,
+                note = command.note,
+            };
+
+            await _context.AddRangeAsync(deli_Details);
+            await _context.SaveChangesAsync();
+            return order_obj;
         }
     }
 }

@@ -19,8 +19,8 @@
         public static InventoryServiceException IE015 { get; } = new InventoryServiceException(nameof(IE015), "Reward Target Not found");
         public static InventoryServiceException IE016 { get; } = new InventoryServiceException(nameof(IE016), "Sku Not found");
         public static InventoryServiceException IE017 { get; } = new InventoryServiceException(nameof(IE017), "Supplier Not Found");
-
-
+        public static InventoryServiceException IE018 { get; } = new InventoryServiceException(nameof(IE018), "Order Not Found");
+        public static InventoryServiceException IE019 { get; } = new InventoryServiceException(nameof(IE019), "Order Status Invalid");
 
         public string Code { get; set; }
         public string Message { get; set; }

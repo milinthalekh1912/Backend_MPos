@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
@@ -79,6 +80,18 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
                 orderId = orderId,
                 shopId = Identity.GetShopID(),
             });
+            return Ok(res);
+        }
+
+        [Authorize]
+        [HttpPut("ConfirmOrder")]
+        [SwaggerOperation(Summary = "Confirm Order Status => 2", Description = "")]
+        [ProducesResponseType(typeof(ConfirmOrderResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> updateGroupName([FromBody] ConfirmOrderRequest request)
+        {
+            var command = new ConfirmOrderCommand(Identity.GetUserID(), Identity.GetShopID(), request);
+            var res = await _mediator.Send(command);
             return Ok(res);
         }
 

@@ -14,6 +14,8 @@ using TCCPOS.Backend.InventoryService.Entities;
 using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress;
 using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
 
 namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
@@ -58,5 +60,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id, string user_id, string order_id, string delivery_detail_id);
 
         Task<List<CategoryResult>> GetCategoryBySupplierIdAsync(string supplier_id);
+
+        public Task<List<GetProductByCatResult>> GetProductBycat(String categoryId, String supplierId, string shopId);
+        public Task<order> ConfirmOrderByOrderId(ConfirmOrderCommand command);
     }
 }

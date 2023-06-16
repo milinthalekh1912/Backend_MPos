@@ -19,7 +19,6 @@
   <ItemGroup>
     <Folder Include="Feature\DbContext\" />
     <Folder Include="Feature\NewFolder\" />
-    <Folder Include="Feature\Target\Query\" />
   </ItemGroup>
 
 </Project>

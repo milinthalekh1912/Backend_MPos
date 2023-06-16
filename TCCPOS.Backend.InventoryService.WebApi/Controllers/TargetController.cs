@@ -9,6 +9,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOr
 using TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.CreateTarget;
 using TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.DeleteTarget;
 using TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.UpdateTarget;
+using TCCPOS.Backend.InventoryService.Application.Feature.Target.Query.GetTarget;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
@@ -79,6 +80,18 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
                 shopGroupId = request.shopGroupId,
                 skuId = request.skuId,
             });
+            return Ok(res);
+        }
+
+        [HttpGet("GetTarget", Name = "GetTarget")]
+        [ProducesResponseType(typeof(List<TargetResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+
+        public async Task<IActionResult> Get()
+        {
+            var query = new GetTargetQuery();
+            var res = await _mediator.Send(query);
             return Ok(res);
         }
     }

@@ -12,6 +12,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.Upda
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupName;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShopGroup;
+using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetShopGroup;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetShopGroupById;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
@@ -130,6 +131,19 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
                 shopGroupName = request.shopGroupName,
                 userId = Identity.GetUserID(),
             });
+            return Ok(res);
+        }
+
+        [Authorize]
+        [HttpGet("GetTargetGoupById/{shopgroupid}", Name = "GetTargetGroupByShopGroup")]
+        [ProducesResponseType(typeof(List<ShopGroupResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+
+        public async Task<IActionResult> Get(string shopgroupid)
+        {
+            var query = new GetShopGroupByGroupIDQuery(shopgroupid);
+            var res = await _mediator.Send(query);
             return Ok(res);
         }
     }
