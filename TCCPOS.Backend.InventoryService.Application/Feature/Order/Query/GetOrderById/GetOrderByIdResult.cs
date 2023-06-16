@@ -15,7 +15,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
         public bool is_read { get; set; }
         public string user_id { get; set; }
         public string shop_id { get; set; }
-        public string shop_name { get; set; }
+        public string supplier_id { get; set; }
+        public int order_status { get; set; }
+        public string supplier_name { get; set; }
+        public string customer_name { get; set; }
         public string address_title { get; set; }
         public int order_amount { get; set; }
         public string address_id { get; set; }

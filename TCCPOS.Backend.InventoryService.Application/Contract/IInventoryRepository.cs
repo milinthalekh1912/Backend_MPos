@@ -27,7 +27,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId, string shopId);
 
         public Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId);
-
         public Task<List<GetAllOrdersResult>> getAllOrderAsync(string supplierId, string userId, string shopId);
 
         public Task<List<deliverydetail>> getDeliveryDetailsByOrderIdAsync(string order_id);
@@ -67,5 +66,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         public Task<GetAllShopAddressResult> getAllShopWithAddressAsync();
         public Task<user?> GetUserByUserID(string userID);
+
+        public Task<List<GetAllOrdersResult>> getAllOrderBackOfficeAsync(string supplierId, string userId);
+        public Task<GetOrderByIdResult> getOrderByIdBackOfficeAsync(string order_id);
     }
 }

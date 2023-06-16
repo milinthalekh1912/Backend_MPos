@@ -158,39 +158,40 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         ) on order.order_id equals orderItem.OrderItem.order_id
                         select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
 
-
             var results = await query.AsNoTracking().ToListAsync();
 
-            var orders = results.GroupBy(r => r.Order)
-                    .Select(group => new GetAllOrdersResult
-                    {
-                        order_id = group.Key.order_id,
-                        is_read = group.Key.is_read ?? false,
-                        user_id = group.Key.user_id,
-                        shop_id = group.Key.shop_id,
-                        shop_name = group.Key.supplier_id,
-                        order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
-                        order_items = group.Select(r => new OrderItemResult
-                        {
-                            order_item_id = r.OrderItem.order_item_id,
-                            sku_id = r.OrderItem.sku_id,
-                            amount = r.OrderItem.amount ?? 0,
-                            price = r.OrderItem.price,
-                            sku_title = r.SKU.title,
-                            sku_alias_title = r.SKU.alias_title,
-                            sku_barcode = r.SKU.barcode,
-                            image_url = r.SKU.image_url,
-                            sku_category_id = r.SKU.category_id,
-                        }).ToList()
-                    })
-                    .ToList();
-            return orders;
-        }
+            var shopList = await _context.shop.Where(e => true).ToListAsync();
 
-        public async Task<List<deliverydetail>> getDeliveryDetailsByOrderIdAsync(string order_id)
-        {
-            var deliverysDetail = await _context.deliverydetail.AsNoTracking().Where(e => e.order_id == order_id).ToListAsync();
-            return deliverysDetail;
+
+            var orders = results.GroupBy(r => r.Order)
+                  .Select(group => new GetAllOrdersResult
+                  {
+                      order_id = group.Key.order_id,
+                      is_read = group.Key.is_read ?? false,
+                      user_id = group.Key.user_id,
+                      shop_id = group.Key.shop_id,
+                      supplier_name = group.Key.supplier_id,
+                      address_id = group.Key.address_id,
+                      customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
+                      order_status = group.Key.order_status ?? 0,
+                      order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
+                      order_items = group.Select(r => new OrderItemResult
+                      {
+                          order_item_id = r.OrderItem.order_item_id,
+                          sku_id = r.OrderItem.sku_id,
+                          amount = r.OrderItem.amount ?? 0,
+                          price = r.OrderItem.price,
+                          sku_title = r.SKU.title,
+                          sku_alias_title = r.SKU.alias_title,
+                          sku_barcode = r.SKU.barcode,
+                          image_url = r.SKU.image_url,
+                          sku_category_id = r.SKU.category_id,
+                      }).ToList()
+                  })
+                  .ToList();
+
+
+            return orders;
         }
 
         public async Task<GetOrderByIdResult> getOrderByIdAsync(string order_id, string shopId)
@@ -206,6 +207,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             var results = await query.AsNoTracking().ToListAsync();
 
+            var shopList = await _context.shop.Where(e => true).ToListAsync();
+
             var orderResult = results.GroupBy(r => r.Order)
                     .Select(group => new GetOrderByIdResult
                     {
@@ -213,8 +216,10 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         is_read = true,
                         user_id = group.Key.user_id,
                         shop_id = group.Key.shop_id,
-                        shop_name = group.Key.supplier_id,
+                        supplier_name = group.Key.supplier_id,
+                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
                         address_id = group.Key.address_id,
+                        order_status = group.Key.order_status ?? 0,
                         order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
                         order_items = group.Select(r => new OrderItemResult
                         {
@@ -240,6 +245,113 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             return orderResult;
         }
+
+
+        public async Task<List<GetAllOrdersResult>> getAllOrderBackOfficeAsync(string supplierId, string userId)
+        {
+            var query = from order in _context.order
+                        where order.supplier_id == supplierId
+                        join orderItem in (
+                            from sku in _context.sku
+                            join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
+                            select new { SKU = sku, OrderItem = oi }
+                        ) on order.order_id equals orderItem.OrderItem.order_id
+                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
+
+            var results = await query.AsNoTracking().ToListAsync();
+
+            var shopList = await _context.shop.Where(e => true).ToListAsync();
+
+            var orders = results.GroupBy(r => r.Order)
+                .Select(group => new GetAllOrdersResult
+                {
+                    order_id = group.Key.order_id,
+                    is_read = group.Key.is_read ?? false,
+                    user_id = group.Key.user_id,
+                    shop_id = group.Key.shop_id,
+                    supplier_name = group.Key.supplier_id,
+                    address_id = group.Key.address_id,
+                    customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
+                    order_status = group.Key.order_status ?? 0,
+                    order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
+                    order_items = group.Select(r => new OrderItemResult
+                    {
+                        order_item_id = r.OrderItem.order_item_id,
+                        sku_id = r.OrderItem.sku_id,
+                        amount = r.OrderItem.amount ?? 0,
+                        price = r.OrderItem.price,
+                        sku_title = r.SKU.title,
+                        sku_alias_title = r.SKU.alias_title,
+                        sku_barcode = r.SKU.barcode,
+                        image_url = r.SKU.image_url,
+                        sku_category_id = r.SKU.category_id,
+                    }).ToList()
+                })
+                .ToList();
+
+            return orders;
+        }
+
+        public async Task<GetOrderByIdResult> getOrderByIdBackOfficeAsync(string order_id)
+        {
+            var query = from order in _context.order
+                        where order.order_id == order_id
+                        join orderItem in (
+                            from sku in _context.sku
+                            join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
+                            select new { SKU = sku, OrderItem = oi }
+                        ) on order.order_id equals orderItem.OrderItem.order_id
+                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
+
+            var results = await query.AsNoTracking().ToListAsync();
+
+            var shopList = await _context.shop.Where(e => true).ToListAsync();
+
+            var orderResult = results.GroupBy(r => r.Order)
+                    .Select(group => new GetOrderByIdResult
+                    {
+                        order_id = group.Key.order_id,
+                        is_read = true,
+                        user_id = group.Key.user_id,
+                        shop_id = group.Key.shop_id,
+                        supplier_name = group.Key.supplier_id,
+                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
+                        address_id = group.Key.address_id,
+                        order_status = group.Key.order_status ?? 0,
+                        order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
+                        order_items = group.Select(r => new OrderItemResult
+                        {
+                            order_item_id = r.OrderItem.order_item_id,
+                            sku_id = r.OrderItem.sku_id,
+                            amount = r.OrderItem.amount ?? 0,
+                            price = r.OrderItem.price,
+                            sku_title = r.SKU.title,
+                            sku_alias_title = r.SKU.alias_title,
+                            sku_barcode = r.SKU.barcode,
+                            image_url = r.SKU.image_url,
+                            sku_category_id = r.SKU.category_id,
+                        }).ToList()
+                    })
+                    .FirstOrDefault();
+
+
+            var updateReadStatus = await _context.order.FirstOrDefaultAsync(e => e.order_id == order_id);
+
+            updateReadStatus.is_read = true;
+            await _context.SaveChangesAsync();
+
+
+            return orderResult;
+        }
+
+
+        public async Task<List<deliverydetail>> getDeliveryDetailsByOrderIdAsync(string order_id)
+        {
+            var deliverysDetail = await _context.deliverydetail.AsNoTracking().Where(e => e.order_id == order_id).ToListAsync();
+            return deliverysDetail;
+        }
+
+
 
         public async Task<shopgroup> createNewGroupAsync(string shopGroupId, string shopGroupName, string userId)
         {
