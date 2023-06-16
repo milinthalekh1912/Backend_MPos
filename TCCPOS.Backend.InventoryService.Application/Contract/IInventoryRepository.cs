@@ -66,5 +66,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<order> ConfirmOrderByOrderId(ConfirmOrderCommand command);
 
         public Task<GetAllShopAddressResult> getAllShopWithAddressAsync();
+        public Task<user?> GetUserByUserID(string userID);
     }
 }

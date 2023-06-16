@@ -714,6 +714,13 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 };
             }
         }
+        public async Task<user?> GetUserByUserID(string userID)
+        {
+            var user = await _context.user.FirstOrDefaultAsync(x => x.id == userID);
+            return user;
+        }
+
+
     }
 }
 
