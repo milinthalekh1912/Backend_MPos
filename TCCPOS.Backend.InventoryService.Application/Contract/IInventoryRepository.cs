@@ -11,6 +11,8 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAll
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetShopGroupById;
 using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupplier;
 using TCCPOS.Backend.InventoryService.Entities;
+using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress;
+using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 
 namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
@@ -50,5 +52,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<List<ProductByKeywordResult>> GetProductByKeyword(string? keyword);
         public Task<List<PromotionResult>> GetPromotion();
 
+        Task SaveChangeAsyncWithCommit();
+        Task<List<AllAddressResult>> GetAllAddress(string shopId);
+        Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id,string user_id, string order_id, string delivery_detail_id);
     }
 }
