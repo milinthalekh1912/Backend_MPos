@@ -146,7 +146,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 .ToListAsync();
 
             if (targets == null || !targets.Any())
-                throw InventoryServiceException.IE001;
+                return new List<TargetResult>();
 
             return targets;
         }
