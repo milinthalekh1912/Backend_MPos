@@ -17,6 +17,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllC
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
+using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAddressById;
 
 namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
@@ -69,5 +70,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         public Task<GetOrderByIdResult> getOrderByIdBackOfficeAsync(string order_id);
         public Task<order> UpdateOrderStatusByOrderID(string orderID);
+        public Task<GetAddressByIdResult> GetAddressById(string? address_id);
+
     }
 }

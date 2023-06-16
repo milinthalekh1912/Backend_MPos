@@ -22,6 +22,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmO
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
 using System.Collections.Generic;
+using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAddressById;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -711,6 +712,23 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return results;
 
 
+        }
+
+
+        public async Task<GetAddressByIdResult> GetAddressById(string? address_id)
+        {
+            var address = await _context.shopaddress.FirstOrDefaultAsync(elem => elem.address_id == address_id);
+
+            var result = new GetAddressByIdResult()
+            {
+                addressId = address?.address_id,
+                address1 = address?.address1,
+                address2 = address?.address2,
+                address3 = address?.address3,
+                zipcode = address?.zipcode
+            };
+
+            return result;
         }
 
         public async Task<List<GetProductByCatResult>> GetProductBycat(string categoryId, string supplierId, string shopId)
