@@ -16,9 +16,4 @@
     <ProjectReference Include="..\TCCPOS.Backend.InventoryService\TCCPOS.Backend.InventoryService.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Feature\DbContext\" />
-    <Folder Include="Feature\NewFolder\" />
-  </ItemGroup>
-
 </Project>

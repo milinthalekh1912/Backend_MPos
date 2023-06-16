@@ -8,7 +8,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupp
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class SupplierController : ApiControllerBase

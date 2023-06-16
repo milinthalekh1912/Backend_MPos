@@ -20,6 +20,7 @@ using TCCPOS.Backend.InventoryService.Entities;
 using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
+using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -683,6 +684,36 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return order_obj;
         }
 
+        public async Task<GetAllShopAddressResult> getAllShopWithAddressAsync()
+        {
+            {
+                var queryable = from s in _context.shop
+                                join sg in _context.shopaddress on s.shop_id equals sg.shop_id into shopAddressJoin
+                                from sg in shopAddressJoin.DefaultIfEmpty()
+                                select new
+                                {
+                                    s.shop_id,
+                                    s.shop_name,
+                                    sg.address_id,
+                                };
+
+                var results = await queryable.ToListAsync();
+
+                return new GetAllShopAddressResult
+                {
+                    shopAddress = results.Select(e =>
+                    {
+                        return new ShopWithAddressResult
+                        {
+                            shop_id = e.shop_id,
+                            shop_name = e.shop_name,
+                            shop_address_id = e.address_id
+
+                        };
+                    }).ToList()
+                };
+            }
+        }
         public async Task<user?> GetUserByUserID(string userID)
         {
             var user = await _context.user.FirstOrDefaultAsync(x => x.id == userID);

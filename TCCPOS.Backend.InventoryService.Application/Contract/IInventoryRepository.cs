@@ -16,6 +16,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Comman
 using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
+using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
 
 namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
@@ -63,6 +64,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         public Task<List<GetProductByCatResult>> GetProductBycat(String categoryId, String supplierId, string shopId);
         public Task<order> ConfirmOrderByOrderId(ConfirmOrderCommand command);
+
+        public Task<GetAllShopAddressResult> getAllShopWithAddressAsync();
         public Task<user?> GetUserByUserID(string userID);
         public Task<order> UpdateOrderStatusByOrderID(string orderID);
     }
