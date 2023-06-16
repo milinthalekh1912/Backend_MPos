@@ -81,8 +81,18 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return all_sku;
         }
 
-        public async Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId)
+        public async Task<shop> getShopProfileAsync(string shopId)
         {
+            var shop = await _context.shop.AsNoTracking().FirstOrDefaultAsync(e => e.shop_id == shopId);
+            return shop;
+        }
+
+        public async Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId, string shopId)
+        {
+
+            var shopDetail = await getShopProfileAsync(shopId);
+
+            var skuPriceList = await _context.pricetier.Where(e => e.price_tier_group_id == shopDetail.price_tier_id).ToListAsync();
 
             List<orderdetail> newOrderItems = orderItems.Select(e =>
             {
@@ -92,7 +102,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     sku_id = e.sku_id,
                     order_id = order_id,
                     amount = e.amount,
-                    price = 0,
+                    price = skuPriceList?.FirstOrDefault(x => x.sku_id == e.sku_id)?.price ?? 0,
                     created_by = userId,
                     updated_by = userId,
                     created_date = _dtnow,

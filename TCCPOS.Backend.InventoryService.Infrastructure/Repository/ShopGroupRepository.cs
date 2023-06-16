@@ -54,7 +54,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 })
                 .ToListAsync();
 
-            if (shopGroups == null || !shopGroups.Any())
+            if (shopGroups == null || !shopGroups.Any())    
                 throw InventoryServiceException.IE001;
 
             return shopGroups;

@@ -23,7 +23,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     {
         public Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon);
 
-        public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId);
+        public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId, string shopId);
 
         public Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId);
 
