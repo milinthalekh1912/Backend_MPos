@@ -140,7 +140,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 entity.Property(e => e.AgentName).HasMaxLength(50);
 
-                entity.Property(e => e.created_date).HasColumnType("datetime");
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(50);
             });

@@ -17,6 +17,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupp
 using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress;
 using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Entities;
+using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -31,6 +32,13 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             _context = context;
             _dtnow = DateTime.Now;
         }
+
+        public Task SaveChangeAsyncWithCommit()
+        {
+            return null;
+        }
+
+
 
         public async Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon)
         {
@@ -544,7 +552,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         public async Task<List<AllAddressResult>> GetAllAddress(string shopId)
         {
             var shopAddress = await _context.shopaddress.AsNoTracking().Where(e => e.shop_id == shopId).ToListAsync();
-            List < AllAddressResult > results = new List<AllAddressResult>();
+            List<AllAddressResult> results = new List<AllAddressResult>();
             if (shopAddress == null || !shopAddress.Any())
             {
                 throw InventoryServiceException.IE001;
@@ -574,7 +582,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             order.delivery_detail_id = delivery_detail_id;
             order.updated_date = _dtnow;
             order.updated_by = user_id;
-            order.order_status = 2;
+            order.order_status = 3;
 
             var updatedelivery = new ConfirmLogisticResult
             {
@@ -587,6 +595,29 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
 
             return updatedelivery;
+        }
+
+
+        public async Task<List<CategoryResult>> GetCategoryBySupplierIdAsync(string supplier_id)
+        {
+            var categories = await _context.category.Where(e => e.supplier_id == supplier_id).ToListAsync();
+            List<CategoryResult> results = new List<CategoryResult>();
+
+
+            if (categories == null || !categories.Any()) { throw InventoryServiceException.IE001; }
+
+            foreach (var category in categories)
+            {
+                CategoryResult obj = new CategoryResult();
+                obj.CategoryId = category.category_id;
+                obj.CategoryName = category.category_name;
+
+                results.Add(obj);
+
+            }
+            return results;
+
+
         }
     }
 }

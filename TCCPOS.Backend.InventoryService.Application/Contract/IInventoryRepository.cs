@@ -13,6 +13,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupp
 using TCCPOS.Backend.InventoryService.Entities;
 using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress;
 using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
+using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
 
 namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
@@ -54,6 +55,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         Task SaveChangeAsyncWithCommit();
         Task<List<AllAddressResult>> GetAllAddress(string shopId);
-        Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id,string user_id, string order_id, string delivery_detail_id);
+        Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id, string user_id, string order_id, string delivery_detail_id);
+
+        Task<List<CategoryResult>> GetCategoryBySupplierIdAsync(string supplier_id);
     }
 }
