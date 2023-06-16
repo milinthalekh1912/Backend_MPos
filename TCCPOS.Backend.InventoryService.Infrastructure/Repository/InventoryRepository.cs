@@ -63,6 +63,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 address_id = addressId,
                 coupon_id = coupon,
                 is_read = false,
+                order_status = 1,
                 payment_status = 1,
                 created_by = userId,
                 updated_by = userId,
@@ -162,7 +163,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             var shopList = await _context.shop.Where(e => true).ToListAsync();
 
-
             var orders = results.GroupBy(r => r.Order)
                   .Select(group => new GetAllOrdersResult
                   {
@@ -187,9 +187,10 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                           image_url = r.SKU.image_url,
                           sku_category_id = r.SKU.category_id,
                       }).ToList()
+
+
                   })
                   .ToList();
-
 
             return orders;
         }
@@ -209,17 +210,18 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             var shopList = await _context.shop.Where(e => true).ToListAsync();
 
-            var orderResult = results.GroupBy(r => r.Order)
+            var orderResult = results.GroupBy(r => r.Order.order_id)
                     .Select(group => new GetOrderByIdResult
                     {
-                        order_id = group.Key.order_id,
+                        order_id = group.Key,
                         is_read = true,
-                        user_id = group.Key.user_id,
-                        shop_id = group.Key.shop_id,
-                        supplier_name = group.Key.supplier_id,
-                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
-                        address_id = group.Key.address_id,
-                        order_status = group.Key.order_status ?? 0,
+                        user_id = group.First().Order.user_id,
+                        shop_id = group.First().Order.shop_id,
+                        supplier_name = group.First().Order.supplier_id,
+                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.First().Order.shop_id).shop_name,
+                        address_id = group.First().Order.address_id,
+                        order_status = group.First().Order.order_status ?? 0,
+                        created_date = group.First().Order.created_date ?? _dtnow,
                         order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
                         order_items = group.Select(r => new OrderItemResult
                         {
@@ -240,6 +242,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var updateReadStatus = await _context.order.FirstOrDefaultAsync(e => e.order_id == order_id);
 
             updateReadStatus.is_read = true;
+
             await _context.SaveChangesAsync();
 
 
@@ -307,17 +310,18 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             var shopList = await _context.shop.Where(e => true).ToListAsync();
 
-            var orderResult = results.GroupBy(r => r.Order)
+            var orderResult = results.GroupBy(r => r.Order.order_id)
                     .Select(group => new GetOrderByIdResult
                     {
-                        order_id = group.Key.order_id,
+                        order_id = group.Key,
                         is_read = true,
-                        user_id = group.Key.user_id,
-                        shop_id = group.Key.shop_id,
-                        supplier_name = group.Key.supplier_id,
-                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
-                        address_id = group.Key.address_id,
-                        order_status = group.Key.order_status ?? 0,
+                        user_id = group.First().Order.user_id,
+                        shop_id = group.First().Order.shop_id,
+                        supplier_name = group.First().Order.supplier_id,
+                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.First().Order.shop_id).shop_name,
+                        address_id = group.First().Order.address_id,
+                        order_status = group.First().Order.order_status ?? 0,
+                        created_date = group.First().Order.created_date ?? _dtnow,
                         order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
                         order_items = group.Select(r => new OrderItemResult
                         {
