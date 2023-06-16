@@ -27,7 +27,18 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
 
         public async Task<GetOrderByIdResult> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            var orderDetail = await _repo.getOrderByIdAsync(request.orderId, request.shopId);
+
+            GetOrderByIdResult orderDetail;
+
+            if (request.shopId == "ADMIN")
+            {
+                orderDetail = await _repo.getOrderByIdBackOfficeAsync(request.orderId);
+            }
+            else
+            {
+                orderDetail = await _repo.getOrderByIdAsync(request.orderId, request.shopId);
+            }
+
             if (orderDetail == null)
             {
                 throw InventoryServiceException.IE013;
