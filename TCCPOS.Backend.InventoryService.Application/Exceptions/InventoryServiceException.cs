@@ -18,6 +18,7 @@
         public static InventoryServiceException IE014 { get; } = new InventoryServiceException(nameof(IE014), "Already have This Sku in Shop Group");
         public static InventoryServiceException IE015 { get; } = new InventoryServiceException(nameof(IE015), "Reward Target Not found");
         public static InventoryServiceException IE016 { get; } = new InventoryServiceException(nameof(IE016), "Sku Not found");
+        public static InventoryServiceException IE017 { get; } = new InventoryServiceException(nameof(IE017), "Supplier Not Found");
 
 
 

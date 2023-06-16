@@ -27,9 +27,18 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon)
         {
+            var supplier = await _context.supplier.FirstOrDefaultAsync(e => e.supplier_id == supplierId);
+            if (supplier == null)
+            {
+                throw InventoryServiceException.IE017;
+            }
+            var supplierDocNo = supplier.DocNo;
+            var newStringSupplierNo = (int.Parse(supplierDocNo) + 1).ToString();
+            supplier.DocNo = newStringSupplierNo.PadLeft(5, '0');
             var newOrder = new order
             {
                 order_id = order_id,
+                order_no = $"PO{_dtnow.Month}{_dtnow.Year}/{supplierDocNo}",
                 user_id = userId,
                 shop_id = shopId,
                 supplier_id = supplierId,
