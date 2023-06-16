@@ -798,6 +798,58 @@
         }
       }
     },
+    "/api/Shop/GetAllShopWithAddress": {
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/ShopGroup/Create": {
       "post": {
         "tags": [
@@ -2022,6 +2074,10 @@
           "is_read": {
             "type": "boolean"
           },
+          "order_status": {
+            "type": "integer",
+            "format": "int32"
+          },
           "user_id": {
             "type": "string",
             "nullable": true
@@ -2030,7 +2086,11 @@
             "type": "string",
             "nullable": true
           },
-          "shop_name": {
+          "supplier_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer_name": {
             "type": "string",
             "nullable": true
           },
@@ -2046,6 +2106,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OrderItemResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllShopAddressResult": {
+        "type": "object",
+        "properties": {
+          "shopAddress": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShopWithAddressResult"
             },
             "nullable": true
           }
@@ -2110,7 +2183,19 @@
             "type": "string",
             "nullable": true
           },
-          "shop_name": {
+          "supplier_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "order_status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "supplier_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer_name": {
             "type": "string",
             "nullable": true
           },
@@ -2438,6 +2523,24 @@
             "nullable": true
           },
           "shopName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShopWithAddressResult": {
+        "type": "object",
+        "properties": {
+          "shop_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "shop_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "shop_address_id": {
             "type": "string",
             "nullable": true
           }
