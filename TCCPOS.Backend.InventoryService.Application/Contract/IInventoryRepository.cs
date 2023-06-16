@@ -63,5 +63,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         public Task<List<GetProductByCatResult>> GetProductBycat(String categoryId, String supplierId, string shopId);
         public Task<order> ConfirmOrderByOrderId(ConfirmOrderCommand command);
+        public Task<user?> GetUserByUserID(string userID);
     }
 }

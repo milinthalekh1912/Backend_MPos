@@ -672,6 +672,14 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
             return order_obj;
         }
+
+        public async Task<user?> GetUserByUserID(string userID)
+        {
+            var user = await _context.user.FirstOrDefaultAsync(x => x.id == userID);
+            return user;
+        }
+
+
     }
 }
 
