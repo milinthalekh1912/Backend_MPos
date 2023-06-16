@@ -27,14 +27,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
 
         public async Task<List<GetAllOrdersResult>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            if (request.shopId == "ADMIN")
-            {
-                return await _repo.getAllOrderBackOfficeAsync(request.supplierId, request.userId);
-            }
-            else
-            {
-                return await _repo.getAllOrderAsync(request.supplierId, request.userId, request.shopId);
-            }
+            return await _repo.getAllOrderAsync(request.supplierId, request.userId, request.shopId);
 
         }
     }

@@ -151,47 +151,56 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<GetAllOrdersResult>> getAllOrderAsync(string supplierId, string userId, string shopId)
         {
-            var query = from order in _context.order
-                        where order.shop_id == shopId && order.supplier_id == supplierId
-                        join orderItem in (
-                            from sku in _context.sku
-                            join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
-                            select new { SKU = sku, OrderItem = oi }
-                        ) on order.order_id equals orderItem.OrderItem.order_id
-                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
+            var orders = new List<GetAllOrdersResult>();
+            List<order> order_context;
+            if (shopId == "ADMIN")
+            {
+                order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync();
+            }
+            else
+            {
+                order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.shop_id == shopId).ToListAsync();
+            }
 
-            var results = await query.AsNoTracking().ToListAsync();
+            foreach (var ord in order_context)
+            {
+                GetAllOrdersResult getOrder = new GetAllOrdersResult();
 
-            var shopList = await _context.shop.Where(e => true).ToListAsync();
+                var custommer = await _context.shop.FirstOrDefaultAsync(x => x.shop_id == ord.shop_id);
+                var sku_list = await _context.sku.Where(x => x.supplier_id == supplierId).ToListAsync();
 
-            var orders = results.GroupBy(r => r.Order)
-                  .Select(group => new GetAllOrdersResult
-                  {
-                      order_id = group.Key.order_id,
-                      is_read = group.Key.is_read ?? false,
-                      user_id = group.Key.user_id,
-                      shop_id = group.Key.shop_id,
-                      supplier_name = group.Key.supplier_id,
-                      address_id = group.Key.address_id,
-                      customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
-                      order_status = group.Key.order_status ?? 0,
-                      order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
-                      order_items = group.Select(r => new OrderItemResult
-                      {
-                          order_item_id = r.OrderItem.order_item_id,
-                          sku_id = r.OrderItem.sku_id,
-                          amount = r.OrderItem.amount ?? 0,
-                          price = r.OrderItem.price,
-                          sku_title = r.SKU.title,
-                          sku_alias_title = r.SKU.alias_title,
-                          sku_barcode = r.SKU.barcode,
-                          image_url = r.SKU.image_url,
-                          sku_category_id = r.SKU.category_id,
-                      }).ToList()
+                getOrder.order_id = ord.order_id;
+                getOrder.is_read = ord.is_read ?? true;
+                getOrder.order_status = ord.order_status ?? 1;
+                getOrder.shop_id = ord.shop_id;
+                getOrder.user_id = ord.user_id;
+                getOrder.supplier_name = ord.supplier_id;
+                getOrder.customer_name = custommer.shop_name ?? "";
+                getOrder.address_id = ord.address_id;
+                getOrder.created_date = ord.created_date ?? _dtnow;
+                getOrder.order_items = new List<OrderItemResult>();
+                var count_amount_item = 0;
+                var item_context = await _context.orderdetail.Where(x => x.order_id == ord.order_id).ToListAsync();
+                foreach (var item in item_context)
+                {
+                    OrderItemResult item_res = new OrderItemResult();
+                    var sku = sku_list.FirstOrDefault(x => x.sku_id == item.sku_id);
+                    item_res.order_item_id = item.order_item_id;
+                    item_res.sku_id = item.sku_id;
+                    item_res.amount = item.amount ?? 0;
+                    item_res.price = item.price ?? 0;
+                    item_res.sku_title = sku.title ?? "";
+                    item_res.sku_alias_title = sku!.alias_title ?? sku.title!;
+                    item_res.sku_barcode = sku.sku_id;
+                    item_res.image_url = sku.image_url ?? "";
+                    item_res.sku_category_id = sku.category_id;
+                    count_amount_item = count_amount_item + item_res.amount;
 
-
-                  })
-                  .ToList();
+                    getOrder.order_items.Add(item_res);
+                }
+                getOrder.order_amount = count_amount_item;
+                orders.Add(getOrder);
+            }
 
             return orders;
         }
@@ -248,96 +257,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
 
             return orderResult;
-        }
-
-
-        public async Task<List<GetAllOrdersResult>> getAllOrderBackOfficeAsync(string supplierId, string userId)
-        {
-            var orders = new List<GetAllOrdersResult>();
-            var order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync();
-
-
-            foreach (var ord in order_context)
-            {
-                GetAllOrdersResult getOrder = new GetAllOrdersResult();
-
-                var custommer = await _context.shop.FirstOrDefaultAsync(x => x.shop_id == ord.shop_id);
-                var sku_list = await _context.sku.Where(x =>  x.supplier_id == supplierId).ToListAsync();
-
-                getOrder.order_id = ord.order_id;
-                getOrder.is_read = ord.is_read ?? true;
-                getOrder.order_status = ord.order_status ?? 1;
-                getOrder.shop_id = ord.shop_id;
-                getOrder.user_id = ord.user_id;
-                getOrder.supplier_name = ord.supplier_id;
-                getOrder.customer_name = custommer.shop_name ?? "";
-                getOrder.order_amount = 0;
-                getOrder.address_id = ord.address_id;
-                getOrder.order_items = new List<OrderItemResult>();
-                var count_amount_item = 0;
-                var item_context = await _context.orderdetail.Where(x => x.order_id == ord.order_id).ToListAsync();
-                foreach (var item in item_context)
-                {
-                    OrderItemResult item_res = new OrderItemResult();
-                    var sku = sku_list.FirstOrDefault(x => x.sku_id == item.sku_id);
-                    item_res.order_item_id = item.order_item_id;
-                    item_res.sku_id = item.sku_id;
-                    item_res.amount = item.amount ?? 0;
-                    item_res.price = item.price ?? 0;
-                    item_res.sku_title = sku.title ?? "";
-                    item_res.sku_alias_title = sku!.alias_title ?? sku.title!;
-                    item_res.sku_barcode = sku.sku_id;
-                    item_res.image_url = sku.image_url ?? "";
-                    item_res.sku_category_id = sku.category_id;
-                    count_amount_item = count_amount_item + item_res.amount;
-
-                    getOrder.order_items.Add(item_res);
-                }
-
-                orders.Add(getOrder);
-            }
-
-            /*var query = from order in _context.order
-                        where order.supplier_id == supplierId
-                        join orderItem in (
-                            from sku in _context.sku
-                            join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
-                            select new { SKU = sku, OrderItem = oi }
-                        ) on order.order_id equals orderItem.OrderItem.order_id
-                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
-
-            var results = await query.AsNoTracking().ToListAsync();
-
-            var shopList = await _context.shop.Where(e => true).ToListAsync();
-
-            var orders = results.GroupBy(r => r.Order)
-                .Select(group => new GetAllOrdersResult
-                {
-                    order_id = group.Key.order_id,
-                    is_read = group.Key.is_read ?? false,
-                    user_id = group.Key.user_id,
-                    shop_id = group.Key.shop_id,
-                    supplier_name = group.Key.supplier_id,
-                    address_id = group.Key.address_id,
-                    customer_name = shopList.FirstOrDefault(e => e.shop_id == group.Key.shop_id).shop_name,
-                    order_status = group.Key.order_status ?? 0,
-                    order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
-                    order_items = group.Select(r => new OrderItemResult
-                    {
-                        order_item_id = r.OrderItem.order_item_id,
-                        sku_id = r.OrderItem.sku_id,
-                        amount = r.OrderItem.amount ?? 0,
-                        price = r.OrderItem.price,
-                        sku_title = r.SKU.title,
-                        sku_alias_title = r.SKU.alias_title,
-                        sku_barcode = r.SKU.barcode,
-                        image_url = r.SKU.image_url,
-                        sku_category_id = r.SKU.category_id,
-                    }).ToList()
-                })
-                .ToList();*/
-
-            return orders;
         }
 
         public async Task<GetOrderByIdResult> getOrderByIdBackOfficeAsync(string order_id)

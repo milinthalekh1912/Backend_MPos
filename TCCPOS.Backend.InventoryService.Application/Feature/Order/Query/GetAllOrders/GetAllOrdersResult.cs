@@ -18,6 +18,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
         public string customer_name { get; set; }
         public int order_amount { get; set; }
         public string address_id { get; set; }
+        public DateTime created_date { get; set; }
         public List<OrderItemResult> order_items { get; set; }
     }
 
