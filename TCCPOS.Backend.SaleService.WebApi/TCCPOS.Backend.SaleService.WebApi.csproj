@@ -38,6 +38,10 @@
     <ProjectReference Include="..\TCCPOS.Backend.SaleService.Infrastructure\TCCPOS.Backend.SaleService.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 	<Target Name="Generate OpenAPI Document" AfterTargets="Build">
 		<Exec Command="dotnet tool run swagger tofile --output SaleServiceSwagger.json $(OutputPath)$(AssemblyName).dll v1" ContinueOnError="true" />
 	</Target>

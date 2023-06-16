@@ -24,4 +24,8 @@
     <ProjectReference Include="..\TCCPOS.Backend.SecurityService.Infrastructure\TCCPOS.Backend.SecurityService.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>

@@ -7,7 +7,7 @@
   <Connection>
     <ConnectionModel>
       <PropertyValue Name="Database">59f90733-4d68-4fdf-82a7-f0fcbf5460aa</PropertyValue>
-      <PropertyValue Name="ConnectionString" xml:space="preserve">User Id=myadmin;Host=backendposdev.mysql.database.azure.com;Character Set=utf8</PropertyValue>
+      <PropertyValue Name="ConnectionString" xml:space="preserve">User Id=myadmin;Host=mpostestdb.mysql.database.azure.com;Character Set=utf8</PropertyValue>
       <PropertyValue Name="ExecutionTimeout">0</PropertyValue>
     </ConnectionModel>
   </Connection>

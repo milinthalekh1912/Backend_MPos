@@ -728,6 +728,58 @@
         }
       }
     },
+    "/api/Shop/GetAllShopWithAddress": {
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/ShopGroup/Create": {
       "post": {
         "tags": [
@@ -1982,6 +2034,19 @@
         },
         "additionalProperties": false
       },
+      "GetAllShopAddressResult": {
+        "type": "object",
+        "properties": {
+          "shopAddress": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShopWithAddressResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetAllShopGroupResult": {
         "type": "object",
         "properties": {
@@ -2368,6 +2433,24 @@
             "nullable": true
           },
           "shopName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShopWithAddressResult": {
+        "type": "object",
+        "properties": {
+          "shop_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "shop_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "shop_address_id": {
             "type": "string",
             "nullable": true
           }
