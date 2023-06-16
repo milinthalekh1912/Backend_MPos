@@ -558,15 +558,10 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.alias_title == keyword || x.title == keyword || x.barcode == keyword);
+                query = query.Where(x => x.alias_title.Contains(keyword) || x.title.Contains(keyword) || x.barcode.Contains(keyword));
             }
 
-            var products = await query
-                .Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
-                    (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
-                .ToListAsync();
-
-
+            var products = await query.ToListAsync();
 
             var result = new List<ProductByKeywordResult>();
 
@@ -574,14 +569,12 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 ProductByKeywordResult obj = new ProductByKeywordResult();
 
-                obj.title = product.SKU.title;
-                obj.aliasTitle = product.SKU.alias_title;
-                obj.sku = product.SKU.sku_id;
-                obj.barcode = product.SKU.barcode;
-                obj.imageUrl = product.SKU.image_url;
-                obj.categoryId = product.SKU.category_id;
-                obj.price = product.PriceTier.price;
-
+                obj.title = product.title;
+                obj.aliasTitle = product.alias_title;
+                obj.sku = product.sku_id;
+                obj.barcode = product.barcode;
+                obj.imageUrl = product.image_url;
+                obj.categoryId = product.category_id;
                 result.Add(obj);
             }
 
