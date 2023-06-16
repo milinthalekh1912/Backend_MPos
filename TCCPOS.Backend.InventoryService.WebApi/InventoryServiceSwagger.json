@@ -456,6 +456,76 @@
         }
       }
     },
+    "/api/Orders/UpdateOrderStatus": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Update Order Status 2 => ++",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/ProductByCat": {
       "get": {
         "tags": [
@@ -2512,6 +2582,23 @@
             "nullable": true
           }
         },
+        "additionalProperties": false
+      },
+      "UpdateOrderStatusRequest": {
+        "required": [
+          "orderId"
+        ],
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateOrderStatusResult": {
+        "type": "object",
         "additionalProperties": false
       },
       "UpdateTargetRequest": {

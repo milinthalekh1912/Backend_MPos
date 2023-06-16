@@ -7,6 +7,7 @@ using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.UpdateOrderStatus;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
 
@@ -88,9 +89,21 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Confirm Order Status => 2", Description = "")]
         [ProducesResponseType(typeof(ConfirmOrderResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> updateGroupName([FromBody] ConfirmOrderRequest request)
+        public async Task<IActionResult> ConfirmOrder([FromBody] ConfirmOrderRequest request)
         {
             var command = new ConfirmOrderCommand(Identity.GetUserID(), Identity.GetShopID(), request);
+            var res = await _mediator.Send(command);
+            return Ok(res);
+        }
+
+        [Authorize]
+        [HttpPut("UpdateOrderStatus")]
+        [SwaggerOperation(Summary = "Update Order Status 2 => ++", Description = "")]
+        [ProducesResponseType(typeof(UpdateOrderStatusResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusRequest request)
+        {
+            var command = new UpdateOrderStatusCommand(Identity.GetUserID(), Identity.GetShopID(), request);
             var res = await _mediator.Send(command);
             return Ok(res);
         }

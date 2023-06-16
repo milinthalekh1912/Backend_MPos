@@ -69,5 +69,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         public Task<List<GetAllOrdersResult>> getAllOrderBackOfficeAsync(string supplierId, string userId);
         public Task<GetOrderByIdResult> getOrderByIdBackOfficeAsync(string order_id);
+        public Task<order> UpdateOrderStatusByOrderID(string orderID);
     }
 }
