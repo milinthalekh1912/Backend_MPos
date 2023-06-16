@@ -689,7 +689,14 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return user;
         }
 
-
+        public async Task<order> UpdateOrderStatusByOrderID(string orderID)
+        {
+            var order_obj = await _context.order.FirstOrDefaultAsync(x => x.order_id == orderID);
+            if (order_obj == null) throw InventoryServiceException.IE018;
+            order_obj.order_status = order_obj.order_status + 1;
+            await _context.SaveChangesAsync();
+            return order_obj;
+        }
     }
 }
 
