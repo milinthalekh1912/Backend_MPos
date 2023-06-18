@@ -18,10 +18,10 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         protected readonly InventoryContext _context;
         DateTime _dtnow;
 
-        public TargetRepository(InventoryContext context)
+        public TargetRepository(InventoryContext context, DateTime dtnow)
         {
             _context = context;
-            _dtnow = DateTime.Now;
+            _dtnow = dtnow;
         }
 
         public async Task<CreateTargetResult> createSkuTargetAsync(string shopGroupId, string skuId, int target, string reward, string reset_date, string userId)

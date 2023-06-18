@@ -22,7 +22,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure
             services.AddDbContext<InventoryContext>(x => x.UseMySql(mysqlconnstr, ServerVersion.AutoDetect(mysqlconnstr)));
 
             services.AddScoped<IInventoryRepository, InventoryRepository>();
-            services.AddScoped<ITargetRepository, TargetRepository>();
             return services;
         }
     }

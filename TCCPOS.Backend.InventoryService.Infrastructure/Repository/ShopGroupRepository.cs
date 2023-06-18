@@ -11,19 +11,10 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         protected readonly InventoryContext _context;
         DateTime _dtnow;
 
-        public ShopGroupRepository(InventoryContext context)
+        public ShopGroupRepository(InventoryContext context, DateTime dtnow)
         {
             _context = context;
-            _dtnow = DateTime.Now;
-        }
-
-        public async Task SaveChangeAsyncWithCommit()
-        {
-            if (_context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
-            {
-                _context.Database.SetCommandTimeout(120);
-            }
-            await _context.SaveChangesAsync();
+            _dtnow = dtnow;
         }
 
         public async Task<List<ShopGroupResult>> GetShopGroupByShopGroupID(string keyword)

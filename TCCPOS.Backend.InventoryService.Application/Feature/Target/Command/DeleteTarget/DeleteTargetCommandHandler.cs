@@ -14,10 +14,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Del
     public class DeleteTargetCommandHandler : IRequestHandler<DeleteTargetCommand, DeleteTargetResult>
     {
         private readonly ILogger<DeleteTargetCommandHandler> _logger;
-        ITargetRepository _repo;
+        IInventoryRepository _repo;
         IConfiguration _config;
 
-        public DeleteTargetCommandHandler(ILogger<DeleteTargetCommandHandler> logger, ITargetRepository repo, IConfiguration config)
+        public DeleteTargetCommandHandler(ILogger<DeleteTargetCommandHandler> logger, IInventoryRepository repo, IConfiguration config)
         {
             _logger = logger;
             _repo = repo;
@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Del
 
         public async Task<DeleteTargetResult> Handle(DeleteTargetCommand request, CancellationToken cancellationToken)
         {
-            await _repo.deleteTargetById(request.shopGroupId, request.skuId);
+            await _repo.Target.deleteTargetById(request.shopGroupId, request.skuId);
             return new DeleteTargetResult
             {
                 message = "delete completed"

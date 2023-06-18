@@ -23,6 +23,12 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
     public interface IInventoryRepository
     {
+        Task SaveChangeAsyncWithCommit();
+
+        IShopGroupRepository ShopGroup { get; }
+        ITargetRepository Target { get; }
+
+
         public Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon);
 
         public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId, string shopId);
@@ -56,7 +62,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<List<ProductByKeywordResult>> GetProductByKeyword(string? keyword);
         public Task<List<PromotionResult>> GetPromotion();
 
-        Task SaveChangeAsyncWithCommit();
         Task<List<AllAddressResult>> GetAllAddress(string shopId);
         Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id, string user_id, string order_id, string delivery_detail_id);
 

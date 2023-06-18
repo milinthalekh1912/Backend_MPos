@@ -8,9 +8,9 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.ShopGroup.Query.Get
     public class ShopGroupQueryHandler : IRequestHandler<GetShopGroupByGroupIDQuery, List<ShopGroupResult>>
     {
         private readonly ILogger<ShopGroupQueryHandler> _logger;
-        private readonly IShopGroupRepository _repo;
+        private readonly IInventoryRepository _repo;
 
-        public ShopGroupQueryHandler(ILogger<ShopGroupQueryHandler> logger, IShopGroupRepository repo)
+        public ShopGroupQueryHandler(ILogger<ShopGroupQueryHandler> logger, IInventoryRepository repo)
         {
             _logger = logger;
             _repo = repo;
@@ -18,7 +18,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.ShopGroup.Query.Get
 
         public async Task<List<ShopGroupResult>> Handle(GetShopGroupByGroupIDQuery request, CancellationToken cancellationToken)
         {
-            var res = await _repo.GetShopGroupByShopGroupID(request.keyword); 
+            var res = await _repo.ShopGroup.GetShopGroupByShopGroupID(request.keyword); 
 
             return res.ToList();
 

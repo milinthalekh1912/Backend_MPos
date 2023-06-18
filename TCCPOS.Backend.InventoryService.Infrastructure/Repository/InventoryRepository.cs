@@ -23,6 +23,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.Get
 using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
 using System.Collections.Generic;
 using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAddressById;
+using System.Security.Principal;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -38,10 +39,20 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             _dtnow = DateTime.Now;
         }
 
-        public Task SaveChangeAsyncWithCommit()
+        public async Task SaveChangeAsyncWithCommit()
         {
-            return null;
+            if (_context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+            {
+                _context.Database.SetCommandTimeout(120);
+            }
+            await _context.SaveChangesAsync();
         }
+
+        IShopGroupRepository _shopgroup = null!;
+        public IShopGroupRepository ShopGroup => _shopgroup ??= new ShopGroupRepository(_context, _dtnow);
+
+        ITargetRepository _target = null!;
+        public ITargetRepository Target => _target ??= new TargetRepository(_context, _dtnow);
 
 
 

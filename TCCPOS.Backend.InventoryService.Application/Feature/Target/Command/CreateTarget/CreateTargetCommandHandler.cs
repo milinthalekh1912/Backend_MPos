@@ -14,10 +14,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Cre
     public class CreateTargetCommandHandler : IRequestHandler<CreateTargetCommand, CreateTargetResult>
     {
         private readonly ILogger<CreateTargetCommandHandler> _logger;
-        ITargetRepository _repo;
+        IInventoryRepository _repo;
         IConfiguration _config;
 
-        public CreateTargetCommandHandler(ILogger<CreateTargetCommandHandler> logger, ITargetRepository repo, IConfiguration config)
+        public CreateTargetCommandHandler(ILogger<CreateTargetCommandHandler> logger, IInventoryRepository repo, IConfiguration config)
         {
             _logger = logger;
             _repo = repo;
@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Cre
 
         public async Task<CreateTargetResult> Handle(CreateTargetCommand request, CancellationToken cancellationToken)
         {
-            var res = await _repo.createSkuTargetAsync(request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
+            var res = await _repo.Target.createSkuTargetAsync(request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
             return res;
         }
 

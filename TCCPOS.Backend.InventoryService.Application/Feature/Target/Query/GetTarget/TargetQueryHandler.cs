@@ -8,9 +8,9 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Target.Query.GetTar
     public class GetTargetQueryHandler : IRequestHandler<GetTargetQuery, List<TargetResult>>
     {
         private readonly ILogger<GetTargetQueryHandler> _logger;
-        private readonly ITargetRepository _repo;
+        private readonly IInventoryRepository _repo;
 
-        public GetTargetQueryHandler(ILogger<GetTargetQueryHandler> logger, ITargetRepository repo)
+        public GetTargetQueryHandler(ILogger<GetTargetQueryHandler> logger, IInventoryRepository repo)
         {
             _logger = logger;
             _repo = repo;
@@ -19,7 +19,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Target.Query.GetTar
         public async Task<List<TargetResult>> Handle(GetTargetQuery request, CancellationToken cancellationToken)
         {
 
-            var res = await _repo.GetTarget(); 
+            var res = await _repo.Target.GetTarget(); 
 
             return res.ToList();
 

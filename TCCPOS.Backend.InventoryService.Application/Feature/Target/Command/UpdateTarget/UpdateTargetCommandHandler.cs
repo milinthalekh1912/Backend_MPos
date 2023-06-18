@@ -14,10 +14,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Upd
     public class UpdateTargetCommandHandler : IRequestHandler<UpdateTargetCommand, UpdateTargetResult>
     {
         private readonly ILogger<CreateTargetCommandHandler> _logger;
-        ITargetRepository _repo;
+        IInventoryRepository _repo;
         IConfiguration _config;
 
-        public UpdateTargetCommandHandler(ILogger<CreateTargetCommandHandler> logger, ITargetRepository repo, IConfiguration config)
+        public UpdateTargetCommandHandler(ILogger<CreateTargetCommandHandler> logger, IInventoryRepository repo, IConfiguration config)
         {
             _logger = logger;
             _repo = repo;
@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Upd
 
         public async Task<UpdateTargetResult> Handle(UpdateTargetCommand request, CancellationToken cancellationToken)
         {
-            var res = await _repo.updateSkuTargetAsync(request.targetId, request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
+            var res = await _repo.Target.updateSkuTargetAsync(request.targetId, request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
             return res;
         }
     }
