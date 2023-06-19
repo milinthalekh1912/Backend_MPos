@@ -30,7 +30,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
         [Authorize]
         [HttpPost()]
-        [SwaggerOperation(Summary = "create", Description = "")]
+        [SwaggerOperation(Summary = "Create", Description = "")]
         [ProducesResponseType(typeof(CreateTargetResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> createTarget([FromBody] CreateTargetRequest request)
@@ -49,7 +49,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
         [Authorize]
         [HttpPut()]
-        [SwaggerOperation(Summary = "update", Description = "")]
+        [SwaggerOperation(Summary = "Update", Description = "")]
         [ProducesResponseType(typeof(UpdateTargetResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> updateTarget([FromBody] UpdateTargetRequest request)
@@ -69,7 +69,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
         [Authorize]
         [HttpDelete()]
-        [SwaggerOperation(Summary = "delete", Description = "")]
+        [SwaggerOperation(Summary = "Delete", Description = "")]
         [ProducesResponseType(typeof(DeleteTargetRequest), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> deleteTarget([FromBody] DeleteTargetRequest request)
@@ -83,7 +83,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [HttpGet()]
-        [SwaggerOperation(Summary = "get all target", Description = "")]
+        [SwaggerOperation(Summary = "Get all target", Description = "")]
         [ProducesResponseType(typeof(List<TargetResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
