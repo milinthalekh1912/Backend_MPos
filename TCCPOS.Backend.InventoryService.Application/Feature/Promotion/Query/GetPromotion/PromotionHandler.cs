@@ -19,7 +19,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Promotion.Query.Ge
 
         public async Task<List<PromotionResult>> Handle(GetPromotionQuery request, CancellationToken cancellationToken)
         {
-            var promotion = await _repo.GetPromotion(); // Call the GetSupplier method in your repository
+            var promotion = await _repo.Promotion.GetPromotion(); // Call the GetSupplier method in your repository
 
             return promotion.ToList();
         }

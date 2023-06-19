@@ -18,7 +18,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.G
 
         public async Task<List<AllAddressResult>> Handle(GetAllAddressQuery request, CancellationToken cancellationToken)
         {
-            return await _repo.GetAllAddress(request.shopId);
+            return await _repo.Address.GetAllAddress(request.shopId);
         }
     }
 }

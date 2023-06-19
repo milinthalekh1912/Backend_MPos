@@ -34,11 +34,11 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Conf
         public async Task<ConfirmOrderResult> Handle(ConfirmOrderCommand command, CancellationToken cancellationToken)
         {
             var res = new ConfirmOrderResult();
-            var com = await _repo.ConfirmOrderByOrderId(command);
+            var com = await _repo.Order.ConfirmOrderByOrderId(command);
 
             if (command.is_boardcase)
             {
-                var user = await _repo.GetUserByUserID(command.userId);
+                var user = await _repo.User.GetUserByUserID(command.userId);
                 if (user != null && user.line_sub_Id != null)
                 {
                     var chanelToken = "8MGabTsr+8vXmZt39lv/CvuoTLi56qiS/hH+EW4npP++z0eQ9axdV/XimTLWZ1oNkJpvg5IqO0gY3ITT7+K0yC6MxOXkslBkgI8eEi5N+CGCzxLs7839NS74w9+0t+4Eu6Lgiu9x+q+JR2OLQ3QvBgdB04t89/1O/w1cDnyilFU=";

@@ -25,7 +25,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetA
 
         public async Task<GetAddressByIdResult> Handle(GetAddressByIdQuery request, CancellationToken cancellationToken)
         {
-            var addresses = await _repo.GetAddressById(request.ShopId);
+            var addresses = await _repo.Address.GetAddressById(request.ShopId);
             return addresses;
         }
     }

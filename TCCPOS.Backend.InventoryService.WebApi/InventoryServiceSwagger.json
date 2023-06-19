@@ -6,29 +6,39 @@
     "version": "v1"
   },
   "paths": {
-    "/api/v1/AllAddress": {
+    "/api/v1/Address/Customer": {
       "get": {
         "tags": [
-          "AllAddress"
+          "Address"
         ],
-        "operationId": "getAllAddress",
+        "summary": "Get all address of customer",
+        "description": "",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/AllAddressResult"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllAddressResult"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AllAddressResult"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllAddressResult"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AllAddressResult"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AllAddressResult"
+                  }
                 }
               }
             }
@@ -56,16 +66,80 @@
         }
       }
     },
-    "/api/Category": {
+    "/api/v1/Address/Detail/{id}": {
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Get address detail by addressId",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAddressByIdResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAddressByIdResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAddressByIdResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/Category/{supplierId}": {
       "get": {
         "tags": [
           "Category"
         ],
-        "operationId": "getCategoryBySupplierId",
         "parameters": [
           {
             "name": "supplierId",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -118,97 +192,28 @@
         }
       }
     },
-    "/api/v1/ConfirmLogistic": {
+    "/api/v1/Group": {
       "post": {
         "tags": [
-          "ConfirmLogistic"
+          "Group"
         ],
-        "operationId": "confirmLogistic",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmLogisticRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmLogisticRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmLogisticRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfirmLogisticResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfirmLogisticResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfirmLogisticResult"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Orders/CreateOrder": {
-      "post": {
-        "tags": [
-          "Orders"
-        ],
-        "summary": "",
+        "summary": "Create Group",
         "description": "",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderRequest"
+                "$ref": "#/components/schemas/CreateShopGroupRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderRequest"
+                "$ref": "#/components/schemas/CreateShopGroupRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateOrderRequest"
+                "$ref": "#/components/schemas/CreateShopGroupRequest"
               }
             }
           }
@@ -219,17 +224,75 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateOrderResult"
+                  "$ref": "#/components/schemas/CreateShopGroupCommand"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateOrderResult"
+                  "$ref": "#/components/schemas/CreateShopGroupCommand"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateOrderResult"
+                  "$ref": "#/components/schemas/CreateShopGroupCommand"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get all group",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllShopGroupResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllShopGroupResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllShopGroupResult"
+                  }
                 }
               }
             }
@@ -257,17 +320,18 @@
         }
       }
     },
-    "/api/Orders/GetOrderList": {
+    "/api/v1/Group/{id}": {
       "get": {
         "tags": [
-          "Orders"
+          "Group"
         ],
-        "summary": "",
+        "summary": "Get group by id",
         "description": "",
         "parameters": [
           {
-            "name": "supplierId",
-            "in": "query",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -279,26 +343,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllOrdersResult"
-                  }
+                  "$ref": "#/components/schemas/GetShopGroupByIdResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllOrdersResult"
-                  }
+                  "$ref": "#/components/schemas/GetShopGroupByIdResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllOrdersResult"
-                  }
+                  "$ref": "#/components/schemas/GetShopGroupByIdResult"
                 }
               }
             }
@@ -324,19 +379,18 @@
             }
           }
         }
-      }
-    },
-    "/api/Orders/GetOrderById": {
-      "get": {
+      },
+      "delete": {
         "tags": [
-          "Orders"
+          "Group"
         ],
-        "summary": "",
+        "summary": "Delete group by id",
         "description": "",
         "parameters": [
           {
-            "name": "orderId",
-            "in": "query",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -348,17 +402,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                  "$ref": "#/components/schemas/DeleteShopGroupResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                  "$ref": "#/components/schemas/DeleteShopGroupResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                  "$ref": "#/components/schemas/DeleteShopGroupResult"
                 }
               }
             }
@@ -386,28 +440,28 @@
         }
       }
     },
-    "/api/Orders/ConfirmOrder": {
+    "/api/v1/Group/Detail": {
       "put": {
         "tags": [
-          "Orders"
+          "Group"
         ],
-        "summary": "Confirm Order Status => 2",
+        "summary": "Update group detail",
         "description": "",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmOrderRequest"
+                "$ref": "#/components/schemas/UpdateGroupRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmOrderRequest"
+                "$ref": "#/components/schemas/UpdateGroupRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmOrderRequest"
+                "$ref": "#/components/schemas/UpdateGroupRequest"
               }
             }
           }
@@ -418,17 +472,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConfirmOrderResult"
+                  "$ref": "#/components/schemas/UpdateGroupResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConfirmOrderResult"
+                  "$ref": "#/components/schemas/UpdateGroupResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConfirmOrderResult"
+                  "$ref": "#/components/schemas/UpdateGroupResult"
                 }
               }
             }
@@ -456,28 +510,28 @@
         }
       }
     },
-    "/api/Orders/UpdateOrderStatus": {
+    "/api/v1/Group/Name": {
       "put": {
         "tags": [
-          "Orders"
+          "Group"
         ],
-        "summary": "Update Order Status 2 => ++",
+        "summary": "Update group name",
         "description": "",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+                "$ref": "#/components/schemas/UpdateGroupNameRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+                "$ref": "#/components/schemas/UpdateGroupNameRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+                "$ref": "#/components/schemas/UpdateGroupNameRequest"
               }
             }
           }
@@ -488,17 +542,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                  "$ref": "#/components/schemas/UpdateGroupNameResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                  "$ref": "#/components/schemas/UpdateGroupNameResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                  "$ref": "#/components/schemas/UpdateGroupNameResult"
                 }
               }
             }
@@ -526,81 +580,23 @@
         }
       }
     },
-    "/api/v1/ProductByCat": {
+    "/api/v1/Group/Target/{id}": {
       "get": {
         "tags": [
-          "ProductByCat"
+          "Group"
         ],
-        "operationId": "getProductByCat",
+        "summary": "Get target group by id",
+        "description": "",
         "parameters": [
           {
-            "name": "supplierId",
+            "name": "shopgroupid",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "categoryId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetProductByCatResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetProductByCatResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetProductByCatResult"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ProductByKeyword/{keyword}": {
-      "get": {
-        "tags": [
-          "ProductByKeyword"
-        ],
-        "operationId": "GetProductByKeyword",
-        "parameters": [
-          {
-            "name": "keyword",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -616,7 +612,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductByKeywordResult"
+                    "$ref": "#/components/schemas/ShopGroupResult"
                   }
                 }
               },
@@ -624,7 +620,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductByKeywordResult"
+                    "$ref": "#/components/schemas/ShopGroupResult"
                   }
                 }
               },
@@ -632,7 +628,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductByKeywordResult"
+                    "$ref": "#/components/schemas/ShopGroupResult"
                   }
                 }
               }
@@ -664,21 +660,10 @@
         }
       }
     },
-    "/api/v1/ProductRecommend/{supplier_id}": {
+    "/api/v1/Merchant/GetAllShopWithAddress": {
       "get": {
         "tags": [
-          "ProductRecommend"
-        ],
-        "operationId": "GetProductRecommend",
-        "parameters": [
-          {
-            "name": "supplier_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
+          "Merchant"
         ],
         "responses": {
           "200": {
@@ -686,26 +671,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductRecommendResult"
-                  }
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductRecommendResult"
-                  }
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductRecommendResult"
-                  }
+                  "$ref": "#/components/schemas/GetAllShopAddressResult"
                 }
               }
             }
@@ -732,6 +708,477 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/Merchant/getAllShop": {
+      "get": {
+        "tags": [
+          "Merchant"
+        ],
+        "summary": "",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllShopResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllShopResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllShopResult"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Orders": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Create order",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrderResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrderResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrderResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Orders/All/{supplierId}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get all order by supplierId",
+        "description": "",
+        "parameters": [
+          {
+            "name": "supplierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllOrdersResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllOrdersResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllOrdersResult"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Orders/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get order by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Orders/OrderStatus": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Update order status(backoffice)",
+        "description": "Update Order Status 2 => ++",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrderStatusResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Orders/Confirm/backoffice": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Confirm order (backoffice)",
+        "description": "Confirm Order Status => 2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmOrderResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmOrderResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmOrderResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Orders/Confirm/user": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Confirm order (user)",
+        "description": "Confirm Order Status => 2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmLogisticRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmLogisticRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmLogisticRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmLogisticResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmLogisticResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmLogisticResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
           }
         }
       }
@@ -798,10 +1245,28 @@
         }
       }
     },
-    "/api/Shop/GetAllShopWithAddress": {
+    "/api/v1/Sku/{supplierId}/{categoryId}": {
       "get": {
         "tags": [
-          "Shop"
+          "Sku"
+        ],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -809,17 +1274,85 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                  "$ref": "#/components/schemas/GetProductByCatResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                  "$ref": "#/components/schemas/GetProductByCatResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAllShopAddressResult"
+                  "$ref": "#/components/schemas/GetProductByCatResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Sku/Search/{keyword}": {
+      "get": {
+        "tags": [
+          "Sku"
+        ],
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductByKeywordResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductByKeywordResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductByKeywordResult"
+                  }
                 }
               }
             }
@@ -850,475 +1383,14 @@
         }
       }
     },
-    "/api/ShopGroup/Create": {
-      "post": {
-        "tags": [
-          "ShopGroup"
-        ],
-        "summary": "",
-        "description": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateShopGroupRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateShopGroupRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateShopGroupRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateShopGroupCommand"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateShopGroupCommand"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateShopGroupCommand"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ShopGroup/GetAllGroup": {
+    "/api/v1/Sku/Recommended/{supplier_id}": {
       "get": {
         "tags": [
-          "ShopGroup"
+          "Sku"
         ],
-        "summary": "",
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllShopGroupResult"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllShopGroupResult"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllShopGroupResult"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ShopGroup/GetGroupById": {
-      "get": {
-        "tags": [
-          "ShopGroup"
-        ],
-        "summary": "",
-        "description": "",
         "parameters": [
           {
-            "name": "shopGroupId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetShopGroupByIdResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetShopGroupByIdResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetShopGroupByIdResult"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ShopGroup/DeleteGroupId": {
-      "delete": {
-        "tags": [
-          "ShopGroup"
-        ],
-        "summary": "",
-        "description": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteShopGroupRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteShopGroupRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteShopGroupRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteShopGroupResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteShopGroupResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteShopGroupResult"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ShopGroup/UpdateGroupId": {
-      "put": {
-        "tags": [
-          "ShopGroup"
-        ],
-        "summary": "",
-        "description": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateGroupRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateGroupRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateGroupRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupResult"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ShopGroup/getAllShop": {
-      "get": {
-        "tags": [
-          "ShopGroup"
-        ],
-        "summary": "",
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllShopResult"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllShopResult"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllShopResult"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ShopGroup/updateGroupName": {
-      "put": {
-        "tags": [
-          "ShopGroup"
-        ],
-        "summary": "",
-        "description": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateGroupNameRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateGroupNameRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateGroupNameRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupNameResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupNameResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupNameResult"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ShopGroup/GetTargetGoupById/{shopgroupid}": {
-      "get": {
-        "tags": [
-          "ShopGroup"
-        ],
-        "operationId": "GetTargetGroupByShopGroup",
-        "parameters": [
-          {
-            "name": "shopgroupid",
+            "name": "supplier_id",
             "in": "path",
             "required": true,
             "schema": {
@@ -1334,7 +1406,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ShopGroupResult"
+                    "$ref": "#/components/schemas/ProductRecommendResult"
                   }
                 }
               },
@@ -1342,7 +1414,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ShopGroupResult"
+                    "$ref": "#/components/schemas/ProductRecommendResult"
                   }
                 }
               },
@@ -1350,7 +1422,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ShopGroupResult"
+                    "$ref": "#/components/schemas/ProductRecommendResult"
                   }
                 }
               }
@@ -1444,12 +1516,12 @@
         }
       }
     },
-    "/api/Target/create": {
+    "/api/v1/Target": {
       "post": {
         "tags": [
           "Target"
         ],
-        "summary": "",
+        "summary": "Create",
         "description": "",
         "requestBody": {
           "content": {
@@ -1512,14 +1584,12 @@
             }
           }
         }
-      }
-    },
-    "/api/Target/update": {
+      },
       "put": {
         "tags": [
           "Target"
         ],
-        "summary": "",
+        "summary": "Update",
         "description": "",
         "requestBody": {
           "content": {
@@ -1582,14 +1652,12 @@
             }
           }
         }
-      }
-    },
-    "/api/Target/delete": {
+      },
       "delete": {
         "tags": [
           "Target"
         ],
-        "summary": "",
+        "summary": "Delete",
         "description": "",
         "requestBody": {
           "content": {
@@ -1652,14 +1720,13 @@
             }
           }
         }
-      }
-    },
-    "/api/Target/GetTarget": {
+      },
       "get": {
         "tags": [
           "Target"
         ],
-        "operationId": "GetTarget",
+        "summary": "Get all target",
+        "description": "",
         "responses": {
           "200": {
             "description": "Success",
@@ -2009,19 +2076,6 @@
         },
         "additionalProperties": false
       },
-      "DeleteShopGroupRequest": {
-        "required": [
-          "shopGroupId"
-        ],
-        "type": "object",
-        "properties": {
-          "shopGroupId": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
       "DeleteShopGroupResult": {
         "type": "object",
         "properties": {
@@ -2058,6 +2112,40 @@
             "nullable": true
           },
           "errorDetail": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAddressByIdResult": {
+        "type": "object",
+        "properties": {
+          "addressId": {
+            "type": "string",
+            "nullable": true
+          },
+          "shopTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "address1": {
+            "type": "string",
+            "nullable": true
+          },
+          "address2": {
+            "type": "string",
+            "nullable": true
+          },
+          "address3": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           }
@@ -2101,6 +2189,10 @@
           "address_id": {
             "type": "string",
             "nullable": true
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date-time"
           },
           "order_items": {
             "type": "array",
@@ -2210,6 +2302,10 @@
           "address_id": {
             "type": "string",
             "nullable": true
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date-time"
           },
           "order_items": {
             "type": "array",

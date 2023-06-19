@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
 
         public async Task<DeleteShopGroupResult> Handle(DeleteShopGroupCommand request, CancellationToken cancellationToken)
         {
-            await _repo.deleteShopGroupById(request.shopGroupId,request.userId);
+            await _repo.ShopGroup.deleteShopGroupById(request.shopGroupId,request.userId);
             return new DeleteShopGroupResult
             {
                 message = "delete completed"

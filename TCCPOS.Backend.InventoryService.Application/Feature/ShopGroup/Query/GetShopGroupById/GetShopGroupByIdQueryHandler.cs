@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.Ge
         public async Task<GetShopGroupByIdResult> Handle(GetShopGroupByIdQuery request, CancellationToken cancellationToken)
         {
             //validate role before get shop group
-            var shopGroup = await _repo.getShopGroupById(request.shopGroupId);
+            var shopGroup = await _repo.ShopGroup.getShopGroupById(request.shopGroupId);
             return shopGroup;
         }
     }

@@ -18,7 +18,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query
 
         public async Task<List<GetProductByCatResult>> Handle(GetProductByCatQuery request, CancellationToken cancellationToken)
         {
-            return await _repo.GetProductBycat(request.categoryId, request.supplierId, request.shopId);
+            return await _repo.Sku.GetSkuBycateID(request.categoryId, request.supplierId, request.shopId);
         }
     }
 }

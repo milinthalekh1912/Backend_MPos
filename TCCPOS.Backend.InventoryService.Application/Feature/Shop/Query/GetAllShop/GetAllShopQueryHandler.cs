@@ -22,8 +22,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllS
 
         public async Task<GetAllShopAddressResult> Handle(GetllAllShopAddressQuery request, CancellationToken cancellationToken)
         {
-            var shopWithAddress = await _repo.getAllShopWithAddressAsync();
-
+            var shopWithAddress = await _repo.Shop.getAllShopWithAddressAsync();
             return shopWithAddress;
         }
     }

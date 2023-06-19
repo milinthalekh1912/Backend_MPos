@@ -22,7 +22,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Upda
         public async Task<UpdateOrderStatusResult> Handle(UpdateOrderStatusCommand command, CancellationToken cancellationToken)
         {
             var res = new UpdateOrderStatusResult();
-            var obj = await _repo.UpdateOrderStatusByOrderID(command.orderId);
+            var obj = await _repo.Order.UpdateOrderStatusByOrderID(command.orderId);
             return res;
         }
 

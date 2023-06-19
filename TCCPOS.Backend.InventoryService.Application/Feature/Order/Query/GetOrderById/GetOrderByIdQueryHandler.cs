@@ -32,18 +32,18 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
 
             if (request.shopId == "ADMIN")
             {
-                orderDetail = await _repo.getOrderByIdBackOfficeAsync(request.orderId);
+                orderDetail = await _repo.Order.getOrderByIdBackOfficeAsync(request.orderId);
             }
             else
             {
-                orderDetail = await _repo.getOrderByIdAsync(request.orderId, request.shopId);
+                orderDetail = await _repo.Order.getOrderByIdAsync(request.orderId, request.shopId);
             }
 
             if (orderDetail == null)
             {
                 throw InventoryServiceException.IE013;
             }
-            var deliverysDetail = await _repo.getDeliveryDetailsByOrderIdAsync(request.orderId);
+            var deliverysDetail = await _repo.DeliveryDetail.getDeliveryDetailsByOrderIdAsync(request.orderId);
 
             orderDetail.deliverydetails = deliverysDetail;
             return orderDetail;

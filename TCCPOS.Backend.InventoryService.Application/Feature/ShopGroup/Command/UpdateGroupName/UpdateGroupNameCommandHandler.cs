@@ -27,7 +27,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
 
         public async Task<UpdateGroupNameResult> Handle(UpdateGroupNameCommand request, CancellationToken cancellationToken)
         {
-            await _repo.updateNameByGroupId(request.shopGroupName, request.shopGroupId, request.userId);
+            await _repo.ShopGroup.updateNameByGroupId(request.shopGroupName, request.shopGroupId, request.userId);
             return new UpdateGroupNameResult
             {
                 message = "update complelte"

@@ -21,7 +21,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Q
             public async Task<List<ProductRecommendResult>> Handle(GetProductRecommendQuery request, CancellationToken cancellationToken)
         {
 
-            var product = await _repo.GetProductRecommend(request.supplier_id);
+            var product = await _repo.Sku.GetSkuRecommend(request.supplier_id);
        
             return product.ToList();    
         }

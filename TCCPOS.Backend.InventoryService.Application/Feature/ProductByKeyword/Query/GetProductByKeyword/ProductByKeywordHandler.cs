@@ -23,7 +23,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Q
         public async Task<List<ProductByKeywordResult>> Handle(GetProductByKeywordQuery request, CancellationToken cancellationToken)
         {
 
-            var product = await _repo.GetProductByKeyword(request.keyword);
+            var product = await _repo.Sku.GetSkuByKeyword(request.keyword);
         
 
             return product.ToList();

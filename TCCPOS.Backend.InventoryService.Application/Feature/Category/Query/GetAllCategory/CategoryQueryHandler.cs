@@ -18,7 +18,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.Get
 
         public async Task<List<CategoryResult>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
-            return await _repo.GetCategoryBySupplierIdAsync(request.SupplierId);
+            return await _repo.Categories.GetCategoryBySupplierIdAsync(request.SupplierId);
         }
     }
 }

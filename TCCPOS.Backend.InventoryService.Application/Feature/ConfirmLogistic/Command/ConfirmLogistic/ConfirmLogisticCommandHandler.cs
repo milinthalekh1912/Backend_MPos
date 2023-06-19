@@ -17,7 +17,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Co
 
         public async Task<ConfirmLogisticResult> Handle(ConfirmLogisticCommand request, CancellationToken cancellationToken)
         {
-            var selectdelivery = await _repo.ConfirmLogistic(request.shop_id, request.user_id, request.order_id, request.delivery_detail_id);
+            var selectdelivery = await _repo.Order.ConfirmLogistic(request.shop_id, request.user_id, request.order_id, request.delivery_detail_id);
             return new ConfirmLogisticResult
             {
                 shop_id = selectdelivery.shop_id,

@@ -29,8 +29,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
 
         public async Task<CreateShopGroupResult> Handle(CreateShopGroupCommand request, CancellationToken cancellationToken)
         {
-            var shops = await _repo.addShopToGroupAsync(request.shopId);
-            var newShopGroup = await _repo.createNewGroupAsync(shops.First().shop_group_id, request.shopGroupName, request.userId);
+            var shops = await _repo.ShopGroup.addShopToGroupAsync(request.shopId);
+            var newShopGroup = await _repo.ShopGroup.createShopGroupAsync(shops.First().shop_group_id, request.shopGroupName, request.userId);
 
             return new CreateShopGroupResult
             {

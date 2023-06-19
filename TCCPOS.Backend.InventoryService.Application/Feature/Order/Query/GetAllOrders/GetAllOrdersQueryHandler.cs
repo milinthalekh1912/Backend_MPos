@@ -27,7 +27,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
 
         public async Task<List<GetAllOrdersResult>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            return await _repo.getAllOrderAsync(request.supplierId, request.userId, request.shopId);
+            return await _repo.Order.getAllOrderAsync(request.supplierId, request.userId, request.shopId);
 
         }
     }

@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
 
         public async Task<UpdateGroupResult> Handle(UpdateGroupIdCommand request, CancellationToken cancellationToken)
         {
-            var results = await _repo.updateGroupById(request.shopGroupId, request.userId, request.shopGroupName, request.shopList);
+            var results = await _repo.ShopGroup.updateShopGroupById(request.shopGroupId, request.userId, request.shopGroupName, request.shopList);
             return results;
         }
 
