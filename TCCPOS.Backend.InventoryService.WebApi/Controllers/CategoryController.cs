@@ -10,7 +10,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class CategoryController : ApiControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,7 +22,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet(Name = "getCategoryBySupplierId")]
+        [HttpGet("{supplierId}")]
         [ProducesResponseType(typeof(CategoryResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]

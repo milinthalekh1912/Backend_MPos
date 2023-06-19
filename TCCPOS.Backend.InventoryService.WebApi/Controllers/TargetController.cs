@@ -13,7 +13,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Target.Query.GetTarget
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class TargetController : ApiControllerBase
     {
@@ -29,8 +29,8 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("create")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpPost()]
+        [SwaggerOperation(Summary = "create", Description = "")]
         [ProducesResponseType(typeof(CreateTargetResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> createTarget([FromBody] CreateTargetRequest request)
@@ -48,8 +48,8 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpPut("update")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpPut()]
+        [SwaggerOperation(Summary = "update", Description = "")]
         [ProducesResponseType(typeof(UpdateTargetResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> updateTarget([FromBody] UpdateTargetRequest request)
@@ -67,10 +67,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-
         [Authorize]
-        [HttpDelete("delete")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpDelete()]
+        [SwaggerOperation(Summary = "delete", Description = "")]
         [ProducesResponseType(typeof(DeleteTargetRequest), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> deleteTarget([FromBody] DeleteTargetRequest request)
@@ -83,12 +82,13 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-        [HttpGet("GetTarget", Name = "GetTarget")]
+        [HttpGet()]
+        [SwaggerOperation(Summary = "get all target", Description = "")]
         [ProducesResponseType(typeof(List<TargetResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
 
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> getAllTarget()
         {
             var query = new GetTargetQuery();
             var res = await _mediator.Send(query);

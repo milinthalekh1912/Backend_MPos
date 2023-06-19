@@ -18,15 +18,15 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetSho
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
-    public class ShopGroupController : ApiControllerBase
+    public class GroupController : ApiControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<ShopGroupController> _logger;
+        private readonly ILogger<GroupController> _logger;
         IConfiguration _config;
 
-        public ShopGroupController(ILogger<ShopGroupController> logger, IMediator mediator, IConfiguration config)
+        public GroupController(ILogger<GroupController> logger, IMediator mediator, IConfiguration config)
         {
             _logger = logger;
             _mediator = mediator;
@@ -34,8 +34,8 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("Create")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpPost()]
+        [SwaggerOperation(Summary = "Create Group", Description = "")]
         [ProducesResponseType(typeof(CreateShopGroupCommand), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> createShopGroup([FromBody] CreateShopGroupRequest request)
@@ -50,8 +50,8 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetAllGroup")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpGet()]
+        [SwaggerOperation(Summary = "Get all group", Description = "")]
         [ProducesResponseType(typeof(List<GetAllShopGroupResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> getAllShopGroup()
@@ -61,38 +61,38 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetGroupById")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get group by id", Description = "")]
         [ProducesResponseType(typeof(GetShopGroupByIdResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> getShopGroupById(string shopGroupId)
+        public async Task<IActionResult> getShopGroupById(string id)
         {
             var res = await _mediator.Send(new GetShopGroupByIdQuery
             {
-                shopGroupId = shopGroupId
+                shopGroupId = id
             });
 
             return Ok(res);
         }
 
         [Authorize]
-        [HttpDelete("DeleteGroupId")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete group by id", Description = "")]
         [ProducesResponseType(typeof(DeleteShopGroupResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> deleteShopGroupById([FromBody] DeleteShopGroupRequest request)
+        public async Task<IActionResult> deleteShopGroupById(string id)
         {
             var res = await _mediator.Send(new DeleteShopGroupCommand
             {
-                shopGroupId = request.shopGroupId,
+                shopGroupId = id,
                 userId = Identity.GetUserID(),
             });
             return Ok(res);
         }
 
         [Authorize]
-        [HttpPut("UpdateGroupId")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpPut("Detail")]
+        [SwaggerOperation(Summary = "Update group detail", Description = "")]
         [ProducesResponseType(typeof(UpdateGroupResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> updateGroupId([FromBody] UpdateGroupRequest request)
@@ -107,20 +107,10 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-        [Authorize]
-        [HttpGet("getAllShop")]
-        [SwaggerOperation(Summary = "", Description = "")]
-        [ProducesResponseType(typeof(List<GetAllShopResult>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> getAllShop()
-        {
-            var res = await _mediator.Send(new GetAllShopQuery());
-            return Ok(res);
-        }
 
         [Authorize]
-        [HttpPut("updateGroupName")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpPut("Name")]
+        [SwaggerOperation(Summary = "Update group name", Description = "")]
         [ProducesResponseType(typeof(UpdateGroupNameResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> updateGroupName([FromBody] UpdateGroupNameRequest request)
@@ -135,12 +125,13 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetTargetGoupById/{shopgroupid}", Name = "GetTargetGroupByShopGroup")]
+        [HttpGet("Target/{id}")]
+        [SwaggerOperation(Summary = "Get target group by id", Description = "")]
         [ProducesResponseType(typeof(List<ShopGroupResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
 
-        public async Task<IActionResult> Get(string shopgroupid)
+        public async Task<IActionResult> GetTargetGroupById(string shopgroupid)
         {
             var query = new GetShopGroupByGroupIDQuery(shopgroupid);
             var res = await _mediator.Send(query);

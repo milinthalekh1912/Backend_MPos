@@ -23,7 +23,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Q
 
             var product = await _repo.GetProductRecommend(request.supplier_id);
        
-            return product.ToList();
+            return product.ToList();    
         }
 
 

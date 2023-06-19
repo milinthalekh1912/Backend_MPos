@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
+using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.UpdateOrderStatus;
@@ -14,7 +15,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderBy
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class OrdersController : ApiControllerBase
     {
@@ -31,11 +32,11 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
 
         [Authorize]
-        [HttpPost("CreateOrder")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpPost()]
+        [SwaggerOperation(Summary = "Create order", Description = "")]
         [ProducesResponseType(typeof(CreateOrderResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] CreateOrderRequest request)
+        public async Task<IActionResult> createOrder([FromBody] CreateOrderRequest request)
         {
             var res = await _mediator.Send(new CreateOrderCommand
             {
@@ -51,11 +52,11 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
 
         [Authorize]
-        [HttpGet("GetOrderList")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpGet("All/{supplierId}")]
+        [SwaggerOperation(Summary = "Get all order by supplierId", Description = "")]
         [ProducesResponseType(typeof(List<GetAllOrdersResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetAllOrder(string supplierId)
+        public async Task<IActionResult> getAllOrders(string supplierId)
         {
             var res = await _mediator.Send(new GetAllOrdersQuery
             {
@@ -68,45 +69,64 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
 
-
         [Authorize]
-        [HttpGet("GetOrderById")]
-        [SwaggerOperation(Summary = "", Description = "")]
+        [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get order by id", Description = "")]
         [ProducesResponseType(typeof(GetOrderByIdResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetOrderById(string orderId)
+        public async Task<IActionResult> getOrderById(string id)
         {
             var res = await _mediator.Send(new GetOrderByIdQuery
             {
-                orderId = orderId,
+                orderId = id,
                 shopId = Identity.GetShopID(),
             });
             return Ok(res);
         }
 
         [Authorize]
-        [HttpPut("ConfirmOrder")]
-        [SwaggerOperation(Summary = "Confirm Order Status => 2", Description = "")]
+        [HttpPut("OrderStatus")]
+        [SwaggerOperation(Summary = "Update order status(backoffice)", Description = "Update Order Status 2 => ++")]
+        [ProducesResponseType(typeof(UpdateOrderStatusResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> updateOrderStatus([FromBody] UpdateOrderStatusRequest request)
+        {
+            var command = new UpdateOrderStatusCommand(Identity.GetUserID(), Identity.GetShopID(), request);
+            var res = await _mediator.Send(command);
+            return Ok(res);
+        }
+
+        [Authorize]
+        [HttpPut("Confirm/backoffice")]
+        [SwaggerOperation(Summary = "Confirm order (backoffice)", Description = "Confirm Order Status => 2")]
         [ProducesResponseType(typeof(ConfirmOrderResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> ConfirmOrder([FromBody] ConfirmOrderRequest request)
+        public async Task<IActionResult> confirmOrder([FromBody] ConfirmOrderRequest request)
         {
             var command = new ConfirmOrderCommand(Identity.GetUserID(), Identity.GetShopID(), request);
             var res = await _mediator.Send(command);
             return Ok(res);
         }
 
-        [Authorize]
-        [HttpPut("UpdateOrderStatus")]
-        [SwaggerOperation(Summary = "Update Order Status 2 => ++", Description = "")]
-        [ProducesResponseType(typeof(UpdateOrderStatusResult), (int)HttpStatusCode.OK)]
+        [HttpPut("Confirm/user")]
+        [SwaggerOperation(Summary = "Confirm order (user)", Description = "Confirm Order Status => 2")]
+        [ProducesResponseType(typeof(ConfirmLogisticResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusRequest request)
+        public async Task<IActionResult> Post([FromBody] ConfirmLogisticRequest request)
         {
-            var command = new UpdateOrderStatusCommand(Identity.GetUserID(), Identity.GetShopID(), request);
-            var res = await _mediator.Send(command);
+            var data = new ConfirmLogisticCommand
+            {
+                shop_id = Identity.GetShopID(),
+                user_id = Identity.GetUserID(),
+                order_id = request.order_id,
+                delivery_detail_id = request.delivery_detail_id,
+            };
+            var res = await _mediator.Send(data);
             return Ok(res);
         }
+
+
+
 
     }
 }
