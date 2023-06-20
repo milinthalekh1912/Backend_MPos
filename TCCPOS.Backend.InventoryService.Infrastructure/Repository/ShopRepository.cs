@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
 using TCCPOS.Backend.InventoryService.Application.Contract;
-using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
+using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Entities;
 
@@ -35,7 +35,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var shop = await _context.shop.AsNoTracking().FirstOrDefaultAsync(e => e.shop_id == shopId);
             return shop;
         }
-        public async Task<GetAllShopAddressResult> getAllShopWithAddressAsync()
+        public async Task<GetAllMerchantAddressResult> getAllShopWithAddressAsync()
         {
             {
                 var queryable = from s in _context.shop
@@ -50,7 +50,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 var results = await queryable.ToListAsync();
 
-                return new GetAllShopAddressResult
+                return new GetAllMerchantAddressResult
                 {
                     shopAddress = results.Select(e =>
                     {

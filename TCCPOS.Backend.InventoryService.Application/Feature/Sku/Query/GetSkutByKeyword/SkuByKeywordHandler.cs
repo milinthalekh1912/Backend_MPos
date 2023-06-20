@@ -7,12 +7,12 @@ using TCCPOS.Backend.InventoryService.Application.Contract;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword
 {
-    public class GetProductByKeywordQueryHandler : IRequestHandler<GetProductByKeywordQuery, List<ProductByKeywordResult>>
+    public class GetSkuByKeywordQueryHandler : IRequestHandler<GetSkuByKeywordQuery, List<SkuByKeywordResult>>
     {
-        private readonly ILogger<GetProductByKeywordQueryHandler> _logger;
+        private readonly ILogger<GetSkuByKeywordQueryHandler> _logger;
         IInventoryRepository _repo;
 
-        public GetProductByKeywordQueryHandler(ILogger<GetProductByKeywordQueryHandler> logger, IInventoryRepository repo)
+        public GetSkuByKeywordQueryHandler(ILogger<GetSkuByKeywordQueryHandler> logger, IInventoryRepository repo)
         {
             _logger = logger;
             _repo = repo;
@@ -20,7 +20,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Q
 
 
 
-        public async Task<List<ProductByKeywordResult>> Handle(GetProductByKeywordQuery request, CancellationToken cancellationToken)
+        public async Task<List<SkuByKeywordResult>> Handle(GetSkuByKeywordQuery request, CancellationToken cancellationToken)
         {
 
             var product = await _repo.Sku.GetSkuByKeyword(request.keyword);

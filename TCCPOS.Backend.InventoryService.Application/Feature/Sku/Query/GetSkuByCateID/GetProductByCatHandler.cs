@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using TCCPOS.Backend.InventoryService.Application.Contract;
 
-namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat
+namespace TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat
 {
     public class GetProductByCatHandler : IRequestHandler<GetProductByCatQuery, List<GetProductByCatResult>>
     {

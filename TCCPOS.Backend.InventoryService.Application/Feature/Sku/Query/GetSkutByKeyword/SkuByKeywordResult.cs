@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword
 {
-    public class ProductByKeywordResult
+    public class SkuByKeywordResult
     {
-
-
         public string? title { get; set; }
         public string? aliasTitle { get; set; }
         public string? sku { get; set; }
-
         public string? barcode { get; set; }
 
         public string? imageUrl { get; set; }

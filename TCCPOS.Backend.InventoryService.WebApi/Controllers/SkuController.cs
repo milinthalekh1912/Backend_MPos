@@ -1,12 +1,10 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
-using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
-using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Query.GetProductRecommend;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
@@ -40,12 +38,12 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [HttpGet("Search/{keyword}")]
-        [ProducesResponseType(typeof(List<ProductByKeywordResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<SkuByKeywordResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetSkuByKeyword(string keyword)
         {
-            var query = new GetProductByKeywordQuery(keyword);
+            var query = new GetSkuByKeywordQuery(keyword);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

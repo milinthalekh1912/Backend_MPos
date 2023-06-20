@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress;
-using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
+using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
@@ -28,13 +28,13 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
         //ดึงข้อมูลร้านค้าทั้งหมดที่มีในระบบ รวมถึงที่อยู่
         [HttpGet("GetAllShopWithAddress")]
-        [ProducesResponseType(typeof(GetAllShopAddressResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetAllMerchantAddressResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
 
         public async Task<IActionResult> GetShopData()
         {
-            var query = new GetllAllShopAddressQuery();
+            var query = new GetllAllMerchantAddressQuery();
             var res = await _mediator.Send(query);
             return Ok(res);
         }

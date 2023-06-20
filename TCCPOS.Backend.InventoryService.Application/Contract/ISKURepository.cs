@@ -15,9 +15,9 @@ using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAl
 using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
-using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
-using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
+using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAddressById;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
 
 namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         Task SaveChangeAsyncWithCommit();
         public Task<List<sku>> getAllSkuAsync();
         public Task<List<ProductRecommendResult>> GetSkuRecommend(string supplier_id);
-        public Task<List<ProductByKeywordResult>> GetSkuByKeyword(string? keyword);
+        public Task<List<SkuByKeywordResult>> GetSkuByKeyword(string? keyword);
         public Task<List<GetProductByCatResult>> GetSkuBycateID(String categoryId, String supplierId, string shopId);
        
     }

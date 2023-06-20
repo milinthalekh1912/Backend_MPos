@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat
+namespace TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat
 {
     public class GetProductByCatQuery : IRequest<List<GetProductByCatResult>>
     {

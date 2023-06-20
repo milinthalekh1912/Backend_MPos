@@ -3,11 +3,11 @@
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword
 {
-    public class GetProductByKeywordQuery : IRequest<List<ProductByKeywordResult>>
+    public class GetSkuByKeywordQuery : IRequest<List<SkuByKeywordResult>>
     {
         public string? keyword { get; set; }
       
-        public GetProductByKeywordQuery(string keyword)
+        public GetSkuByKeywordQuery(string keyword)
         
 {
         this.keyword = keyword;

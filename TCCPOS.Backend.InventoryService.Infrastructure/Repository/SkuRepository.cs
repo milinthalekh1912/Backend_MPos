@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
 using TCCPOS.Backend.InventoryService.Application.Contract;
 using TCCPOS.Backend.InventoryService.Application.Exceptions;
-using TCCPOS.Backend.InventoryService.Application.Feature.ProductByCat.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Query.GetProductRecommend;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupplier;
 using TCCPOS.Backend.InventoryService.Entities;
 
@@ -65,7 +65,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         }
 
 
-        public async Task<List<ProductByKeywordResult>> GetSkuByKeyword(string? keyword)
+        public async Task<List<SkuByKeywordResult>> GetSkuByKeyword(string? keyword)
         {
             var query = _context.sku.AsQueryable();
 
@@ -76,11 +76,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             var products = await query.ToListAsync();
 
-            var result = new List<ProductByKeywordResult>();
+            var result = new List<SkuByKeywordResult>();
 
             foreach (var product in products)
             {
-                ProductByKeywordResult obj = new ProductByKeywordResult();
+                SkuByKeywordResult obj = new SkuByKeywordResult();
 
                 obj.title = product.title;
                 obj.aliasTitle = product.alias_title;

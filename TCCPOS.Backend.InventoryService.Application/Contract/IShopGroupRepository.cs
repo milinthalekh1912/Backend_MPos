@@ -1,4 +1,4 @@
-﻿using TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop;
+﻿using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupId;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShopGroup;

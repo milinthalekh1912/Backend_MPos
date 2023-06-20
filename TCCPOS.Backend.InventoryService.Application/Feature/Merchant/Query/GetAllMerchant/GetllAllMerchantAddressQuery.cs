@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TCCPOS.Backend.InventoryService.Application.Feature.Promotion.Query.GetPromotion;
 
-namespace TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop
+namespace TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop
 {
-    public class GetllAllShopAddressQuery : IRequest<GetAllShopAddressResult>
+    public class GetllAllMerchantAddressQuery : IRequest<GetAllMerchantAddressResult>
     {
     }
 }

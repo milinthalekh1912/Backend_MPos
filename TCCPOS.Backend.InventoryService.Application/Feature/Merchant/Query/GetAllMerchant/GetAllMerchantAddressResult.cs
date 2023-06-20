@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TCCPOS.Backend.InventoryService.Entities;
 
-namespace TCCPOS.Backend.InventoryService.Application.Feature.Shop.Query.GetAllShop
+namespace TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop
 {
-    public class GetAllShopAddressResult
+    public class GetAllMerchantAddressResult
     {
         public List<ShopWithAddressResult> shopAddress { get; set; } = null;
     }
