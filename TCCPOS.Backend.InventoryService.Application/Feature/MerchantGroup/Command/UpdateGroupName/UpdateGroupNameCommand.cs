@@ -8,7 +8,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.Upda
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupName
 {
-    public class UpdateGroupNameCommand : IRequest<UpdateGroupNameResult>
+    public class UpdateGroupNameCommand : IRequest<UpdateMerchantGroupNameResult>
     {
         public string shopGroupId { get; set; }
 

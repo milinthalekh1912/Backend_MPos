@@ -11,7 +11,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetSho
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.DeleteShopGroup
 {
-    public class DeleteShopGroupCommandHandler : IRequestHandler<DeleteShopGroupCommand, DeleteShopGroupResult>
+    public class DeleteShopGroupCommandHandler : IRequestHandler<DeleteShopGroupCommand, DeleteMerchantGroupResult>
     {
         private readonly ILogger<DeleteShopGroupCommandHandler> _logger;
         IInventoryRepository _repo;
@@ -24,10 +24,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
             _config = config;
         }
 
-        public async Task<DeleteShopGroupResult> Handle(DeleteShopGroupCommand request, CancellationToken cancellationToken)
+        public async Task<DeleteMerchantGroupResult> Handle(DeleteShopGroupCommand request, CancellationToken cancellationToken)
         {
             await _repo.MerchantGroup.deleteShopGroupById(request.shopGroupId,request.userId);
-            return new DeleteShopGroupResult
+            return new DeleteMerchantGroupResult
             {
                 message = "delete completed"
             };

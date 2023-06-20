@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupId
 {
-    public class UpdateGroupIdCommand : IRequest<UpdateGroupResult>
+    public class UpdateGroupIdCommand : IRequest<UpdateMerchantGroupResult>
     {
         public string shopGroupId { get; set; }
 

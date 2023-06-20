@@ -11,7 +11,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.Crea
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupId
 {
-    public class UpdateGroupIdCommandHandler : IRequestHandler<UpdateGroupIdCommand, UpdateGroupResult>
+    public class UpdateGroupIdCommandHandler : IRequestHandler<UpdateGroupIdCommand, UpdateMerchantGroupResult>
     {
         private readonly ILogger<UpdateGroupIdCommandHandler> _logger;
         IInventoryRepository _repo;
@@ -24,7 +24,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
             _config = config;
         }
 
-        public async Task<UpdateGroupResult> Handle(UpdateGroupIdCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateMerchantGroupResult> Handle(UpdateGroupIdCommand request, CancellationToken cancellationToken)
         {
             var results = await _repo.MerchantGroup.updateShopGroupById(request.shopGroupId, request.userId, request.shopGroupName, request.shopList);
             return results;

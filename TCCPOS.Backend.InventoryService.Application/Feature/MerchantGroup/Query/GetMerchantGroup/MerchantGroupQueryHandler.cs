@@ -5,7 +5,7 @@ using TCCPOS.Backend.InventoryService.Application.Contract;
 
 namespace TCCPOS.Backend.SecurityService.Application.Feature.ShopGroup.Query.GetShopGroup
 {
-    public class MerchantGroupQueryHandler : IRequestHandler<GetShopGroupByGroupIDQuery, List<MerchantGroupResult>>
+    public class MerchantGroupQueryHandler : IRequestHandler<GetMerchantGroupByGroupIDQuery, List<MerchantGroupResult>>
     {
         private readonly ILogger<MerchantGroupQueryHandler> _logger;
         private readonly IInventoryRepository _repo;
@@ -16,7 +16,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.ShopGroup.Query.Get
             _repo = repo;
         }
 
-        public async Task<List<MerchantGroupResult>> Handle(GetShopGroupByGroupIDQuery request, CancellationToken cancellationToken)
+        public async Task<List<MerchantGroupResult>> Handle(GetMerchantGroupByGroupIDQuery request, CancellationToken cancellationToken)
         {
             var res = await _repo.MerchantGroup.GetShopGroupByShopGroupID(request.keyword); 
             return res.ToList();

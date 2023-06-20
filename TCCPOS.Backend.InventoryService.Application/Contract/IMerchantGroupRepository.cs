@@ -20,7 +20,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 
         public Task<int> deleteShopGroupById(string shopGroupId, string userId);
 
-        public Task<UpdateGroupResult> updateShopGroupById(string shopGroupId, string userId, string shopGroupName, List<string> shopList);
+        public Task<UpdateMerchantGroupResult> updateShopGroupById(string shopGroupId, string userId, string shopGroupName, List<string> shopList);
 
         public Task<List<GetAllShopResult>> getAllShopAsync();
 

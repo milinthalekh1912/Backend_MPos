@@ -402,17 +402,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteShopGroupResult"
+                  "$ref": "#/components/schemas/DeleteMerchantGroupResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteShopGroupResult"
+                  "$ref": "#/components/schemas/DeleteMerchantGroupResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteShopGroupResult"
+                  "$ref": "#/components/schemas/DeleteMerchantGroupResult"
                 }
               }
             }
@@ -472,17 +472,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupResult"
+                  "$ref": "#/components/schemas/UpdateMerchantGroupResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupResult"
+                  "$ref": "#/components/schemas/UpdateMerchantGroupResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupResult"
+                  "$ref": "#/components/schemas/UpdateMerchantGroupResult"
                 }
               }
             }
@@ -542,17 +542,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupNameResult"
+                  "$ref": "#/components/schemas/UpdateMerchantGroupNameResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupNameResult"
+                  "$ref": "#/components/schemas/UpdateMerchantGroupNameResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupNameResult"
+                  "$ref": "#/components/schemas/UpdateMerchantGroupNameResult"
                 }
               }
             }
@@ -2076,7 +2076,7 @@
         },
         "additionalProperties": false
       },
-      "DeleteShopGroupResult": {
+      "DeleteMerchantGroupResult": {
         "type": "object",
         "properties": {
           "message": {
@@ -2732,16 +2732,6 @@
         },
         "additionalProperties": false
       },
-      "UpdateGroupNameResult": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "UpdateGroupRequest": {
         "required": [
           "shopGroupId",
@@ -2767,7 +2757,17 @@
         },
         "additionalProperties": false
       },
-      "UpdateGroupResult": {
+      "UpdateMerchantGroupNameResult": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateMerchantGroupResult": {
         "type": "object",
         "properties": {
           "shopgroup": {

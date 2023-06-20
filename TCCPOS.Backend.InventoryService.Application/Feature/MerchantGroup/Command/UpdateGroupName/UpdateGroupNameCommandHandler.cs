@@ -11,7 +11,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.Upda
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupName
 {
-    public class UpdateGroupNameCommandHandler : IRequestHandler<UpdateGroupNameCommand, UpdateGroupNameResult>
+    public class UpdateGroupNameCommandHandler : IRequestHandler<UpdateGroupNameCommand, UpdateMerchantGroupNameResult>
     {
         private readonly ILogger<UpdateGroupNameCommandHandler> _logger;
         IInventoryRepository _repo;
@@ -25,10 +25,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
         }
 
 
-        public async Task<UpdateGroupNameResult> Handle(UpdateGroupNameCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateMerchantGroupNameResult> Handle(UpdateGroupNameCommand request, CancellationToken cancellationToken)
         {
             await _repo.MerchantGroup.updateNameByGroupId(request.shopGroupName, request.shopGroupId, request.userId);
-            return new UpdateGroupNameResult
+            return new UpdateMerchantGroupNameResult
             {
                 message = "update complelte"
             };

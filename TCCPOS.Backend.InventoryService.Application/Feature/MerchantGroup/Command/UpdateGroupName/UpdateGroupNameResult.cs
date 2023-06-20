@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupName
 {
-    public class UpdateGroupNameResult
+    public class UpdateMerchantGroupNameResult
     {
         public string message { get; set; }
     }

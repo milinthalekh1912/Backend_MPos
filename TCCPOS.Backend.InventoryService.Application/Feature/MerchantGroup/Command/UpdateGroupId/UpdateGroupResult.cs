@@ -7,7 +7,7 @@ using TCCPOS.Backend.InventoryService.Entities;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupId
 {
-    public class UpdateGroupResult
+    public class UpdateMerchantGroupResult
     {
         public shopgroup shopgroup { get; set; }
 

@@ -161,7 +161,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<UpdateGroupResult> updateShopGroupById(string shopGroupId, string userId, string shopGroupName, List<string> shopList)
+        public async Task<UpdateMerchantGroupResult> updateShopGroupById(string shopGroupId, string userId, string shopGroupName, List<string> shopList)
         {
             var shopGroup = await _context.shopgroup.FirstOrDefaultAsync(e => e.shop_group_id == shopGroupId);
             if (shopGroup == null)
@@ -191,7 +191,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             await _context.SaveChangesAsync();
 
-            return new UpdateGroupResult
+            return new UpdateMerchantGroupResult
             {
                 shopgroup = shopGroup,
                 shops = results,

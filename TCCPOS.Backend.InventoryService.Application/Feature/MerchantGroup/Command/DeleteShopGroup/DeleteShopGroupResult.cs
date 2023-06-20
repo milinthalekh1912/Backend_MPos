@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.DeleteShopGroup
 {
-    public class DeleteShopGroupResult
+    public class DeleteMerchantGroupResult
     {
         public string message { get; set; }
     }

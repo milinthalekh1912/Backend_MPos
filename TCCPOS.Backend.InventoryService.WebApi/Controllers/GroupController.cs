@@ -36,7 +36,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Create Group", Description = "")]
         [ProducesResponseType(typeof(CreateShopGroupCommand), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> createShopGroup([FromBody] CreateShopGroupRequest request)
+        public async Task<IActionResult> createMerchantGroup([FromBody] CreateShopGroupRequest request)
         {
             var res = await _mediator.Send(new CreateShopGroupCommand
             {
@@ -52,7 +52,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Get all group", Description = "")]
         [ProducesResponseType(typeof(List<GetAllMerchantGroupResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> getAllShopGroup()
+        public async Task<IActionResult> getAllMerchantGroup()
         {
             var res = await _mediator.Send(new GetAllMerchantGroupQuery());
             return Ok(res);
@@ -63,7 +63,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Get group by id", Description = "")]
         [ProducesResponseType(typeof(GetMerchantGroupByIdResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> getShopGroupById(string id)
+        public async Task<IActionResult> getMerchantGroupById(string id)
         {
             var res = await _mediator.Send(new GetMerchantGroupByIdQuery
             {
@@ -76,9 +76,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [Authorize]
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete group by id", Description = "")]
-        [ProducesResponseType(typeof(DeleteShopGroupResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DeleteMerchantGroupResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> deleteShopGroupById(string id)
+        public async Task<IActionResult> deleteMerchantGroupById(string id)
         {
             var res = await _mediator.Send(new DeleteShopGroupCommand
             {
@@ -91,9 +91,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [Authorize]
         [HttpPut("Detail")]
         [SwaggerOperation(Summary = "Update group detail", Description = "")]
-        [ProducesResponseType(typeof(UpdateGroupResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(UpdateMerchantGroupResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> updateGroupId([FromBody] UpdateGroupRequest request)
+        public async Task<IActionResult> updateMerchantGroupId([FromBody] UpdateGroupRequest request)
         {
             var res = await _mediator.Send(new UpdateGroupIdCommand
             {
@@ -105,13 +105,12 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-
         [Authorize]
         [HttpPut("Name")]
         [SwaggerOperation(Summary = "Update group name", Description = "")]
-        [ProducesResponseType(typeof(UpdateGroupNameResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(UpdateMerchantGroupNameResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> updateGroupName([FromBody] UpdateGroupNameRequest request)
+        public async Task<IActionResult> updateMerchantGroupName([FromBody] UpdateGroupNameRequest request)
         {
             var res = await _mediator.Send(new UpdateGroupNameCommand
             {
@@ -129,9 +128,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
 
-        public async Task<IActionResult> GetTargetGroupById(string shopgroupid)
+        public async Task<IActionResult> GetTargetMerchantGroupById(string shopgroupid)
         {
-            var query = new GetShopGroupByGroupIDQuery(shopgroupid);
+            var query = new GetMerchantGroupByGroupIDQuery(shopgroupid);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

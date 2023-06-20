@@ -2,11 +2,11 @@
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetShopGroup
 {
-    public class GetShopGroupByGroupIDQuery : IRequest<List<MerchantGroupResult>>
+    public class GetMerchantGroupByGroupIDQuery : IRequest<List<MerchantGroupResult>>
     {
         public string keyword { get; set; }
 
-        public GetShopGroupByGroupIDQuery(string keyword)
+        public GetMerchantGroupByGroupIDQuery(string keyword)
 
         {
             this.keyword = keyword;
