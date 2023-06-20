@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
 using TCCPOS.Backend.InventoryService.Application.Contract;
+using TCCPOS.Backend.InventoryService.Application.Exceptions;
 using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Entities;
 
@@ -92,6 +93,14 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             }).ToList();
         }
 
+
+        public async Task<shop> getMerchantById(string merchantID)
+        {
+            var merchant_obj = await _context.shop.FirstOrDefaultAsync(x => x.shop_id == merchantID);
+            if (merchant_obj == null) throw InventoryServiceException.IE020;
+            
+            return merchant_obj;
+        }
     }
 }
 

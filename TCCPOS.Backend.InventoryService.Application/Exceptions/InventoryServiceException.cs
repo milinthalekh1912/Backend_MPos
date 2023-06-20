@@ -21,7 +21,7 @@
         public static InventoryServiceException IE017 { get; } = new InventoryServiceException(nameof(IE017), "Supplier Not Found");
         public static InventoryServiceException IE018 { get; } = new InventoryServiceException(nameof(IE018), "Order Not Found");
         public static InventoryServiceException IE019 { get; } = new InventoryServiceException(nameof(IE019), "Order Status Invalid");
-
+        public static InventoryServiceException IE020 { get; } = new InventoryServiceException(nameof(IE020), "Merchant Not Found");
         public string Code { get; set; }
         public string Message { get; set; }
         private InventoryServiceException(string code) : base()

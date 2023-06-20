@@ -1,10 +1,13 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend;
+using TCCPOS.Backend.InventoryService.Application.Feature.SKU.Query.GetSkuListByCategoriesID;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
@@ -56,6 +59,20 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         public async Task<IActionResult> GetRecommendedSku(string supplier_id)
         {
             var query = new GetSkuRecommendQuery(supplier_id);
+            var res = await _mediator.Send(query);
+            return Ok(res);
+        }
+
+        
+        [HttpGet]
+        [Route("{supplierId}/{categoryId}")]
+        [SwaggerOperation(Summary = "Get SKU List For Line OA", Description = "")]
+        [ProducesResponseType(typeof(GetSkuListResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetSkuForLineOA(string supplierId,string categoryId)
+        {
+            var query = new GetSkuListByCategoryIdQuery(supplierId,categoryId);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

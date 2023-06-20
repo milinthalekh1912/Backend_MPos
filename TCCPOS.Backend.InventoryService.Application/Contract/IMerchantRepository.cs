@@ -8,5 +8,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<shop> getShopProfileAsync(string shopId);
         public Task<List<GetAllShopResult>> getAllShopAsync();
         public Task<GetAllMerchantAddressResult> getAllShopWithAddressAsync();
+        public Task<shop> getMerchantById(string merchantID);
     }
 }
