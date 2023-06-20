@@ -5,6 +5,7 @@ using System.Net;
 using TCCPOS.Backend.InventoryService.WebApi.Controllers;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
@@ -32,5 +33,17 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             var res = await _mediator.Send(query);
             return Ok(res);
         }
+        
+        /*[HttpPost]
+        [SwaggerOperation(Summary = "Get Categories List", Description = "")]
+        [ProducesResponseType(typeof(GetCategoriesListResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        //[ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetCategoriesListForLineOA()
+        {
+            var query = new GetCategoriesQuery();
+            var res = await _mediator.Send(query);
+            return Ok(res);
+        }*/
     }
 }

@@ -19,27 +19,23 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.SKU.Query.GetSkuLi
         public async Task<GetSkuListResult> Handle(GetSkuListByCategoryIdQuery request, CancellationToken cancellationToken)
         {
             var res = new GetSkuListResult();
-            var merchant = await _repo.Merchant.getMerchantById("00001");
-            var sku = await _repo.Sku.GetSkuBycateID(request.CategoryID,request.SupplierID,merchant.shop_id);
+            var merchant = await _repo.Merchant.getMerchantById(request.MerchantID);
+            var skuList = await _repo.Sku.GetSkuBycateID(request.CategoryID,request.SupplierID,merchant.shop_id);
+            var sku_priceList = await _repo.PriceTier.GetAllPriceTierByPriceTierGroupID(merchant.price_tier_id);
             
-            /*
-            var sku_priceList = await _repo.SkuBranchPrice.GetSkuListByGroupPriceId(merchant.CustomerType);
-
-            var skuList = await _repo.Sku.GetSkuListByCategorId(request.CategoryID);
-
             foreach ( var sku in skuList ) 
             {
-                var sku_price = sku_priceList.FirstOrDefault(x => x.SKUID == sku.SKUID);
+                var sku_price = sku_priceList.FirstOrDefault(x => x.sku_id == sku.sku);
                 
                 SkuItemResult item = new SkuItemResult();
-                item.SkuID = sku.SKUID;
-                item.Price = sku_price != null ? (double)sku_price.Price!:0.00 ;
-                item.Title = sku.Title ?? "";
-                item.AliasTitle = sku.AliasTitle ?? "";
-                item.ImageUrl = sku.ImageUrl ?? "" ;
+                item.SkuID = sku.sku;
+                item.Price = sku_price != null ? (double)sku_price.price!:0.00 ;
+                item.Title = sku.title ?? "";
+                item.AliasTitle = sku.aliasTitle ?? sku.title!;
+                item.ImageUrl = sku.imageUrl ?? "" ;
 
                 res.items.Add(item);
-            }*/
+            }
             return res;
         }
     }

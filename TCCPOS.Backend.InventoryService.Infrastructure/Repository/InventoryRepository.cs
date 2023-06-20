@@ -47,6 +47,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         IUserRepository _user = null!;
         public IUserRepository User => _user ??= new UserRepository(_context, _dtnow);
 
+        IPriceTierRepository _pricetier = null!;
+        public IPriceTierRepository PriceTier => _pricetier ??= new PriceTierRepository(_context, _dtnow);
     }
 }
 

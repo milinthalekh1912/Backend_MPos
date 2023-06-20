@@ -32,7 +32,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         {
             var query = new GetAllAddressQuery
             {
-                shopId = Identity.GetShopID(),
+                shopId = Identity.GetMerchantID(),
             };
             var res = await _mediator.Send(query);
             return Ok(res);

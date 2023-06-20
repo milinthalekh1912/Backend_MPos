@@ -15,5 +15,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         ICategoriesRepository Categories { get; }
         IAddressRepository Address { get; }
         IUserRepository User { get; }
+        IPriceTierRepository PriceTier { get; }
     }
 }

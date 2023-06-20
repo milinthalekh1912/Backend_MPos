@@ -48,7 +48,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet()]
+        [HttpGet]
         [SwaggerOperation(Summary = "Get all group", Description = "")]
         [ProducesResponseType(typeof(List<GetAllMerchantGroupResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]

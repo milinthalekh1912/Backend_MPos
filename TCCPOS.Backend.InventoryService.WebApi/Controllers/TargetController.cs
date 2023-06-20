@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿/*using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +68,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpDelete()]
+        [HttpDelete]
         [SwaggerOperation(Summary = "Delete", Description = "")]
         [ProducesResponseType(typeof(DeleteTargetRequest), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
@@ -82,7 +82,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-        [HttpGet()]
+        [HttpGet]
         [SwaggerOperation(Summary = "Get all target", Description = "")]
         [ProducesResponseType(typeof(List<TargetResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
@@ -96,3 +96,4 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
     }
 }
+*/

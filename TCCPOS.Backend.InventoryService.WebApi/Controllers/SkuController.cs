@@ -24,22 +24,6 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             _mediator = mediator;
         }
 
-
-        [HttpGet("{supplierId}/{categoryId}")]
-        [ProducesResponseType(typeof(GetProductByCatResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetSkuByCategory(String supplierId, String categoryId)
-        {
-            var query = new GetProductByCatQuery
-            {
-                supplierId = supplierId,
-                categoryId = categoryId,
-                shopId = Identity.GetShopID(),
-            };
-            var res = await _mediator.Send(query);
-            return Ok(res);
-        }
-
         [HttpGet("Search/{keyword}")]
         [ProducesResponseType(typeof(List<SkuByKeywordResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
@@ -63,16 +47,15 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-        
         [HttpGet]
         [Route("{supplierId}/{categoryId}")]
         [SwaggerOperation(Summary = "Get SKU List For Line OA", Description = "")]
         [ProducesResponseType(typeof(GetSkuListResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> GetSkuForLineOA(string supplierId,string categoryId)
+        public async Task<IActionResult> GetSkuForLineOA(string supplierId, string categoryId)
         {
-            var query = new GetSkuListByCategoryIdQuery(supplierId,categoryId);
+            var query = new GetSkuListByCategoryIdQuery(Identity.GetMerchantID(), supplierId, categoryId);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

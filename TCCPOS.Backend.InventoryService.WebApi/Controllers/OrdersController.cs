@@ -44,7 +44,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
                 address_id = request.address_id,
                 coupon_id = request.coupon_id,
                 user_id = Identity.GetUserID(),
-                shop_id = Identity.GetShopID(),
+                shop_id = Identity.GetMerchantID(),
                 order_items = request.order_items,
             });
             return Ok(res);
@@ -62,7 +62,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             {
                 supplierId = supplierId,
                 userId = Identity.GetUserID(),
-                shopId = Identity.GetShopID(),
+                shopId = Identity.GetMerchantID(),
             });
 
             return Ok(res);
@@ -79,7 +79,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             var res = await _mediator.Send(new GetOrderByIdQuery
             {
                 orderId = id,
-                shopId = Identity.GetShopID(),
+                shopId = Identity.GetMerchantID(),
             });
             return Ok(res);
         }
@@ -91,7 +91,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> updateOrderStatus([FromBody] UpdateOrderStatusRequest request)
         {
-            var command = new UpdateOrderStatusCommand(Identity.GetUserID(), Identity.GetShopID(), request);
+            var command = new UpdateOrderStatusCommand(Identity.GetUserID(), Identity.GetMerchantID(), request);
             var res = await _mediator.Send(command);
             return Ok(res);
         }
@@ -103,7 +103,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> confirmOrder([FromBody] ConfirmOrderRequest request)
         {
-            var command = new ConfirmOrderCommand(Identity.GetUserID(), Identity.GetShopID(), request);
+            var command = new ConfirmOrderCommand(Identity.GetUserID(), Identity.GetMerchantID(), request);
             var res = await _mediator.Send(command);
             return Ok(res);
         }
@@ -116,7 +116,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         {
             var data = new ConfirmLogisticCommand
             {
-                shop_id = Identity.GetShopID(),
+                shop_id = Identity.GetMerchantID(),
                 user_id = Identity.GetUserID(),
                 order_id = request.order_id,
                 delivery_detail_id = request.delivery_detail_id,
