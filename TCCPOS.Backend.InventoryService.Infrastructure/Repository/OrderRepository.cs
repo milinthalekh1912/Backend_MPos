@@ -194,6 +194,29 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return orders;
         }
 
+        public async Task<List<order>> getAllOrder(string supplierId, string userId, string shopId)
+        {
+            List<order> order_context;
+            if (shopId == "ADMIN")
+            {
+                order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync();
+            }
+            else
+            {
+                order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.shop_id == shopId).ToListAsync();
+            }
+
+            return order_context;
+            
+        }
+
+        public async Task<List<orderdetail>> GetOrderDetailByOrderId(string order_id)
+        {
+            var order_detail = await _context.orderdetail.Where(x => x.order_id == order_id).ToListAsync();
+            return order_detail;
+        }
+
+
         public async Task<GetOrderByIdResult> getOrderByIdAsync(string order_id, string shopId)
         {
             var query = from order in _context.order

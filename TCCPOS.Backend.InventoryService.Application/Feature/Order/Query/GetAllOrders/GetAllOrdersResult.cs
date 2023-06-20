@@ -10,6 +10,9 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
     public class GetAllOrdersResult
     {
         public string order_id { get; set; }
+        public string order_no { get; set; }
+        public double total { get; set; }
+        public double total_discount { get; set; }
         public bool is_read { get; set; }
         public int order_status { get; set; }
         public string user_id { get; set; }

@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Cre
 
         public async Task<CreateTargetResult> Handle(CreateTargetCommand request, CancellationToken cancellationToken)
         {
-            var res = await _repo.Target.createSkuTargetAsync(request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
+            var res = await _repo.Target.CreateSkuTargetAsync(request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
             return res;
         }
 

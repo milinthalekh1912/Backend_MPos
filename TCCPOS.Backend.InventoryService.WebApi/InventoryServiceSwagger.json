@@ -249,6 +249,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -1306,6 +1309,60 @@
         }
       }
     },
+    "/api/v1/Promotion/LineOA": {
+      "get": {
+        "tags": [
+          "Promotion"
+        ],
+        "summary": "Get Promotion สำหรับ Line OA",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPromotionLineOAResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPromotionLineOAResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPromotionLineOAResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/v1/Sku/Search/{keyword}": {
       "get": {
         "tags": [
@@ -2286,6 +2343,18 @@
             "type": "string",
             "nullable": true
           },
+          "order_no": {
+            "type": "string",
+            "nullable": true
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "total_discount": {
+            "type": "number",
+            "format": "double"
+          },
           "is_read": {
             "type": "boolean"
           },
@@ -2454,6 +2523,19 @@
         },
         "additionalProperties": false
       },
+      "GetPromotionLineOAResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PromotionLineOAItemResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetSkuListResult": {
         "type": "object",
         "properties": {
@@ -2602,6 +2684,28 @@
             "items": {
               "$ref": "#/components/schemas/GroupSku"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PromotionLineOAItemResult": {
+        "type": "object",
+        "properties": {
+          "promotionID": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "urlImg": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
             "nullable": true
           }
         },

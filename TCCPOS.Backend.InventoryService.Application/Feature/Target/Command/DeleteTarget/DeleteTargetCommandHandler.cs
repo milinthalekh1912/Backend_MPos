@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Del
 
         public async Task<DeleteTargetResult> Handle(DeleteTargetCommand request, CancellationToken cancellationToken)
         {
-            await _repo.Target.deleteTargetById(request.shopGroupId, request.skuId);
+            await _repo.Target.DeleteTargetById(request.shopGroupId, request.skuId);
             return new DeleteTargetResult
             {
                 message = "delete completed"

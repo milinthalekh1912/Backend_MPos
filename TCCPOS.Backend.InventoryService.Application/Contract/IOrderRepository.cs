@@ -14,11 +14,13 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId, string shopId);
         public Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId);
         public Task<List<GetAllOrdersResult>> getAllOrderAsync(string supplierId, string userId, string shopId);
+        public Task<List<order>> getAllOrder(string supplierId, string userId, string shopId);
         public Task<GetOrderByIdResult> getOrderByIdAsync(string order_id, string shopId);
         public Task<GetOrderByIdResult> getOrderByIdBackOfficeAsync(string order_id);
         public Task<ConfirmLogisticResult> ConfirmLogistic(string shop_id, string user_id, string order_id, string delivery_detail_id);
         public Task<order> ConfirmOrderByOrderId(ConfirmOrderCommand command);
         public Task<order> UpdateOrderStatusByOrderID(string orderID);
+        public Task<List<orderdetail>> GetOrderDetailByOrderId(string order_id);
 
     }
 }

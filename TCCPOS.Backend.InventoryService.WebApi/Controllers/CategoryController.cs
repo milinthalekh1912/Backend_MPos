@@ -39,7 +39,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Get Categories List", Description = "")]
         [ProducesResponseType(typeof(GetCategoriesListResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        //[ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetCategoriesListForLineOA(string supplierId)
         {
             var query = new GetCategoriesQuery(supplierId);

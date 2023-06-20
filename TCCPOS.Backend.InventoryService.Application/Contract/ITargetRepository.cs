@@ -13,11 +13,11 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
     public interface ITargetRepository
     {
-        public Task<CreateTargetResult> createSkuTargetAsync(string shopGroupId, string skuId, int target, string reward, string reset_date, string userId);
+        public Task<CreateTargetResult> CreateSkuTargetAsync(string shopGroupId, string skuId, int target, string reward, string reset_date, string userId);
 
-        public Task<UpdateTargetResult> updateSkuTargetAsync(string rewardId, string shopGroupId, string skuId, int target, string reward, string reset_date, string userId);
+        public Task<UpdateTargetResult> UpdateSkuTargetAsync(string rewardId, string shopGroupId, string skuId, int target, string reward, string reset_date, string userId);
 
-        public Task deleteTargetById(string shopGroupId, string skuId);
+        public Task DeleteTargetById(string shopGroupId, string skuId);
 
         public Task<List<TargetResult>> GetTarget();
 

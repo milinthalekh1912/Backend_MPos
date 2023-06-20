@@ -81,6 +81,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return result;
         }
 
+        public async Task<List<promotion>> GetPromotionLineOA()
+        {
+            var list_result = await _context.promotion.Where(x => x.end_date.Value.Date >= DateTime.Now.Date).ToListAsync();
+            return list_result;
+        }
     }
 }
 

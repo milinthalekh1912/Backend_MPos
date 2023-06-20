@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Target.Command.Upd
 
         public async Task<UpdateTargetResult> Handle(UpdateTargetCommand request, CancellationToken cancellationToken)
         {
-            var res = await _repo.Target.updateSkuTargetAsync(request.targetId, request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
+            var res = await _repo.Target.UpdateSkuTargetAsync(request.targetId, request.shopGroupId, request.skuId, request.target, request.reward, request.resetDate, request.userId);
             return res;
         }
     }

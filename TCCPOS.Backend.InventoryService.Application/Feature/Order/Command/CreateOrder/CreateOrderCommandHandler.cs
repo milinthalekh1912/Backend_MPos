@@ -34,7 +34,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
         public async Task<CreateOrderResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             var order_id = Guid.NewGuid().ToString();
-            var all_sku = await _repo.Sku.getAllSkuAsync();
+            var all_sku = await _repo.Sku.getAllSkuAsync(request.supplier_id);
 
             request.order_items.ForEach(e =>
             {

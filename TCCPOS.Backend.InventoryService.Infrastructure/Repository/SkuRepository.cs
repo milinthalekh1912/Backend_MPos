@@ -33,9 +33,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<sku>> getAllSkuAsync()
+        public async Task<List<sku>> getAllSkuAsync(string supplierId)
         {
-            var all_sku = await _context.sku.AsNoTracking().Where(e => true).ToListAsync();
+            var all_sku = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplierId).ToListAsync();
             return all_sku;
         }
         public async Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id)

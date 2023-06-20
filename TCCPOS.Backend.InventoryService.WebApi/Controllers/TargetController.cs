@@ -33,7 +33,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Create", Description = "")]
         [ProducesResponseType(typeof(CreateTargetResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> createTarget([FromBody] CreateTargetRequest request)
+        public async Task<IActionResult> CreateTarget([FromBody] CreateTargetRequest request)
         {
             var res = await _mediator.Send(new CreateTargetCommand
             {
@@ -52,7 +52,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Update", Description = "")]
         [ProducesResponseType(typeof(UpdateTargetResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> updateTarget([FromBody] UpdateTargetRequest request)
+        public async Task<IActionResult> UpdateTarget([FromBody] UpdateTargetRequest request)
         {
             var res = await _mediator.Send(new UpdateTargetCommand
             {
@@ -72,7 +72,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [SwaggerOperation(Summary = "Delete", Description = "")]
         [ProducesResponseType(typeof(DeleteTargetRequest), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> deleteTarget([FromBody] DeleteTargetRequest request)
+        public async Task<IActionResult> DeleteTarget([FromBody] DeleteTargetRequest request)
         {
             var res = await _mediator.Send(new DeleteTargetCommand
             {
@@ -87,8 +87,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(List<TargetResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
-
-        public async Task<IActionResult> getAllTarget()
+        public async Task<IActionResult> GetAllTarget()
         {
             var query = new GetTargetQuery();
             var res = await _mediator.Send(query);

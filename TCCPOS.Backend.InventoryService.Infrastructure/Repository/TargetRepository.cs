@@ -24,7 +24,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             _dtnow = dtnow;
         }
 
-        public async Task<CreateTargetResult> createSkuTargetAsync(string shopGroupId, string skuId, int target, string reward, string reset_date, string userId)
+        public async Task<CreateTargetResult> CreateSkuTargetAsync(string shopGroupId, string skuId, int target, string reward, string reset_date, string userId)
         {
             var shopgroup = await _context.shopgroup.FirstOrDefaultAsync(e => e.shop_group_id == shopGroupId);
             if (shopgroup == null)
@@ -67,7 +67,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             };
         }
 
-        public async Task<UpdateTargetResult> updateSkuTargetAsync(string rewardId, string shopGroupId, string skuId, int target, string reward, string reset_date, string userId)
+        public async Task<UpdateTargetResult> UpdateSkuTargetAsync(string rewardId, string shopGroupId, string skuId, int target, string reward, string reset_date, string userId)
         {
             var rewardTarget = await _context.rewardtarget.FirstOrDefaultAsync(e => e.reward_id == rewardId);
             if (rewardTarget == null)
@@ -96,7 +96,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             };
         }
 
-        public async Task deleteTargetById(string shopGroupId, string skuId)
+        public async Task DeleteTargetById(string shopGroupId, string skuId)
         {
             var rewardTarget = await _context.rewardtarget.FirstOrDefaultAsync(e => e.shop_group_id == shopGroupId && e.sku_id == skuId);
             if (rewardTarget == null)
