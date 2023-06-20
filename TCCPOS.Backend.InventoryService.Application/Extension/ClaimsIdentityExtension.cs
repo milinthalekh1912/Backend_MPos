@@ -18,20 +18,20 @@ namespace System
         }
         public static string GetMerchantID(this ClaimsIdentity iden)
         {
-            var claim = iden.FindFirst("shopId");
+            var claim = iden.FindFirst("MerchantID");
             if (claim == null) throw new Exception("");
             return claim.Value;
         }
         public static string GetBranchID(this ClaimsIdentity iden)
         {
-            var claim = iden.FindFirst("Branch");
+            var claim = iden.FindFirst("BranchID");
             if (claim == null) throw new Exception("");
             return claim.Value;
         }
 
         public static string GetUserID(this ClaimsIdentity iden)
         {
-            var claim = iden.FindFirst("userId");
+            var claim = iden.FindFirst("UserID");
             if (claim == null) throw new Exception("");
             return claim.Value;
         }

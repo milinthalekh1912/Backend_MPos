@@ -35,9 +35,10 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.LoginUser.Query.Log
             {
                 new Claim(ClaimTypes.Name, user.username ?? ""),
                 new Claim(ClaimTypes.System, user.id),
-                new Claim("username",user.username ?? ""),
-                new Claim("userId",user.id),
-                new Claim("shopId",user.shop_id ?? ""),
+                new Claim("Username",user.username ?? ""),
+                new Claim("UserId",user.id),
+                new Claim("MerchantID",user.shop_id ?? ""),
+                new Claim("BranchID",user.shop_id ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var token = GetToken(authclaims, _config["JWT:ValidIssuer"], _config["JWT:ValidAudience"], _config["JWT:Secret"]);
