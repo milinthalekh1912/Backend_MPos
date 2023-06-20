@@ -36,19 +36,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         {
             var categories = await _context.category.Where(e => e.supplier_id == supplier_id).ToListAsync();
             return categories;
-
-            if (categories == null || !categories.Any()) { throw InventoryServiceException.IE001; }
-
-            foreach (var category in categories)
-            {
-                CategoryResult obj = new CategoryResult();
-                obj.CategoryId = category.category_id;
-                obj.CategoryName = category.th_name;
-                results.Add(obj);
-
-            }
-            return results;
-
         }
 
         public async Task<List<category>> GetCategoryBySupplierIdForLine(string supplier_id)
