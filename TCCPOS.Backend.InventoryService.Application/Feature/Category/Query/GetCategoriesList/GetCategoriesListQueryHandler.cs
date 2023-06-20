@@ -18,16 +18,17 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Categories.Query.G
         public async Task<GetCategoriesListResult> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
             var res = new GetCategoriesListResult();
-            var categories_query = await _repo.Categories.GetCategoryBySupplierIdAsync(request.SupplierId);
+            var categories_query = await _repo.Categories.GetCategoryBySupplierIdForLine(request.SupplierId);
             foreach (var category in categories_query) 
             {
                 var item = new CategoriesItemResult();
-                item.CategoriesID = category.CategoryId;
-                /*item.TH_Title = category.TH_Name ?? "";
-                item.EN_Title = category.EN_Name ?? "";
-                item.TH_Description = category.TH_Description ?? "";
-                item.EN_Description = category.EN_Description ?? "";
-                item.UrlImg = category.ImageUrl ?? "";*/
+                item.CategoriesID = category.category_id;
+                
+                item.TH_Title = category.th_name ?? "";
+                item.EN_Title = category.en_name ?? "";
+                item.TH_Description = category.description ?? "";
+                item.EN_Description = category.description ?? "";
+                item.UrlImg = category.image_url ?? "";
                 res.items.Add(item);
             }
             return res;

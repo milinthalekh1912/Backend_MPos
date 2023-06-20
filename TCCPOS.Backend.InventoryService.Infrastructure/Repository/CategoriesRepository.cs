@@ -43,11 +43,19 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 CategoryResult obj = new CategoryResult();
                 obj.CategoryId = category.category_id;
-                obj.CategoryName = category.TH_name;
+                obj.CategoryName = category.th_name;
                 results.Add(obj);
 
             }
             return results;
+
+        }
+
+        public async Task<List<category>> GetCategoryBySupplierIdForLine(string supplier_id)
+        {
+            var categories = await _context.category.Where(e => e.supplier_id == supplier_id).ToListAsync();
+           
+            return categories;
 
 
         }

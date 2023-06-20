@@ -60,15 +60,19 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 entity.Property(e => e.category_id).HasMaxLength(36);
 
-                entity.Property(e => e.EN_name).HasMaxLength(255);
-
-                entity.Property(e => e.TH_name).HasMaxLength(255);
-
                 entity.Property(e => e.created_by).HasMaxLength(255);
 
                 entity.Property(e => e.created_date).HasColumnType("datetime");
 
+                entity.Property(e => e.description).HasMaxLength(255);
+
+                entity.Property(e => e.en_name).HasMaxLength(255);
+
+                entity.Property(e => e.image_url).HasColumnType("text");
+
                 entity.Property(e => e.supplier_id).HasMaxLength(36);
+
+                entity.Property(e => e.th_name).HasMaxLength(255);
 
                 entity.Property(e => e.updated_by).HasMaxLength(255);
 
