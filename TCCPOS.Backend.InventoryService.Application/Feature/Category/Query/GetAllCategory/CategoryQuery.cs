@@ -2,7 +2,7 @@
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.Category.Query.GetAllCategory
 {
-    public class GetCategoryQuery : IRequest<List<CategoryResult>>
+    public class GetCategoryQuery : IRequest<CategoriesListResult>
     {
         public string SupplierId { get; set; }
 

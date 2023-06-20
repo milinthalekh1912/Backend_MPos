@@ -21,6 +21,43 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             _context = context;
             _dtnow = dtnow;
         }
+        public async Task<shopgroup> CreateShopGroupAsync(string shopGroupId, string shopGroupName, string userId)
+        {
+            var request = new shopgroup
+            {
+                shop_group_id = shopGroupId,
+                group_name = shopGroupName,
+                created_by = userId,
+                created_date = _dtnow,
+                updated_by = userId,
+                updated_date = _dtnow
+            };
+
+            await _context.shopgroup.AddAsync(request);
+            await _context.SaveChangesAsync();
+
+            return request;
+        }
+
+        public async Task<List<shop>> AddShopToGroup(List<string> shopId)
+        {
+            var newId = Guid.NewGuid().ToString();
+
+            var results = await _context.shop.Where(e => shopId.Contains(e.shop_id)).ToListAsync();
+
+            results.ForEach(shop =>
+            {
+                if (shop.shop_group_id != null)
+                {
+                    throw InventoryServiceException.IE012;
+                }
+                shop.shop_group_id = newId;
+            });
+
+            await _context.SaveChangesAsync();
+
+            return results;
+        }
 
         public async Task<List<MerchantGroupResult>> GetShopGroupByShopGroupID(string keyword)
         {
@@ -50,49 +87,13 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 })
                 .ToListAsync();
 
-            if (shopGroups == null || !shopGroups.Any())    
+            if (shopGroups == null || !shopGroups.Any())
                 throw InventoryServiceException.IE001;
 
             return shopGroups;
         }
 
-        public async Task<shopgroup> createShopGroupAsync(string shopGroupId, string shopGroupName, string userId)
-        {
-            var request = new shopgroup
-            {
-                shop_group_id = shopGroupId,
-                group_name = shopGroupName,
-                created_by = userId,
-                created_date = _dtnow,
-                updated_by = userId,
-                updated_date = _dtnow
-            };
 
-            await _context.shopgroup.AddAsync(request);
-            await _context.SaveChangesAsync();
-
-            return request;
-        }
-
-        public async Task<List<shop>> addShopToGroupAsync(List<string> shopId)
-        {
-            var newId = Guid.NewGuid().ToString();
-
-            var results = await _context.shop.Where(e => shopId.Contains(e.shop_id)).ToListAsync();
-
-            results.ForEach(shop =>
-            {
-                if (shop.shop_group_id != null)
-                {
-                    throw InventoryServiceException.IE012;
-                }
-                shop.shop_group_id = newId;
-            });
-
-            await _context.SaveChangesAsync();
-
-            return results;
-        }
 
         public async Task<List<GetAllMerchantGroupResult>> getAllShopGroupAsync()
         {

@@ -25,7 +25,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [HttpGet("{supplierId}")]
-        [ProducesResponseType(typeof(CategoryResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CategoriesListResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> Get(String supplierId)

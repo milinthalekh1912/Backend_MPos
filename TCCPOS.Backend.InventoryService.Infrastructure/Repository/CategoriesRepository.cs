@@ -31,11 +31,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         }
 
 
-        public async Task<List<CategoryResult>> GetCategoryBySupplierIdAsync(string supplier_id)
+
+        public async Task<List<category>> GetCategoryBySupplierIdAsync(string supplier_id)
         {
             var categories = await _context.category.Where(e => e.supplier_id == supplier_id).ToListAsync();
-            List<CategoryResult> results = new List<CategoryResult>();
-
+            return categories;
 
             if (categories == null || !categories.Any()) { throw InventoryServiceException.IE001; }
 
