@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Query.GetProductRecommend
+namespace TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend
 {
-    public class ProductRecommendResult
+    public class SkuRecommendResult
     {
 
 

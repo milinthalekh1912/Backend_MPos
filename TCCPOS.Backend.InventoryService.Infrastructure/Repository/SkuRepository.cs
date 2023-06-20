@@ -4,8 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using TCCPOS.Backend.InventoryService.Application.Contract;
 using TCCPOS.Backend.InventoryService.Application.Exceptions;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
-using TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Query.GetProductRecommend;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend;
 using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupplier;
 using TCCPOS.Backend.InventoryService.Entities;
 
@@ -38,7 +38,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var all_sku = await _context.sku.AsNoTracking().Where(e => true).ToListAsync();
             return all_sku;
         }
-        public async Task<List<ProductRecommendResult>> GetSkuRecommend(string supplier_id)
+        public async Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id)
         {
             //var skus = await _context.sku.Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
             //        (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
@@ -47,11 +47,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             var skus = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplier_id).ToListAsync();
 
-            List<ProductRecommendResult> result = new List<ProductRecommendResult>();
+            List<SkuRecommendResult> result = new List<SkuRecommendResult>();
 
             foreach (var SKU in skus)
             {
-                ProductRecommendResult obj = new ProductRecommendResult();
+                SkuRecommendResult obj = new SkuRecommendResult();
                 obj.title = SKU.title;
                 obj.aliasTitle = SKU.alias_title;
                 obj.sku = SKU.sku_id;

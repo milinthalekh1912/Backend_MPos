@@ -1406,7 +1406,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductRecommendResult"
+                    "$ref": "#/components/schemas/SkuRecommendResult"
                   }
                 }
               },
@@ -1414,7 +1414,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductRecommendResult"
+                    "$ref": "#/components/schemas/SkuRecommendResult"
                   }
                 }
               },
@@ -1422,7 +1422,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductRecommendResult"
+                    "$ref": "#/components/schemas/SkuRecommendResult"
                   }
                 }
               }
@@ -2462,45 +2462,6 @@
         },
         "additionalProperties": false
       },
-      "ProductRecommendResult": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "aliasTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "sku": {
-            "type": "string",
-            "nullable": true
-          },
-          "barcode": {
-            "type": "string",
-            "nullable": true
-          },
-          "imageUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "categoryId": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "isPurchaseBefore": {
-            "type": "boolean",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "PromotionDetails": {
         "type": "object",
         "properties": {
@@ -2638,6 +2599,45 @@
           "price": {
             "type": "number",
             "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SkuRecommendResult": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "aliasTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "sku": {
+            "type": "string",
+            "nullable": true
+          },
+          "barcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "isPurchaseBefore": {
+            "type": "boolean",
             "nullable": true
           }
         },

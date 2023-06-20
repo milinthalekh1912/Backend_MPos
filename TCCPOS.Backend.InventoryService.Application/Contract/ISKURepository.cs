@@ -3,7 +3,6 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOr
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
-using TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Query.GetProductRecommend;
 using TCCPOS.Backend.InventoryService.Application.Feature.Promotion.Query.GetPromotion;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupId;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
@@ -18,6 +17,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmO
 using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAddressById;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend;
 
 namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
@@ -25,7 +25,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     {
         Task SaveChangeAsyncWithCommit();
         public Task<List<sku>> getAllSkuAsync();
-        public Task<List<ProductRecommendResult>> GetSkuRecommend(string supplier_id);
+        public Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id);
         public Task<List<SkuByKeywordResult>> GetSkuByKeyword(string? keyword);
         public Task<List<GetProductByCatResult>> GetSkuBycateID(String categoryId, String supplierId, string shopId);
        

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
-using TCCPOS.Backend.InventoryService.Application.Feature.ProductRecommend.Query.GetProductRecommend;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
@@ -50,12 +50,12 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
 
         [HttpGet("Recommended/{supplier_id}")]
-        [ProducesResponseType(typeof(List<ProductRecommendResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<SkuRecommendResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetRecommendedSku(string supplier_id)
         {
-            var query = new GetProductRecommendQuery(supplier_id);
+            var query = new GetSkuRecommendQuery(supplier_id);
             var res = await _mediator.Send(query);
             return Ok(res);
         }
