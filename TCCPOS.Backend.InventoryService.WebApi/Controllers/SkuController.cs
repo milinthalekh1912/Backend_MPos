@@ -13,6 +13,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class SkuController : ApiControllerBase
     {
         private readonly IMediator _mediator;
@@ -49,7 +50,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
         [HttpGet]
         [Route("{supplierId}/{categoryId}")]
-        [SwaggerOperation(Summary = "Get SKU List For Line OA", Description = "")]
+        [SwaggerOperation(Summary = "Get SKU List By SupplierID And CategoriesID", Description = "")]
         [ProducesResponseType(typeof(GetSkuListResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]

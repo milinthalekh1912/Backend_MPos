@@ -1,4 +1,4 @@
-﻿/*using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -8,7 +8,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Promotion.Query.GetPro
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
-   [Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class PromotionController : ApiControllerBase
@@ -35,4 +35,3 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
     }
 }
-*/
