@@ -192,6 +192,67 @@
         }
       }
     },
+    "/api/v1/Category/LineOA/{supplierId}": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Get Categories List",
+        "description": "",
+        "parameters": [
+          {
+            "name": "supplierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategoriesListResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategoriesListResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategoriesListResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Group": {
       "post": {
         "tags": [
@@ -1183,6 +1244,68 @@
         }
       }
     },
+    "/api/v1/Promotion": {
+      "get": {
+        "tags": [
+          "Promotion"
+        ],
+        "operationId": "GetPromotion",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PromotionResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PromotionResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PromotionResult"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/v1/Sku/Search/{keyword}": {
       "get": {
         "tags": [
@@ -1330,7 +1453,7 @@
         "tags": [
           "Sku"
         ],
-        "summary": "Get SKU List For Line OA",
+        "summary": "Get SKU List By SupplierID And CategoriesID",
         "description": "",
         "parameters": [
           {
@@ -1757,6 +1880,36 @@
             "nullable": true
           },
           "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CategoriesItemResult": {
+        "type": "object",
+        "properties": {
+          "categoriesID": {
+            "type": "string",
+            "nullable": true
+          },
+          "tH_Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "eN_Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "tH_Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "eN_Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "urlImg": {
             "type": "string",
             "nullable": true
           }
@@ -2200,6 +2353,19 @@
         },
         "additionalProperties": false
       },
+      "GetCategoriesListResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoriesItemResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetMerchantGroupByIdResult": {
         "type": "object",
         "properties": {
@@ -2301,6 +2467,32 @@
         },
         "additionalProperties": false
       },
+      "GroupSku": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "aliasTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "sku": {
+            "type": "string",
+            "nullable": true
+          },
+          "barcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "MerchantGroupResult": {
         "type": "object",
         "properties": {
@@ -2393,6 +2585,45 @@
           },
           "sku_category_id": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PromotionDetails": {
+        "type": "object",
+        "properties": {
+          "condition": {
+            "type": "string",
+            "nullable": true
+          },
+          "groupSkuA": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupSku"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PromotionResult": {
+        "type": "object",
+        "properties": {
+          "promotionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "promotionType": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "promotionDescription": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PromotionDetails"
+            },
             "nullable": true
           }
         },

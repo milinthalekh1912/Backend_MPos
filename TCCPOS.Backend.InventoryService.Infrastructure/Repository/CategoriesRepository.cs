@@ -43,8 +43,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 CategoryResult obj = new CategoryResult();
                 obj.CategoryId = category.category_id;
-                obj.CategoryName = category.category_name;
-
+                obj.CategoryName = category.TH_name;
                 results.Add(obj);
 
             }
