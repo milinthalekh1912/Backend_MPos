@@ -14,8 +14,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             _dtnow = DateTime.Now;
         }
 
-        IShopGroupRepository _shopgroup = null!;
-        public IShopGroupRepository ShopGroup => _shopgroup ??= new ShopGroupRepository(_context, _dtnow);
+        IMerchantGroupRepository _merchantgroup = null!;
+        public IMerchantGroupRepository MerchantGroup => _merchantgroup ??= new MerchantGroupRepository(_context, _dtnow);
 
         ITargetRepository _target = null!;
         public ITargetRepository Target => _target ??= new TargetRepository(_context, _dtnow);
@@ -35,8 +35,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         IPromotionRepository _promotion = null!;
         public IPromotionRepository Promotion => _promotion ??= new PromotionRepository(_context, _dtnow);
 
-        IShopRepository _shop = null!;
-        public IShopRepository Shop => _shop ??= new ShopRepository(_context, _dtnow);
+        IMerchantRepository _merchant = null!;
+        public IMerchantRepository Merchant => _merchant ??= new MerchantRepository(_context, _dtnow);
 
         ICategoriesRepository _categories = null!;
         public ICategoriesRepository Categories => _categories ??= new CategoriesRepository(_context, _dtnow);

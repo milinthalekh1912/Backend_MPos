@@ -14,7 +14,7 @@
         public static InventoryServiceException IE010 { get; } = new InventoryServiceException(nameof(IE010), "Not Found Location");
         public static InventoryServiceException IE011 { get; } = new InventoryServiceException(nameof(IE011), "Please Take Child Location Out From Parent Location");
         public static InventoryServiceException IE012 { get; } = new InventoryServiceException(nameof(IE012), "User Already Have Merchant Group");
-        public static InventoryServiceException IE013 { get; } = new InventoryServiceException(nameof(IE013), "ShopGroup does not exist");
+        public static InventoryServiceException IE013 { get; } = new InventoryServiceException(nameof(IE013), "MerchantGroup does not exist");
         public static InventoryServiceException IE014 { get; } = new InventoryServiceException(nameof(IE014), "Already have This Sku in Merchant Group");
         public static InventoryServiceException IE015 { get; } = new InventoryServiceException(nameof(IE015), "Reward Target Not found");
         public static InventoryServiceException IE016 { get; } = new InventoryServiceException(nameof(IE016), "Sku Not found");

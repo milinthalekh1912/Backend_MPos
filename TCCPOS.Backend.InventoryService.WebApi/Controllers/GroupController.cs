@@ -5,12 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
-using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.CreateShopGroup;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.DeleteShopGroup;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupId;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.UpdateGroupName;
-using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShopGroup;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetShopGroup;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetShopGroupById;
@@ -52,22 +50,22 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [Authorize]
         [HttpGet()]
         [SwaggerOperation(Summary = "Get all group", Description = "")]
-        [ProducesResponseType(typeof(List<GetAllShopGroupResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<GetAllMerchantGroupResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> getAllShopGroup()
         {
-            var res = await _mediator.Send(new GetAllShopGroupQuery());
+            var res = await _mediator.Send(new GetAllMerchantGroupQuery());
             return Ok(res);
         }
 
         [Authorize]
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get group by id", Description = "")]
-        [ProducesResponseType(typeof(GetShopGroupByIdResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetMerchantGroupByIdResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> getShopGroupById(string id)
         {
-            var res = await _mediator.Send(new GetShopGroupByIdQuery
+            var res = await _mediator.Send(new GetMerchantGroupByIdQuery
             {
                 shopGroupId = id
             });
@@ -127,7 +125,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [Authorize]
         [HttpGet("Target/{id}")]
         [SwaggerOperation(Summary = "Get target group by id", Description = "")]
-        [ProducesResponseType(typeof(List<ShopGroupResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<MerchantGroupResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
 
