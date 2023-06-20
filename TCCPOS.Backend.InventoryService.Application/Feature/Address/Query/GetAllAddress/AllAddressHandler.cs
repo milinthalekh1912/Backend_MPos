@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using TCCPOS.Backend.InventoryService.Application.Contract;
 using TCCPOS.Backend.InventoryService.Entities;
 
-namespace TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress
+namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAddress
 {
     public class GetAllAddressQHandler : IRequestHandler<GetAllAddressQuery, List<AllAddressResult>>
     {

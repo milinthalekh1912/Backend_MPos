@@ -1,4 +1,4 @@
-﻿namespace TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress
+﻿namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAddress
 {
     public class AllAddressResult
     {

@@ -1,6 +1,4 @@
-﻿
-using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress;
-using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
+﻿using TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Query.GetAllShop;
 using TCCPOS.Backend.InventoryService.Entities;
 namespace TCCPOS.Backend.InventoryService.Application.Contract

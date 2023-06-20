@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAddressById;
-using TCCPOS.Backend.InventoryService.Application.Feature.AllAddress.Query.GetAllAddress;
+using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAddress;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
