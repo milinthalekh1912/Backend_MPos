@@ -3,6 +3,8 @@
     public class CategoryResult
     {
         public string CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public string CategoryNameTH { get; set; }
+
+        public string CategoryNameEN { get; set; }
     }
 }

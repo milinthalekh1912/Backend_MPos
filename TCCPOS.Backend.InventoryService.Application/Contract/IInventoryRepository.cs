@@ -4,7 +4,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
 {
     public interface IInventoryRepository
     {
-       IMerchantGroupRepository MerchantGroup { get; }
+        IMerchantGroupRepository MerchantGroup { get; }
         ITargetRepository Target { get; }
         IOrderRepository Order { get; }
         IDeliveryDetailRepository DeliveryDetail { get; }

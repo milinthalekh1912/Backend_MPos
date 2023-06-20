@@ -1,6 +1,6 @@
 ﻿namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAddress
 {
-    public class AllAddressResult
+    public class AddressResult
     {
         public string? addressId { get; set; }
         public string? shopTitle { get; set; }

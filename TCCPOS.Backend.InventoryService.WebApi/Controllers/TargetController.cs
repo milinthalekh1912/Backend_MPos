@@ -1,4 +1,4 @@
-﻿/*using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -96,4 +96,3 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
     }
 }
-*/

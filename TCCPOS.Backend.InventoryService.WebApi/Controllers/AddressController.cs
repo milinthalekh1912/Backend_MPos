@@ -10,6 +10,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAd
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class AddressController : ApiControllerBase
@@ -22,11 +23,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             _mediator = mediator;
         }
 
-        //ดึงข้อมูลที่อยู่ของร้าน ShopId
-        [Authorize]
         [HttpGet("Customer")]
         [SwaggerOperation(Summary = "Get all address of customer", Description = "")]
-        [ProducesResponseType(typeof(List<AllAddressResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<AddressResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAllAddress()
         {

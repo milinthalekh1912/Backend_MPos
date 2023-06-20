@@ -2,7 +2,7 @@
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAddress
 {
-    public class GetAllAddressQuery : IRequest<List<AllAddressResult>>
+    public class GetAllAddressQuery : IRequest<GetListAddressResult>
     {
         public string shopId { get; set; }
     }

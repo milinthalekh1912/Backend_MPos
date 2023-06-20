@@ -9,6 +9,7 @@ namespace TCCPOS.Backend.InventoryService.Entities
         public string? title { get; set; }
         public string? alias_title { get; set; }
         public string? barcode { get; set; }
+        public string? barcode_url { get; set; }
         public string? image_url { get; set; }
         public string? category_id { get; set; }
         public string? supplier_id { get; set; }

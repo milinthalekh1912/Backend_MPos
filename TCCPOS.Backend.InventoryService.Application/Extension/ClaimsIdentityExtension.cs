@@ -18,7 +18,7 @@ namespace System
         }
         public static string GetMerchantID(this ClaimsIdentity iden)
         {
-            var claim = iden.FindFirst("Merchant");
+            var claim = iden.FindFirst("shopId");
             if (claim == null) throw new Exception("");
             return claim.Value;
         }
