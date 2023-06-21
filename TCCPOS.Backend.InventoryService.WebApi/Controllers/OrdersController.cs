@@ -43,6 +43,20 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
+    
+        [HttpGet]
+        [Route("")]
+        [SwaggerOperation(Summary = "Get All order by Merchant", Description = "")]
+        [ProducesResponseType(typeof(GetOrderByIdResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetOrderByUser()
+        {
+            var query = new GetOrderByIdQuery(Identity.GetMerchantID(),"ff");
+            var res = await _mediator.Send(query);
+            return Ok(res);
+        }
+
         [HttpPost]
         [SwaggerOperation(Summary = "Create order", Description = "")]
         [ProducesResponseType(typeof(CreateOrderResult), (int)HttpStatusCode.OK)]

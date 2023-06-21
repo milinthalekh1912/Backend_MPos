@@ -67,6 +67,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return newOrder;
         }
 
+
+
         public async Task<List<sku>> getAllSkuAsync()
         {
             var all_sku = await _context.sku.AsNoTracking().Where(e => true).ToListAsync();

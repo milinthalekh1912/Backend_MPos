@@ -19,6 +19,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.Get
         public string shop_name { get; set; }
 
         public string shop_address_id { get; set; }
+        public string price_tier_id { get; set; }
 
     }
 }
