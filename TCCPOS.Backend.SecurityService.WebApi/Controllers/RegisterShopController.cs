@@ -10,7 +10,7 @@ using TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.RegisterSh
 namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class RegisterShopController : ApiControllerBase
     {

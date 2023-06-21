@@ -12,7 +12,7 @@ using TCCPOS.Backend.SecurityService.Application.Feature.LoginUser.Query.Login;
 
 namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {

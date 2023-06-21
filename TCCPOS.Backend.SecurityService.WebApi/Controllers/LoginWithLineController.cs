@@ -9,7 +9,7 @@ using TCCPOS.Backend.SecurityService.Application.Feature.LoginWith.Command.LineL
 
 namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class LoginWithLineController : ControllerBase
     {

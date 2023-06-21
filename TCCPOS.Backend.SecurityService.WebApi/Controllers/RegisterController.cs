@@ -9,7 +9,7 @@ using TCCPOS.Backend.SecurityService.Application.Feature.CreateUser.Command.Crea
 
 namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class RegisterController : ControllerBase
     {
