@@ -20,7 +20,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.SKU.Query.GetSkuLi
         {
             var res = new GetSkuListResult();
             var merchant = await _repo.Merchant.getMerchantById(request.MerchantID);
-            var skuList = await _repo.Sku.GetSkuBycateID(request.CategoryID,request.SupplierID,merchant.shop_id);
+            var skuList = await _repo.Sku.GetSkuBycateID(request.CategoryID,request.SupplierID,merchant.merchant_id);
             var sku_priceList = await _repo.PriceTier.GetAllPriceTierByPriceTierGroupID(merchant.price_tier_id);
             
             foreach ( var sku in skuList ) 

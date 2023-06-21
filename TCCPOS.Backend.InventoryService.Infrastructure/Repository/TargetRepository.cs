@@ -26,7 +26,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<CreateTargetResult> CreateSkuTargetAsync(string shopGroupId, string skuId, int target, string reward, string reset_date, string userId)
         {
-            var shopgroup = await _context.shopgroup.FirstOrDefaultAsync(e => e.shop_group_id == shopGroupId);
+            var shopgroup = await _context.merchantgroup.FirstOrDefaultAsync(e => e.merchant_group_id == shopGroupId);
             if (shopgroup == null)
             {
                 throw InventoryServiceException.IE013;
@@ -134,7 +134,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 .Select(rtskodo => new TargetResult
                 {
                     RewardID = rtskodo.RewardTarget.reward_id,
-                    ShopId = rtskodo.Order.shop_id,
+                    ShopId = rtskodo.Order.merchant_id,
                     CurrentSpent = (int?)(rtskodo.OrderDetail.amount * rtskodo.OrderDetail.price),
                     SkuId = rtskodo.RewardTarget.sku_id,
                     Target = rtskodo.RewardTarget.target,

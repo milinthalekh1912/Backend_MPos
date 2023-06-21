@@ -28,15 +28,15 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<shopaddress>> GetAllAddress(string shopId)
+        public async Task<List<merchantaddress>> GetAllAddress(string shopId)
         {
-            var shopAddress = await _context.shopaddress.AsNoTracking().Where(e => e.shop_id == shopId).ToListAsync();
+            var shopAddress = await _context.merchantaddress.AsNoTracking().Where(e => e.merchant_id == shopId).ToListAsync();
             return shopAddress;
         }
 
-        public async Task<shopaddress> GetAddressById(string address_id)
+        public async Task<merchantaddress> GetAddressById(string address_id)
         {
-            var result = await _context.shopaddress.FirstOrDefaultAsync(elem => elem.address_id == address_id);
+            var result = await _context.merchantaddress.FirstOrDefaultAsync(elem => elem.merchant_id == address_id);
             return result;
         }
 

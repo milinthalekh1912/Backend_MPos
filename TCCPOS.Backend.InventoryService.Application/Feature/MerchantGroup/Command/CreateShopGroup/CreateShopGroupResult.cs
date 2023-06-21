@@ -9,8 +9,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.ShopGroup.Command.
 {
     public class CreateShopGroupResult
     {
-        public shopgroup shopgroup { get; set; }
+        public merchantgroup shopgroup { get; set; }
         
-        public List<shop> shops { get; set; }
+        public List<merchant> shops { get; set; }
     }
 }

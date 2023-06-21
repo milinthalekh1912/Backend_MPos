@@ -10,9 +10,9 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     public interface IMerchantGroupRepository
     {
         Task<List<MerchantGroupResult>> GetShopGroupByShopGroupID(string shopgroupid);
-        public Task<shopgroup> CreateShopGroupAsync(string shopGroupId, string shopGroupName, string userId);
+        public Task<merchantgroup> CreateShopGroupAsync(string shopGroupId, string shopGroupName, string userId);
 
-        public Task<List<shop>> AddShopToGroup(List<string> shopId);
+        public Task<List<merchant>> AddShopToGroup(List<string> shopId);
 
         public Task<List<GetAllMerchantGroupResult>> getAllShopGroupAsync();
 

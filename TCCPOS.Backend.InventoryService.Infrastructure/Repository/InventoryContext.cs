@@ -22,16 +22,17 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         public virtual DbSet<deliverystatus> deliverystatus { get; set; } = null!;
         public virtual DbSet<employeelogin> employeelogin { get; set; } = null!;
         public virtual DbSet<employeetenant> employeetenant { get; set; } = null!;
+        public virtual DbSet<merchant> merchant { get; set; } = null!;
+        public virtual DbSet<merchantaddress> merchantaddress { get; set; } = null!;
+        public virtual DbSet<merchantgroup> merchantgroup { get; set; } = null!;
         public virtual DbSet<order> order { get; set; } = null!;
         public virtual DbSet<orderdetail> orderdetail { get; set; } = null!;
         public virtual DbSet<paymentstatus> paymentstatus { get; set; } = null!;
+        public virtual DbSet<point> point { get; set; } = null!;
         public virtual DbSet<pricetier> pricetier { get; set; } = null!;
         public virtual DbSet<pricetiergroup> pricetiergroup { get; set; } = null!;
         public virtual DbSet<promotion> promotion { get; set; } = null!;
         public virtual DbSet<rewardtarget> rewardtarget { get; set; } = null!;
-        public virtual DbSet<shop> shop { get; set; } = null!;
-        public virtual DbSet<shopaddress> shopaddress { get; set; } = null!;
-        public virtual DbSet<shopgroup> shopgroup { get; set; } = null!;
         public virtual DbSet<sku> sku { get; set; } = null!;
         public virtual DbSet<supplier> supplier { get; set; } = null!;
         public virtual DbSet<unit> unit { get; set; } = null!;
@@ -150,6 +151,84 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.Property(e => e.CreatedBy).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<merchant>(entity =>
+            {
+                entity.HasKey(e => e.merchant_id)
+                    .HasName("PRIMARY");
+
+                entity.UseCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.merchant_id).HasMaxLength(36);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.merchant_group_id).HasMaxLength(36);
+
+                entity.Property(e => e.merchant_name).HasMaxLength(36);
+
+                entity.Property(e => e.price_tier_id)
+                    .HasMaxLength(36)
+                    .HasDefaultValueSql("'DEFAULT'");
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<merchantaddress>(entity =>
+            {
+                entity.HasKey(e => e.address_id)
+                    .HasName("PRIMARY");
+
+                entity.UseCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.address_id).HasMaxLength(36);
+
+                entity.Property(e => e.address1).HasMaxLength(255);
+
+                entity.Property(e => e.address2).HasMaxLength(255);
+
+                entity.Property(e => e.address3).HasMaxLength(255);
+
+                entity.Property(e => e.address_title).HasMaxLength(255);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.merchant_id).HasMaxLength(36);
+
+                entity.Property(e => e.phone_number).HasMaxLength(10);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+
+                entity.Property(e => e.zipcode).HasMaxLength(5);
+            });
+
+            modelBuilder.Entity<merchantgroup>(entity =>
+            {
+                entity.HasKey(e => e.merchant_group_id)
+                    .HasName("PRIMARY");
+
+                entity.UseCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.merchant_group_id).HasMaxLength(36);
+
+                entity.Property(e => e.created_by).HasMaxLength(255);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.group_name).HasMaxLength(255);
+
+                entity.Property(e => e.updated_by).HasMaxLength(255);
+
+                entity.Property(e => e.updated_date).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<order>(entity =>
             {
                 entity.HasKey(e => e.order_id)
@@ -169,9 +248,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 entity.Property(e => e.delivery_detail_id).HasMaxLength(36);
 
-                entity.Property(e => e.order_no).HasMaxLength(45);
+                entity.Property(e => e.merchant_id).HasMaxLength(36);
 
-                entity.Property(e => e.shop_id).HasMaxLength(36);
+                entity.Property(e => e.order_no).HasMaxLength(45);
 
                 entity.Property(e => e.supplier_id).HasMaxLength(36);
 
@@ -201,6 +280,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 entity.Property(e => e.sku_id).HasMaxLength(36);
 
+                entity.Property(e => e.title).HasMaxLength(255);
+
                 entity.Property(e => e.updated_by).HasMaxLength(255);
 
                 entity.Property(e => e.updated_date).HasColumnType("datetime");
@@ -215,6 +296,27 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     .UseCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.status_description).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<point>(entity =>
+            {
+                entity.HasKey(e => e.point1)
+                    .HasName("PRIMARY");
+
+                entity.HasCharSet("utf8mb3")
+                    .UseCollation("utf8mb3_general_ci");
+
+                entity.Property(e => e.point1)
+                    .ValueGeneratedNever()
+                    .HasColumnName("point");
+
+                entity.Property(e => e.created_by).HasMaxLength(36);
+
+                entity.Property(e => e.created_date).HasColumnType("datetime");
+
+                entity.Property(e => e.exp_date).HasColumnType("datetime");
+
+                entity.Property(e => e.shop_id).HasMaxLength(36);
             });
 
             modelBuilder.Entity<pricetier>(entity =>
@@ -280,6 +382,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 entity.Property(e => e.start_date).HasColumnType("datetime");
 
+                entity.Property(e => e.supplier_id).HasMaxLength(36);
+
                 entity.Property(e => e.updated_by).HasMaxLength(255);
 
                 entity.Property(e => e.updated_date).HasColumnType("datetime");
@@ -308,84 +412,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 entity.Property(e => e.reward).HasMaxLength(100);
 
                 entity.Property(e => e.start_date).HasColumnType("datetime");
-
-                entity.Property(e => e.updated_by).HasMaxLength(255);
-
-                entity.Property(e => e.updated_date).HasColumnType("datetime");
-            });
-
-            modelBuilder.Entity<shop>(entity =>
-            {
-                entity.HasKey(e => e.shop_id)
-                    .HasName("PRIMARY");
-
-                entity.UseCollation("utf8mb4_0900_ai_ci");
-
-                entity.Property(e => e.shop_id).HasMaxLength(36);
-
-                entity.Property(e => e.created_by).HasMaxLength(255);
-
-                entity.Property(e => e.created_date).HasColumnType("datetime");
-
-                entity.Property(e => e.price_tier_id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("'DEFAULT'");
-
-                entity.Property(e => e.shop_group_id).HasMaxLength(36);
-
-                entity.Property(e => e.shop_name).HasMaxLength(36);
-
-                entity.Property(e => e.updated_by).HasMaxLength(255);
-
-                entity.Property(e => e.updated_date).HasColumnType("datetime");
-            });
-
-            modelBuilder.Entity<shopaddress>(entity =>
-            {
-                entity.HasKey(e => e.address_id)
-                    .HasName("PRIMARY");
-
-                entity.UseCollation("utf8mb4_0900_ai_ci");
-
-                entity.Property(e => e.address_id).HasMaxLength(36);
-
-                entity.Property(e => e.address1).HasMaxLength(255);
-
-                entity.Property(e => e.address2).HasMaxLength(255);
-
-                entity.Property(e => e.address3).HasMaxLength(255);
-
-                entity.Property(e => e.created_by).HasMaxLength(255);
-
-                entity.Property(e => e.created_date).HasColumnType("datetime");
-
-                entity.Property(e => e.phone_number).HasMaxLength(10);
-
-                entity.Property(e => e.shop_id).HasMaxLength(36);
-
-                entity.Property(e => e.shop_title).HasMaxLength(255);
-
-                entity.Property(e => e.updated_by).HasMaxLength(255);
-
-                entity.Property(e => e.updated_date).HasColumnType("datetime");
-
-                entity.Property(e => e.zipcode).HasMaxLength(5);
-            });
-
-            modelBuilder.Entity<shopgroup>(entity =>
-            {
-                entity.HasKey(e => e.shop_group_id)
-                    .HasName("PRIMARY");
-
-                entity.UseCollation("utf8mb4_0900_ai_ci");
-
-                entity.Property(e => e.shop_group_id).HasMaxLength(36);
-
-                entity.Property(e => e.created_by).HasMaxLength(255);
-
-                entity.Property(e => e.created_date).HasColumnType("datetime");
-
-                entity.Property(e => e.group_name).HasMaxLength(255);
 
                 entity.Property(e => e.updated_by).HasMaxLength(255);
 

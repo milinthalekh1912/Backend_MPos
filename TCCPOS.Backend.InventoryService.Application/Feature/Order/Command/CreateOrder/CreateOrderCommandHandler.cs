@@ -52,7 +52,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
             //add price 
             return new CreateOrderResult
             {
-                shop_id = newOrder.shop_id,
+                shop_id = newOrder.merchant_id,
                 supplier_id = newOrder.supplier_id,
                 address_id = newOrder.address_id,
                 user_id = newOrder.user_id,

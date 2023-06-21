@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace TCCPOS.Backend.InventoryService.Entities
 {
-    public partial class shopgroup
+    public partial class merchantgroup
     {
-        public string shop_group_id { get; set; } = null!;
+        public string merchant_group_id { get; set; } = null!;
         public string? group_name { get; set; }
         public DateTime? created_date { get; set; }
         public string? created_by { get; set; }

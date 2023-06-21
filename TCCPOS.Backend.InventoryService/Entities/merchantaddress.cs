@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace TCCPOS.Backend.InventoryService.Entities
 {
-    public partial class shopaddress
+    public partial class merchantaddress
     {
-        public string shop_id { get; set; } = null!;
         public string address_id { get; set; } = null!;
-        public string? shop_title { get; set; }
+        public string merchant_id { get; set; } = null!;
+        public string? address_title { get; set; }
         public string? address1 { get; set; }
         public string? address2 { get; set; }
         public string? address3 { get; set; }

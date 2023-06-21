@@ -30,21 +30,21 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<shop> getShopProfileAsync(string shopId)
+        public async Task<merchant> getShopProfileAsync(string shopId)
         {
-            var shop = await _context.shop.AsNoTracking().FirstOrDefaultAsync(e => e.shop_id == shopId);
+            var shop = await _context.merchant.AsNoTracking().FirstOrDefaultAsync(e => e.merchant_id == shopId);
             return shop;
         }
         public async Task<GetAllMerchantAddressResult> getAllShopWithAddressAsync()
         {
             {
-                var queryable = from s in _context.shop
-                                join sg in _context.shopaddress on s.shop_id equals sg.shop_id into shopAddressJoin
+                var queryable = from s in _context.merchant
+                                join sg in _context.merchantaddress on s.merchant_id equals sg.merchant_id into shopAddressJoin
                                 from sg in shopAddressJoin.DefaultIfEmpty()
                                 select new
                                 {
-                                    s.shop_id,
-                                    s.shop_name,
+                                    s.merchant_id,
+                                    s.merchant_name,
                                     sg.address_id,
                                 };
 
@@ -56,8 +56,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     {
                         return new ShopWithAddressResult
                         {
-                            shop_id = e.shop_id,
-                            shop_name = e.shop_name,
+                            shop_id = e.merchant_id,
+                            shop_name = e.merchant_name,
                             shop_address_id = e.address_id
 
                         };
@@ -68,14 +68,14 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<GetAllShopResult>> getAllShopAsync()
         {
-            var queryable = from s in _context.shop
-                            join sg in _context.shopgroup on s.shop_group_id equals sg.shop_group_id into shopGroupJoin
+            var queryable = from s in _context.merchant
+                            join sg in _context.merchantgroup on s.merchant_group_id equals sg.merchant_group_id into shopGroupJoin
                             from sg in shopGroupJoin.DefaultIfEmpty()
                             select new
                             {
-                                s.shop_id,
-                                s.shop_name,
-                                s.shop_group_id,
+                                s.merchant_id,
+                                s.merchant_name,
+                                s.merchant_group_id,
                                 GroupName = sg != null ? sg.group_name : null
                             };
 
@@ -85,18 +85,18 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 return new GetAllShopResult
                 {
-                    shopId = e.shop_id,
-                    shopGroupId = e.shop_group_id,
-                    shopName = e.shop_name,
+                    shopId = e.merchant_id,
+                    shopGroupId = e.merchant_group_id,
+                    shopName = e.merchant_name,
                     shopGroupName = e.GroupName
                 };
             }).ToList();
         }
 
 
-        public async Task<shop> getMerchantById(string merchantID)
+        public async Task<merchant> getMerchantById(string merchantID)
         {
-            var merchant_obj = await _context.shop.FirstOrDefaultAsync(x => x.shop_id == merchantID);
+            var merchant_obj = await _context.merchant.FirstOrDefaultAsync(x => x.merchant_id == merchantID);
             if (merchant_obj == null) throw InventoryServiceException.IE020;
             
             return merchant_obj;

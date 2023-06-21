@@ -48,7 +48,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 order_id = order_id,
                 order_no = $"PO{_dtnow.Month}{_dtnow.Year}/{supplierDocNo}",
                 user_id = userId,
-                shop_id = shopId,
+                merchant_id = shopId,
                 supplier_id = supplierId,
                 address_id = addressId,
                 coupon_id = coupon,
@@ -73,9 +73,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return all_sku;
         }
 
-        public async Task<shop> getShopProfileAsync(string shopId)
+        public async Task<merchant> getShopProfileAsync(string shopId)
         {
-            var shop = await _context.shop.AsNoTracking().FirstOrDefaultAsync(e => e.shop_id == shopId);
+            var shop = await _context.merchant.AsNoTracking().FirstOrDefaultAsync(e => e.merchant_id == shopId);
             return shop;
         }
 
@@ -148,23 +148,23 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             }
             else
             {
-                order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.shop_id == shopId).ToListAsync();
+                order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.merchant_id == shopId).ToListAsync();
             }
 
             foreach (var ord in order_context)
             {
                 GetAllOrdersResult getOrder = new GetAllOrdersResult();
 
-                var custommer = await _context.shop.FirstOrDefaultAsync(x => x.shop_id == ord.shop_id);
+                var custommer = await _context.merchant.FirstOrDefaultAsync(x => x.merchant_id == ord.merchant_id);
                 var sku_list = await _context.sku.Where(x => x.supplier_id == supplierId).ToListAsync();
 
                 getOrder.order_id = ord.order_id;
                 getOrder.is_read = ord.is_read ?? true;
                 getOrder.order_status = ord.order_status ?? 1;
-                getOrder.shop_id = ord.shop_id;
+                getOrder.shop_id = ord.merchant_id;
                 getOrder.user_id = ord.user_id;
                 getOrder.supplier_name = ord.supplier_id;
-                getOrder.customer_name = custommer.shop_name ?? "";
+                getOrder.customer_name = custommer.merchant_name ?? "";
                 getOrder.address_id = ord.address_id;
                 getOrder.created_date = ord.created_date ?? _dtnow;
                 getOrder.order_items = new List<OrderItemResult>();
@@ -203,7 +203,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             }
             else
             {
-                order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.shop_id == shopId).ToListAsync();
+                order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.merchant_id == shopId).ToListAsync();
             }
 
             return order_context;
@@ -220,7 +220,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         public async Task<GetOrderByIdResult> getOrderByIdAsync(string order_id, string shopId)
         {
             var query = from order in _context.order
-                        where order.order_id == order_id && order.shop_id == shopId
+                        where order.order_id == order_id && order.merchant_id == shopId
                         join orderItem in (
                             from sku in _context.sku
                             join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
@@ -230,12 +230,12 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             var results = await query.AsNoTracking().ToListAsync();
 
-            var shopList = await _context.shop.Where(e => true).ToListAsync();
+            var shopList = await _context.merchant.Where(e => true).ToListAsync();
             var add_id = results.First().Order.address_id;
-            var address = await _context.shopaddress.FirstOrDefaultAsync(x => x.address_id == add_id);
+            var address = await _context.merchantaddress.FirstOrDefaultAsync(x => x.address_id == add_id);
 
             AddressResult addressResult = new AddressResult();
-            addressResult.address_title = address.shop_title;
+            addressResult.address_title = address.address_title;
             addressResult.address1 = address.address1;
             addressResult.address2 = address.address2;
             addressResult.address3 = address.address3;
@@ -247,9 +247,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         order_id = group.Key,
                         is_read = true,
                         user_id = group.First().Order.user_id,
-                        shop_id = group.First().Order.shop_id,
+                        shop_id = group.First().Order.merchant_id,
                         supplier_name = group.First().Order.supplier_id,
-                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.First().Order.shop_id).shop_name,
+                        customer_name = shopList.FirstOrDefault(e => e.merchant_id == group.First().Order.merchant_id).merchant_name,
                         address = addressResult,
                         order_status = group.First().Order.order_status ?? 0,
                         created_date = group.First().Order.created_date ?? _dtnow,
@@ -290,11 +290,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var results = await query.AsNoTracking().ToListAsync();
             var add_id = results.First().Order.address_id;
 
-            var shopList = await _context.shop.Where(e => true).ToListAsync();
-            var address = await _context.shopaddress.FirstOrDefaultAsync(x => x.address_id == add_id);
+            var shopList = await _context.merchant.Where(e => true).ToListAsync();
+            var address = await _context.merchantaddress.FirstOrDefaultAsync(x => x.address_id == add_id);
 
             AddressResult addressResult = new AddressResult();
-            addressResult.address_title = address.shop_title;
+            addressResult.address_title = address.address_title;
             addressResult.address1 = address.address1;
             addressResult.address2 = address.address2;
             addressResult.address3 = address.address3;
@@ -305,9 +305,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         order_id = group.Key,
                         is_read = true,
                         user_id = group.First().Order.user_id,
-                        shop_id = group.First().Order.shop_id,
+                        shop_id = group.First().Order.merchant_id,
                         supplier_name = group.First().Order.supplier_id,
-                        customer_name = shopList.FirstOrDefault(e => e.shop_id == group.First().Order.shop_id).shop_name,
+                        customer_name = shopList.FirstOrDefault(e => e.merchant_id == group.First().Order.merchant_id).merchant_name,
                         address = addressResult,
                         order_status = group.First().Order.order_status ?? 0,
                         created_date = group.First().Order.created_date ?? _dtnow,

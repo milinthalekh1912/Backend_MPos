@@ -43,10 +43,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
                 getOrder.order_id = ord.order_id;
                 getOrder.is_read = ord.is_read ?? true;
                 getOrder.order_status = ord.order_status ?? 1;
-                getOrder.shop_id = ord.shop_id;
+                getOrder.shop_id = ord.merchant_id;
                 getOrder.user_id = ord.user_id;
                 getOrder.supplier_name = ord.supplier_id;
-                getOrder.customer_name = custommer.shop_name ?? "";
+                getOrder.customer_name = custommer.merchant_name ?? "";
                 getOrder.address_id = ord.address_id;
                 getOrder.created_date = ord.created_date ?? DateTime.Now;
                 getOrder.order_items = new List<OrderItemResult>();

@@ -8,7 +8,7 @@ namespace TCCPOS.Backend.InventoryService.Entities
         public string order_id { get; set; } = null!;
         public string? order_no { get; set; }
         public string? user_id { get; set; }
-        public string? shop_id { get; set; }
+        public string? merchant_id { get; set; }
         public string? supplier_id { get; set; }
         public string? coupon_id { get; set; }
         public string? address_id { get; set; }

@@ -7,7 +7,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     public interface IAddressRepository
     {
         Task SaveChangeAsyncWithCommit();
-        public Task<shopaddress> GetAddressById(string address_id);
-        public Task<List<shopaddress>> GetAllAddress(string shopId);
+        public Task<merchantaddress> GetAddressById(string address_id);
+        public Task<List<merchantaddress>> GetAllAddress(string shopId);
     }
 }

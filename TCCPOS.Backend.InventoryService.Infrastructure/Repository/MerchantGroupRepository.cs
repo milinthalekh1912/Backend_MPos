@@ -21,11 +21,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             _context = context;
             _dtnow = dtnow;
         }
-        public async Task<shopgroup> CreateShopGroupAsync(string shopGroupId, string shopGroupName, string userId)
+        public async Task<merchantgroup> CreateShopGroupAsync(string shopGroupId, string shopGroupName, string userId)
         {
-            var request = new shopgroup
+            var request = new merchantgroup
             {
-                shop_group_id = shopGroupId,
+                merchant_group_id = shopGroupId,
                 group_name = shopGroupName,
                 created_by = userId,
                 created_date = _dtnow,
@@ -33,25 +33,25 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 updated_date = _dtnow
             };
 
-            await _context.shopgroup.AddAsync(request);
+            await _context.merchantgroup.AddAsync(request);
             await _context.SaveChangesAsync();
 
             return request;
         }
 
-        public async Task<List<shop>> AddShopToGroup(List<string> shopId)
+        public async Task<List<merchant>> AddShopToGroup(List<string> shopId)
         {
             var newId = Guid.NewGuid().ToString();
 
-            var results = await _context.shop.Where(e => shopId.Contains(e.shop_id)).ToListAsync();
+            var results = await _context.merchant.Where(e => shopId.Contains(e.merchant_id)).ToListAsync();
 
             results.ForEach(shop =>
             {
-                if (shop.shop_group_id != null)
+                if (shop.merchant_group_id != null)
                 {
                     throw InventoryServiceException.IE012;
                 }
-                shop.shop_group_id = newId;
+                shop.merchant_group_id = newId;
             });
 
             await _context.SaveChangesAsync();
@@ -97,12 +97,12 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<GetAllMerchantGroupResult>> getAllShopGroupAsync()
         {
-            var queryable = from sg in _context.shopgroup
-                            join s in _context.shop on sg.shop_group_id equals s.shop_group_id
-                            group s by new { sg.shop_group_id, sg.group_name } into g
+            var queryable = from sg in _context.merchantgroup
+                            join s in _context.merchant on sg.merchant_group_id equals s.merchant_group_id
+                            group s by new { sg.merchant_group_id, sg.group_name } into g
                             select new
                             {
-                                shopGroupId = g.Key.shop_group_id,
+                                shopGroupId = g.Key.merchant_group_id,
                                 shopGroupName = g.Key.group_name,
                                 totalShop = g.Count()
                             };
@@ -122,8 +122,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<GetMerchantGroupByIdResult> getShopGroupById(string shopGroupId)
         {
-            var shopGroup = await _context.shopgroup.AsNoTracking().FirstOrDefaultAsync(e => e.shop_group_id == shopGroupId);
-            var shops = await _context.shop.AsNoTracking().Where(e => e.shop_group_id == shopGroupId).ToListAsync();
+            var shopGroup = await _context.merchantgroup.AsNoTracking().FirstOrDefaultAsync(e => e.merchant_group_id == shopGroupId);
+            var shops = await _context.merchant.AsNoTracking().Where(e => e.merchant_group_id == shopGroupId).ToListAsync();
 
             if (shopGroup == null)
             {
@@ -132,14 +132,14 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             return new GetMerchantGroupByIdResult
             {
-                shop_group_id = shopGroup.shop_group_id,
+                shop_group_id = shopGroup.merchant_group_id,
                 group_name = shopGroup.group_name,
                 shopList = shops.Select(e =>
                 {
                     return new ShopResult
                     {
-                        shopId = e.shop_id,
-                        shopName = e.shop_name
+                        shopId = e.merchant_id,
+                        shopName = e.merchant_name
                     };
                 }).ToList()
             };
@@ -147,16 +147,16 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<int> deleteShopGroupById(string shopGroupId, string userId)
         {
-            var users = await _context.shop.Where(e => e.shop_group_id == shopGroupId).ToListAsync();
+            var users = await _context.merchant.Where(e => e.merchant_group_id == shopGroupId).ToListAsync();
 
             users.ForEach(e =>
             {
-                e.shop_group_id = null;
+                e.merchant_group_id = null;
                 e.updated_date = _dtnow;
                 e.updated_by = userId;
             });
 
-            var shopGroup = _context.Remove(_context.shopgroup.Single(e => e.shop_group_id == shopGroupId));
+            var shopGroup = _context.Remove(_context.merchantgroup.Single(e => e.merchant_group_id == shopGroupId));
             _context.rewardtarget.RemoveRange(_context.rewardtarget.Where(e => e.shop_group_id == shopGroupId));
 
             return await _context.SaveChangesAsync();
@@ -164,7 +164,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<UpdateMerchantGroupResult> updateShopGroupById(string shopGroupId, string userId, string shopGroupName, List<string> shopList)
         {
-            var shopGroup = await _context.shopgroup.FirstOrDefaultAsync(e => e.shop_group_id == shopGroupId);
+            var shopGroup = await _context.merchantgroup.FirstOrDefaultAsync(e => e.merchant_group_id == shopGroupId);
             if (shopGroup == null)
             {
                 throw InventoryServiceException.IE013;
@@ -173,21 +173,21 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             shopGroup.updated_date = _dtnow;
             shopGroup.updated_by = userId;
 
-            var users = await _context.shop.Where(e => e.shop_group_id == shopGroupId).ToListAsync();
+            var users = await _context.merchant.Where(e => e.merchant_group_id == shopGroupId).ToListAsync();
             users.ForEach(e =>
             {
-                e.shop_group_id = null;
+                e.merchant_group_id = null;
             });
 
-            var results = await _context.shop.Where(e => shopList.Contains(e.shop_id)).ToListAsync();
+            var results = await _context.merchant.Where(e => shopList.Contains(e.merchant_id)).ToListAsync();
 
             results.ForEach(shop =>
             {
-                if (shop.shop_group_id != null)
+                if (shop.merchant_group_id != null)
                 {
                     throw InventoryServiceException.IE012;
                 }
-                shop.shop_group_id = shopGroupId;
+                shop.merchant_group_id = shopGroupId;
             });
 
             await _context.SaveChangesAsync();
@@ -201,14 +201,14 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<GetAllShopResult>> getAllShopAsync()
         {
-            var queryable = from s in _context.shop
-                            join sg in _context.shopgroup on s.shop_group_id equals sg.shop_group_id into shopGroupJoin
+            var queryable = from s in _context.merchant
+                            join sg in _context.merchantgroup on s.merchant_group_id equals sg.merchant_group_id into shopGroupJoin
                             from sg in shopGroupJoin.DefaultIfEmpty()
                             select new
                             {
-                                s.shop_id,
-                                s.shop_name,
-                                s.shop_group_id,
+                                s.merchant_id,
+                                s.merchant_name,
+                                s.merchant_group_id,
                                 GroupName = sg != null ? sg.group_name : null
                             };
 
@@ -218,9 +218,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 return new GetAllShopResult
                 {
-                    shopId = e.shop_id,
-                    shopGroupId = e.shop_group_id,
-                    shopName = e.shop_name,
+                    shopId = e.merchant_id,
+                    shopGroupId = e.merchant_group_id,
+                    shopName = e.merchant_name,
                     shopGroupName = e.GroupName
                 };
             }).ToList();
@@ -228,7 +228,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task updateNameByGroupId(string groupName, string shopGroupId, string userId)
         {
-            var shopGroup = await _context.shopgroup.FirstOrDefaultAsync(e => e.shop_group_id == shopGroupId);
+            var shopGroup = await _context.merchantgroup.FirstOrDefaultAsync(e => e.merchant_group_id == shopGroupId);
             shopGroup.group_name = groupName;
             shopGroup.updated_by = userId;
             shopGroup.updated_date = _dtnow;

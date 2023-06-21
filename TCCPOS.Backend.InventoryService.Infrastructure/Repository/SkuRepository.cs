@@ -47,7 +47,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             //        .ToListAsync();
 
             var query = from order in _context.order
-                        where order.supplier_id == supplier_id && order.shop_id == merchantId
+                        where order.supplier_id == supplier_id && order.merchant_id == merchantId
                         join orderItem in (
                             from sku in _context.sku
                             where sku.supplier_id == supplier_id

@@ -2560,10 +2560,6 @@
             "type": "number",
             "format": "double",
             "nullable": true
-          },
-          "isPurchaseBefore": {
-            "type": "boolean",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -3147,12 +3143,12 @@
         "type": "object",
         "properties": {
           "shopgroup": {
-            "$ref": "#/components/schemas/shopgroup"
+            "$ref": "#/components/schemas/merchantgroup"
           },
           "shops": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/shop"
+              "$ref": "#/components/schemas/merchant"
             },
             "nullable": true
           }
@@ -3286,14 +3282,14 @@
         },
         "additionalProperties": false
       },
-      "shop": {
+      "merchant": {
         "type": "object",
         "properties": {
-          "shop_id": {
+          "merchant_id": {
             "type": "string",
             "nullable": true
           },
-          "shop_name": {
+          "merchant_name": {
             "type": "string",
             "nullable": true
           },
@@ -3319,17 +3315,17 @@
             "type": "string",
             "nullable": true
           },
-          "shop_group_id": {
+          "merchant_group_id": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "shopgroup": {
+      "merchantgroup": {
         "type": "object",
         "properties": {
-          "shop_group_id": {
+          "merchant_group_id": {
             "type": "string",
             "nullable": true
           },

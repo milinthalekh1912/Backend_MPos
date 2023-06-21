@@ -31,7 +31,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetA
             {
                 AddressDetailResult obj = new AddressDetailResult();
                 obj.addressId = item.address_id;
-                obj.shopTitle = item.shop_title;
+                obj.shopTitle = item.address_title;
                 obj.address1 = item.address1;
                 obj.address2 = item.address2;
                 obj.address3 = item.address3;
