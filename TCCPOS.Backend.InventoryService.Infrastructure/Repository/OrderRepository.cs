@@ -228,18 +228,19 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         ) on order.order_id equals orderItem.OrderItem.order_id
                         select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
 
+            
             var results = await query.AsNoTracking().ToListAsync();
 
             var shopList = await _context.merchant.Where(e => true).ToListAsync();
-            var add_id = results.First().Order.address_id;
-            var address = await _context.merchantaddress.FirstOrDefaultAsync(x => x.address_id == add_id);
+            
+            var address = await _context.merchantaddress.FirstOrDefaultAsync(x => x.address_id == results.First().Order.address_id);
 
             AddressResult addressResult = new AddressResult();
             addressResult.address_title = address.address_title;
             addressResult.address1 = address.address1;
             addressResult.address2 = address.address2;
             addressResult.address3 = address.address3;
-
+            addressResult.zipcode = address.zipcode;
 
             var orderResult = results.GroupBy(r => r.Order.order_id)
                     .Select(group => new GetOrderByIdResult

@@ -27,7 +27,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
 
         public async Task<GetOrderByIdResult> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            GetOrderByIdResult orderDetail;
+            GetOrderByIdResult orderDetail ;
 
             if (request.MerchantId == "ADMIN")
             {

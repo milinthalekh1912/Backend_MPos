@@ -38,7 +38,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetOrderById(string id)
         {
-            var query = new GetOrderByIdQuery(id, Identity.GetMerchantID());
+            var query = new GetOrderByIdQuery(Identity.GetMerchantID(),id);
             var res = await _mediator.Send(query);
             return Ok(res);
         }
