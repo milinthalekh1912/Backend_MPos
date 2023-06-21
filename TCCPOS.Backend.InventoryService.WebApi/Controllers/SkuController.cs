@@ -6,6 +6,7 @@ using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetAllSkuBySupplierId;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetAllSkuWithPriceTierByPriceTierID;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend;
 using TCCPOS.Backend.InventoryService.Application.Feature.SKU.Query.GetSkuListByCategoriesID;
@@ -57,6 +58,18 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         public async Task<IActionResult> GetAllSkuBySupplierId(string supplier_id)
         {
             var query = new GetAllSkuBySupplierIdQuery(Identity.GetMerchantID(),supplier_id);
+            var res = await _mediator.Send(query);
+            return Ok(res);
+        }
+
+        [HttpGet]
+        [Route("All/WithPriceTier/{supplier_id}/{price_tier_id}")]
+        [ProducesResponseType(typeof(GetAllSkuResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetAllSkuWithPriceTierBySupplierId(string supplier_id,string price_tier_id)
+        {
+            var query = new GetAllSkuWithPriceTierByPriceTierIDQuery(supplier_id, price_tier_id);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

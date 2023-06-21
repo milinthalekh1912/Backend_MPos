@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TCCPOS.Backend.InventoryService.Application.Contract;
 using TCCPOS.Backend.InventoryService.Application.Exceptions;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetAllSkuWithPriceTierByPriceTierID;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend;
 using TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.GetSupplier;
@@ -80,6 +81,36 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var query = await _context.sku.Where(x => x.supplier_id == supplier_id).ToListAsync();
             if (query == null && query.Count == 0) throw InventoryServiceException.IE016;
             return query;
+        }
+        //GetAllSkuWithPriceTierByPriceTierIDResult
+        public async Task<GetAllSkuWithPriceTierByPriceTierIDResult> GetAllSkuWithPriceTierByPriceTierId(string supplier_id, string price_tier_id)
+        {
+            var query = from sku in _context.sku
+                        where sku.supplier_id == supplier_id
+                        join pricetier in _context.pricetier
+                        on sku.sku_id equals pricetier.sku_id
+                        select new
+                        {
+                            SKU = sku,
+                            PriceTier = pricetier
+                        };
+            var search =  await query.AsNoTracking().Where(e => e.PriceTier.price_tier_group_id == price_tier_id).ToListAsync();
+            var res = new GetAllSkuWithPriceTierByPriceTierIDResult();
+
+            foreach(var sku_with_price in search)
+            {
+                GetAllSkuWithPriceTierByPriceTierIDItemResult item = new GetAllSkuWithPriceTierByPriceTierIDItemResult();
+                item.sku = sku_with_price.SKU.sku_id;
+                item.barcode = sku_with_price.SKU.barcode;
+                item.title = sku_with_price.SKU.title;
+                item.aliasTitle = sku_with_price.SKU.alias_title;
+                item.imageUrl = sku_with_price.SKU.image_url;
+                item.price = sku_with_price.PriceTier.price;
+                item.categoryId = sku_with_price.SKU.category_id;
+                res.item.Add(item);
+            }
+
+            return res;
         }
 
 
