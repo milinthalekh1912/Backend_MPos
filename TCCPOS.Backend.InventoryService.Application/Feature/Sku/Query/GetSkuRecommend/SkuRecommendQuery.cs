@@ -5,11 +5,13 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProdu
 {
     public class GetSkuRecommendQuery : IRequest<List<SkuRecommendResult>>
     {
-        public string supplier_id { get; set; }
+        public string Supplier_id { get; set; }
+        public string Merchant_id { get; set; }
 
-        public GetSkuRecommendQuery(string supplierId)
+        public GetSkuRecommendQuery(string supplierId, string merchant_id)
         {
-            supplier_id = supplierId ?? throw new ArgumentNullException(nameof(supplierId));
+            Supplier_id = supplierId;
+            Merchant_id = merchant_id;
         }
     }
 }

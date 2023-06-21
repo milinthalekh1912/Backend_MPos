@@ -30,9 +30,20 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             _config = config;
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        [SwaggerOperation(Summary = "Get order by id", Description = "")]
+        [ProducesResponseType(typeof(GetOrderByIdResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetOrderById(string id)
+        {
+            var query = new GetOrderByIdQuery(id, Identity.GetMerchantID());
+            var res = await _mediator.Send(query);
+            return Ok(res);
+        }
 
-        [Authorize]
-        [HttpPost()]
+        [HttpPost]
         [SwaggerOperation(Summary = "Create order", Description = "")]
         [ProducesResponseType(typeof(CreateOrderResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
@@ -50,9 +61,8 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-
-        [Authorize]
-        [HttpGet("All/{supplierId}")]
+        [HttpGet]
+        [Route("All/{supplierId}")]
         [SwaggerOperation(Summary = "Get all order by supplierId", Description = "")]
         [ProducesResponseType(typeof(List<GetAllOrdersResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
@@ -68,23 +78,6 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-
-        [Authorize]
-        [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "Get order by id", Description = "")]
-        [ProducesResponseType(typeof(GetOrderByIdResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> getOrderById(string id)
-        {
-            var res = await _mediator.Send(new GetOrderByIdQuery
-            {
-                orderId = id,
-                shopId = Identity.GetMerchantID(),
-            });
-            return Ok(res);
-        }
-
-        [Authorize]
         [HttpPut("OrderStatus")]
         [SwaggerOperation(Summary = "Update order status(backoffice)", Description = "Update Order Status 2 => ++")]
         [ProducesResponseType(typeof(UpdateOrderStatusResult), (int)HttpStatusCode.OK)]
@@ -96,7 +89,6 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-        [Authorize]
         [HttpPut("Confirm/backoffice")]
         [SwaggerOperation(Summary = "Confirm order (backoffice)", Description = "Confirm Order Status => 2")]
         [ProducesResponseType(typeof(ConfirmOrderResult), (int)HttpStatusCode.OK)]
@@ -124,9 +116,6 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             var res = await _mediator.Send(data);
             return Ok(res);
         }
-
-
-
 
     }
 }

@@ -6,10 +6,10 @@
     "version": "v1"
   },
   "paths": {
-    "/api/v1/Address/Customer": {
+    "/api/v1/AddressDetail/Customer": {
       "get": {
         "tags": [
-          "Address"
+          "AddressDetail"
         ],
         "summary": "Get all address of customer",
         "description": "",
@@ -21,7 +21,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AddressResult"
+                    "$ref": "#/components/schemas/AddressDetailResult"
                   }
                 }
               },
@@ -29,7 +29,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AddressResult"
+                    "$ref": "#/components/schemas/AddressDetailResult"
                   }
                 }
               },
@@ -37,7 +37,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AddressResult"
+                    "$ref": "#/components/schemas/AddressDetailResult"
                   }
                 }
               }
@@ -66,10 +66,10 @@
         }
       }
     },
-    "/api/v1/Address/Detail/{id}": {
+    "/api/v1/AddressDetail/Detail/{id}": {
       "get": {
         "tags": [
-          "Address"
+          "AddressDetail"
         ],
         "summary": "Get address detail by addressId",
         "description": "",
@@ -836,6 +836,70 @@
         }
       }
     },
+    "/api/v1/Orders/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get order by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/v1/Orders": {
       "post": {
         "tags": [
@@ -949,67 +1013,6 @@
                   "items": {
                     "$ref": "#/components/schemas/GetAllOrdersResult"
                   }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FailedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Orders/{id}": {
-      "get": {
-        "tags": [
-          "Orders"
-        ],
-        "summary": "Get order by id",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
                 }
               }
             }
@@ -1252,7 +1255,6 @@
         "tags": [
           "Promotion"
         ],
-        "operationId": "GetPromotion",
         "responses": {
           "200": {
             "description": "Success",
@@ -1475,6 +1477,68 @@
                   "items": {
                     "$ref": "#/components/schemas/SkuRecommendResult"
                   }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/Sku/All/{supplier_id}": {
+      "get": {
+        "tags": [
+          "Sku"
+        ],
+        "parameters": [
+          {
+            "name": "supplier_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllSkuResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllSkuResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllSkuResult"
                 }
               }
             }
@@ -1909,7 +1973,7 @@
   },
   "components": {
     "schemas": {
-      "AddressResult": {
+      "AddressDetailResult": {
         "type": "object",
         "properties": {
           "addressId": {
@@ -1937,6 +2001,32 @@
             "nullable": true
           },
           "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddressResult": {
+        "type": "object",
+        "properties": {
+          "address_title": {
+            "type": "string",
+            "nullable": true
+          },
+          "address1": {
+            "type": "string",
+            "nullable": true
+          },
+          "address2": {
+            "type": "string",
+            "nullable": true
+          },
+          "address3": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipcode": {
             "type": "string",
             "nullable": true
           }
@@ -2439,6 +2529,58 @@
         },
         "additionalProperties": false
       },
+      "GetAllSkuItemResult": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "aliasTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "sku": {
+            "type": "string",
+            "nullable": true
+          },
+          "barcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "isPurchaseBefore": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllSkuResult": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAllSkuItemResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetCategoriesListResult": {
         "type": "object",
         "properties": {
@@ -2507,21 +2649,16 @@
             "type": "string",
             "nullable": true
           },
-          "address_title": {
-            "type": "string",
-            "nullable": true
-          },
           "order_amount": {
             "type": "integer",
             "format": "int32"
           },
-          "address_id": {
-            "type": "string",
-            "nullable": true
-          },
           "created_date": {
             "type": "string",
             "format": "date-time"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressResult"
           },
           "order_items": {
             "type": "array",

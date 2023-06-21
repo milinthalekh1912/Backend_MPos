@@ -27,23 +27,22 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
 
         public async Task<GetOrderByIdResult> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-
             GetOrderByIdResult orderDetail;
 
-            if (request.shopId == "ADMIN")
+            if (request.MerchantId == "ADMIN")
             {
-                orderDetail = await _repo.Order.getOrderByIdBackOfficeAsync(request.orderId);
+                orderDetail = await _repo.Order.getOrderByIdBackOfficeAsync(request.OrderId);
             }
             else
             {
-                orderDetail = await _repo.Order.getOrderByIdAsync(request.orderId, request.shopId);
+                orderDetail = await _repo.Order.getOrderByIdAsync(request.OrderId, request.MerchantId);
             }
 
             if (orderDetail == null)
             {
                 throw InventoryServiceException.IE013;
             }
-            var deliverysDetail = await _repo.DeliveryDetail.getDeliveryDetailsByOrderIdAsync(request.orderId);
+            var deliverysDetail = await _repo.DeliveryDetail.getDeliveryDetailsByOrderIdAsync(request.OrderId);
 
             orderDetail.deliverydetails = deliverysDetail;
             return orderDetail;

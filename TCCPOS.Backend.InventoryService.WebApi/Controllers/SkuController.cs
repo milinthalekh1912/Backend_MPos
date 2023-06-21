@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
+using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetAllSkuBySupplierId;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductByCat;
 using TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProductRecommend;
 using TCCPOS.Backend.InventoryService.Application.Feature.SKU.Query.GetSkuListByCategoriesID;
@@ -43,7 +44,19 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetRecommendedSku(string supplier_id)
         {
-            var query = new GetSkuRecommendQuery(supplier_id);
+            var query = new GetSkuRecommendQuery(supplier_id,Identity.GetMerchantID());
+            var res = await _mediator.Send(query);
+            return Ok(res);
+        }
+
+        [HttpGet]
+        [Route("All/{supplier_id}")]
+        [ProducesResponseType(typeof(GetAllSkuResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetAllSkuBySupplierId(string supplier_id)
+        {
+            var query = new GetAllSkuBySupplierIdQuery(Identity.GetMerchantID(),supplier_id);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

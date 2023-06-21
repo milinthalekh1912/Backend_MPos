@@ -9,9 +9,11 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     {
         Task SaveChangeAsyncWithCommit();
         public Task<List<sku>> getAllSkuAsync(string supplierId);
-        public Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id);
+        public Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id,string merchantId);
         public Task<List<SkuByKeywordResult>> GetSkuByKeyword(string? keyword);
         public Task<List<GetProductByCatResult>> GetSkuBycateID(String categoryId, String supplierId, string shopId);
-       
+        public Task<List<sku>> GetAllSkuBySupplierId(string supplier_id);
+
+
     }
 }

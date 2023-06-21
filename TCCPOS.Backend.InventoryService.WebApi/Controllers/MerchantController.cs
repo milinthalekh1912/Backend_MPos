@@ -29,7 +29,6 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(GetAllMerchantAddressResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
-
         public async Task<IActionResult> GetShopData()
         {
             var query = new GetllAllMerchantAddressQuery();

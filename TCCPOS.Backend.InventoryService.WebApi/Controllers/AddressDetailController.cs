@@ -10,26 +10,27 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAd
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AddressController : ApiControllerBase
+    public class AddressDetailController : ApiControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<AddressController> _logger;
-        public AddressController(ILogger<AddressController> logger, IMediator mediator)
+        private readonly ILogger<AddressDetailController> _logger;
+        public AddressDetailController(ILogger<AddressDetailController> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
         }
 
-        [HttpGet("Customer")]
+        [Authorize]
+        [HttpGet]
+        [Route("Customer")]
         [SwaggerOperation(Summary = "Get all address of customer", Description = "")]
-        [ProducesResponseType(typeof(List<AddressResult>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<AddressDetailResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetAllAddress()
+        public async Task<IActionResult> GetAllAddressDetail()
         {
-            var query = new GetAllAddressQuery
+            var query = new GetAllAddressDetailQuery
             {
                 shopId = Identity.GetMerchantID(),
             };
@@ -37,12 +38,13 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-        [HttpGet("Detail/{id}")]
+        [HttpGet]
+        [Route("Detail/{id}")]
         [SwaggerOperation(Summary = "Get address detail by addressId", Description = "")]
         [ProducesResponseType(typeof(GetAddressByIdResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> GetAddressById(String id)
+        public async Task<IActionResult> GetAddressById(string id)
         {
             var query = new GetAddressByIdQuery(id);
             var res = await _mediator.Send(query);

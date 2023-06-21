@@ -6,7 +6,7 @@ using TCCPOS.Backend.InventoryService.Entities;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetAllAddress
 {
-    public class GetAllAddressQHandler : IRequestHandler<GetAllAddressQuery, GetListAddressResult>
+    public class GetAllAddressQHandler : IRequestHandler<GetAllAddressDetailQuery, GetListAddressResult>
     {
         private readonly ILogger<GetAllAddressQHandler> _logger;
         IInventoryRepository _repo;
@@ -17,7 +17,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetA
             _repo = repo;
         }
 
-        public async Task<GetListAddressResult> Handle(GetAllAddressQuery request, CancellationToken cancellationToken)
+        public async Task<GetListAddressResult> Handle(GetAllAddressDetailQuery request, CancellationToken cancellationToken)
         {
             var shopAddressList = await _repo.Address.GetAllAddress(request.shopId);
             if (shopAddressList == null || !shopAddressList.Any())
@@ -29,7 +29,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetA
 
             foreach (var item in shopAddressList)
             {
-                AddressResult obj = new AddressResult();
+                AddressDetailResult obj = new AddressDetailResult();
                 obj.addressId = item.address_id;
                 obj.shopTitle = item.shop_title;
                 obj.address1 = item.address1;

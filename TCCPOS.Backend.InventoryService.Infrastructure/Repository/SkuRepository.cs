@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using TCCPOS.Backend.InventoryService.Application.Contract;
 using TCCPOS.Backend.InventoryService.Application.Exceptions;
 using TCCPOS.Backend.InventoryService.Application.Feature.ProductByKeyword.Query.GetProductByKeyword;
@@ -38,30 +39,47 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var all_sku = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplierId).ToListAsync();
             return all_sku;
         }
-        public async Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id)
+        public async Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id,string merchantId)
         {
             //var skus = await _context.sku.Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
             //        (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
             //        .Where(x => x.SKU.supplier_id == supplier_id)
             //        .ToListAsync();
 
+            var query = from order in _context.order
+                        where order.supplier_id == supplier_id && order.shop_id == merchantId
+                        join orderItem in (
+                            from sku in _context.sku
+                            where sku.supplier_id == supplier_id
+                            join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
+                            select new { SKU = sku, OrderItem = oi }
+                        ) on order.order_id equals orderItem.OrderItem.order_id
+                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
+
             var skus = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplier_id).ToListAsync();
 
             List<SkuRecommendResult> result = new List<SkuRecommendResult>();
 
-            foreach (var SKU in skus)
+            foreach (var item in query)
             {
                 SkuRecommendResult obj = new SkuRecommendResult();
-                obj.title = SKU.title;
-                obj.aliasTitle = SKU.alias_title;
-                obj.sku = SKU.sku_id;
-                obj.barcode = SKU.barcode;
-                obj.imageUrl = SKU.image_url;
-                obj.categoryId = SKU.category_id;
+                obj.title = item.SKU.title;
+                obj.aliasTitle = item.SKU.alias_title;
+                obj.sku = item.SKU.sku_id;
+                obj.barcode = item.SKU.barcode;
+                obj.imageUrl = item.SKU.image_url;
+                obj.categoryId = item.SKU.category_id;
                 result.Add(obj);
             }
 
             return result;
+        }
+
+        public async Task<List<sku>> GetAllSkuBySupplierId(string supplier_id)
+        {
+            var query = await _context.sku.Where(x => x.supplier_id == supplier_id).ToListAsync();
+            if (query == null && query.Count == 0) throw InventoryServiceException.IE016;
+            return query;
         }
 
 

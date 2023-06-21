@@ -231,6 +231,15 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var results = await query.AsNoTracking().ToListAsync();
 
             var shopList = await _context.shop.Where(e => true).ToListAsync();
+            var add_id = results.First().Order.address_id;
+            var address = await _context.shopaddress.FirstOrDefaultAsync(x => x.address_id == add_id);
+
+            AddressResult addressResult = new AddressResult();
+            addressResult.address_title = address.shop_title;
+            addressResult.address1 = address.address1;
+            addressResult.address2 = address.address2;
+            addressResult.address3 = address.address3;
+
 
             var orderResult = results.GroupBy(r => r.Order.order_id)
                     .Select(group => new GetOrderByIdResult
@@ -241,7 +250,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         shop_id = group.First().Order.shop_id,
                         supplier_name = group.First().Order.supplier_id,
                         customer_name = shopList.FirstOrDefault(e => e.shop_id == group.First().Order.shop_id).shop_name,
-                        address_id = group.First().Order.address_id,
+                        address = addressResult,
                         order_status = group.First().Order.order_status ?? 0,
                         created_date = group.First().Order.created_date ?? _dtnow,
                         order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
@@ -262,12 +271,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
 
             var updateReadStatus = await _context.order.FirstOrDefaultAsync(e => e.order_id == order_id);
-
             updateReadStatus.is_read = true;
-
             await _context.SaveChangesAsync();
-
-
             return orderResult;
         }
 
@@ -283,8 +288,16 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
 
             var results = await query.AsNoTracking().ToListAsync();
+            var add_id = results.First().Order.address_id;
 
             var shopList = await _context.shop.Where(e => true).ToListAsync();
+            var address = await _context.shopaddress.FirstOrDefaultAsync(x => x.address_id == add_id);
+
+            AddressResult addressResult = new AddressResult();
+            addressResult.address_title = address.shop_title;
+            addressResult.address1 = address.address1;
+            addressResult.address2 = address.address2;
+            addressResult.address3 = address.address3;
 
             var orderResult = results.GroupBy(r => r.Order.order_id)
                     .Select(group => new GetOrderByIdResult
@@ -295,7 +308,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         shop_id = group.First().Order.shop_id,
                         supplier_name = group.First().Order.supplier_id,
                         customer_name = shopList.FirstOrDefault(e => e.shop_id == group.First().Order.shop_id).shop_name,
-                        address_id = group.First().Order.address_id,
+                        address = addressResult,
                         order_status = group.First().Order.order_status ?? 0,
                         created_date = group.First().Order.created_date ?? _dtnow,
                         order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,

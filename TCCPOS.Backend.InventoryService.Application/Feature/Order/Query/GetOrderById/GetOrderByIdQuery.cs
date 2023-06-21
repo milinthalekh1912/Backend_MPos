@@ -10,8 +10,14 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
 {
     public class GetOrderByIdQuery : IRequest<GetOrderByIdResult>
     {
-        public string orderId { get; set; }
+        public string OrderId { get; set; }
 
-        public string shopId { get; set; }
+        public string MerchantId { get; set; }
+
+        public GetOrderByIdQuery(string merchantId,string orderId)
+        {
+            OrderId = orderId;
+            MerchantId = merchantId;
+        }
     }
 }

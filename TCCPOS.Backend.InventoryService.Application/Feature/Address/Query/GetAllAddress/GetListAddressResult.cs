@@ -8,6 +8,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetA
 {
     public class GetListAddressResult
     {
-        public List<AddressResult> items { get; set; } = new List<AddressResult>();
+        public List<AddressDetailResult> items { get; set; } = new List<AddressDetailResult>();
     }
 }

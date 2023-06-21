@@ -20,10 +20,9 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetProdu
 
         public async Task<List<SkuRecommendResult>> Handle(GetSkuRecommendQuery request, CancellationToken cancellationToken)
         {
-
-            var product = await _repo.Sku.GetSkuRecommend(request.supplier_id);
-
-            return product.ToList();
+            var res = await _repo.Sku.GetSkuRecommend(request.Supplier_id,request.Merchant_id);
+           
+            return res;
         }
 
 

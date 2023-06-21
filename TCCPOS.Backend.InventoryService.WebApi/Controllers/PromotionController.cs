@@ -24,7 +24,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet(Name = "GetPromotion")]
+        [HttpGet]
         [ProducesResponseType(typeof(List<PromotionResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
