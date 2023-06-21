@@ -1,6 +1,7 @@
 ﻿using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrderByMerchantId;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
 using TCCPOS.Backend.InventoryService.Entities;
@@ -22,5 +23,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<order> UpdateOrderStatusByOrderID(string orderID);
         public Task<List<orderdetail>> GetOrderDetailByOrderId(string order_id);
 
+        public Task<GetAllOrderByMerchantIdResult> getAllOrderByMerchantID(string merchantID);
     }
 }

@@ -9,6 +9,8 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderBy
 using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Entities;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrderByMerchantId;
+using MediatR;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -66,8 +68,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             return newOrder;
         }
-
-
 
         public async Task<List<sku>> getAllSkuAsync()
         {
@@ -210,6 +210,71 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             return order_context;
             
+        }
+
+        public async Task<GetAllOrderByMerchantIdResult> getAllOrderByMerchantID(string merchantID)
+        {
+            var result = new GetAllOrderByMerchantIdResult();
+            var query = from order in _context.order
+                        where order.merchant_id == merchantID
+                        join orderItem in (
+                            from sku in _context.sku
+                            join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
+                            select new { SKU = sku, OrderItem = oi }
+                        ) on order.order_id equals orderItem.OrderItem.order_id
+                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
+
+            var merchant = await _context.merchant.FirstOrDefaultAsync(x => x.merchant_id == merchantID);
+
+            
+            var results = await query.AsNoTracking().ToListAsync();
+            foreach (var order in results)
+            {
+                /*GetAllOrderByMerchantIdItemResult item = new GetAllOrderByMerchantIdItemResult();
+                item.order_id = order.Order.order_id;
+                item.order_no = order.Order.order_no;
+                item.total = 0.00;
+                item.total_discount = 0.00;
+                item.is_read = (bool)order.Order.is_read;
+                item.order_status = (int)order.Order.order_status;
+                item.user_id = order.Order.user_id;
+                item.shop_id = order.Order.merchant_id;
+                item.supplier_id = order.Order.supplier_id;
+                item.customer_name = merchant.merchant_name;*/
+
+                var orderResult = results.GroupBy(r => r.Order.order_id)
+                    .Select(group => new GetAllOrderByMerchantIdItemResult
+                    {
+                        order_id = group.Key,
+                        is_read = true,
+                        user_id = group.First().Order.user_id,
+                        shop_id = group.First().Order.merchant_id,
+                        supplier_name = group.First().Order.supplier_id,
+                        customer_name = merchant.merchant_name,
+                        order_status = group.First().Order.order_status ?? 0,
+                        created_date = group.First().Order.created_date ?? _dtnow,
+                        order_amount = group.Sum(r => r.OrderItem.amount) ?? 0,
+                        order_items = group.Select(r => new OrderItemResult
+                        {
+                            order_item_id = r.OrderItem.order_item_id,
+                            sku_id = r.OrderItem.sku_id,
+                            amount = r.OrderItem.amount ?? 0,
+                            price = r.OrderItem.price,
+                            sku_title = r.SKU.title,
+                            sku_alias_title = r.SKU.alias_title,
+                            sku_barcode = r.SKU.barcode,
+                            image_url = r.SKU.image_url,
+                            sku_category_id = r.SKU.category_id,
+                        }).ToList()
+                    })
+                    .FirstOrDefault();
+
+                result.item.Add(orderResult);
+
+            }
+
+
+            return result;
         }
 
         public async Task<List<orderdetail>> GetOrderDetailByOrderId(string order_id)

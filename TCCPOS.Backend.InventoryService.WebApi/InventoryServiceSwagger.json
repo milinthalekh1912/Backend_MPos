@@ -913,17 +913,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                  "$ref": "#/components/schemas/GetAllOrderByMerchantIdResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                  "$ref": "#/components/schemas/GetAllOrderByMerchantIdResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetOrderByIdResult"
+                  "$ref": "#/components/schemas/GetAllOrderByMerchantIdResult"
                 }
               }
             }
@@ -2491,6 +2491,87 @@
           "shopAmount": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllOrderByMerchantIdItemResult": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "order_no": {
+            "type": "string",
+            "nullable": true
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "total_discount": {
+            "type": "number",
+            "format": "double"
+          },
+          "is_read": {
+            "type": "boolean"
+          },
+          "order_status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "shop_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplier_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplier_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "order_amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "address_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "order_items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllOrderByMerchantIdResult": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAllOrderByMerchantIdItemResult"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

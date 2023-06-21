@@ -9,6 +9,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Comman
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.UpdateOrderStatus;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrderByMerchantId;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
 
@@ -47,12 +48,12 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [HttpGet]
         [Route("")]
         [SwaggerOperation(Summary = "Get All order by Merchant", Description = "")]
-        [ProducesResponseType(typeof(GetOrderByIdResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetAllOrderByMerchantIdResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetOrderByUser()
         {
-            var query = new GetOrderByIdQuery(Identity.GetMerchantID(),"ff");
+            var query = new GetAllOrderByMerchantIdQuery(Identity.GetMerchantID());
             var res = await _mediator.Send(query);
             return Ok(res);
         }
