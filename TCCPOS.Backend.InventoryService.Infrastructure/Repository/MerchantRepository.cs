@@ -45,6 +45,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                                 {
                                     s.merchant_id,
                                     s.merchant_name,
+                                    s.price_tier_id,
                                     sg.address_id,
                                 };
 
@@ -58,8 +59,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         {
                             shop_id = e.merchant_id,
                             shop_name = e.merchant_name,
-                            shop_address_id = e.address_id
-
+                            shop_address_id = e.address_id,
+                            price_tier_id = e.price_tier_id,
                         };
                     }).ToList()
                 };

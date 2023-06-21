@@ -94,7 +94,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         }
 
 
-
         public async Task<List<GetAllMerchantGroupResult>> getAllShopGroupAsync()
         {
             var queryable = from sg in _context.merchantgroup
