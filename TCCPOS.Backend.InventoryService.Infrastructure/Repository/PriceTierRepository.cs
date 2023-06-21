@@ -33,7 +33,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return await _context.pricetier.Where(x => x.price_tier_group_id == priceTierGroupID).ToListAsync();  
         }
 
-        
+        public async Task<List<pricetiergroup>> GetAllPriceTierBySupplierID(string supplierID)
+        {
+            return await _context.pricetiergroup.Where(x => x.supplier_id == supplierID).ToListAsync();
+        }
+
     }
 }
 

@@ -427,6 +427,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 entity.Property(e => e.sku_id).HasMaxLength(36);
 
+                entity.Property(e => e.IsActive).HasDefaultValueSql("'0'");
+
                 entity.Property(e => e.alias_title).HasMaxLength(100);
 
                 entity.Property(e => e.barcode).HasMaxLength(36);
@@ -485,17 +487,29 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
                 entity.Property(e => e.unit_id).HasMaxLength(36);
 
-                entity.Property(e => e.created_by).HasMaxLength(255);
+                entity.Property(e => e.created_by)
+                    .HasMaxLength(255)
+                    .HasDefaultValueSql("'sDev'");
 
-                entity.Property(e => e.created_date).HasColumnType("datetime");
+                entity.Property(e => e.created_date)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("'2023-06-21 16:05:15'");
+
+                entity.Property(e => e.supplier_id)
+                    .HasMaxLength(100)
+                    .HasDefaultValueSql("'Changhouse'");
 
                 entity.Property(e => e.unit1).HasColumnName("unit");
 
                 entity.Property(e => e.unit_name).HasMaxLength(255);
 
-                entity.Property(e => e.updated_by).HasMaxLength(255);
+                entity.Property(e => e.updated_by)
+                    .HasMaxLength(255)
+                    .HasDefaultValueSql("'sDev'");
 
-                entity.Property(e => e.updated_date).HasColumnType("datetime");
+                entity.Property(e => e.updated_date)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("'2023-06-21 16:05:15'");
             });
 
             modelBuilder.Entity<user>(entity =>

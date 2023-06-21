@@ -6,5 +6,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
     {
         Task SaveChangeAsyncWithCommit();
         public Task<List<pricetier>> GetAllPriceTierByPriceTierGroupID(string priceTierGroupID);
+        public Task<List<pricetiergroup>> GetAllPriceTierBySupplierID(string supplierID);
     }
 }
