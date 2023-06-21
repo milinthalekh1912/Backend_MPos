@@ -53,14 +53,14 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
             return acc;
         }
 
-        public async Task<shop> createShopAsync(string shop_name, string priceTierId, string shop_group_id, string userId)
+        public async Task<merchant> createShopAsync(string shop_name, string priceTierId, string shop_group_id, string userId)
         {
-            var newShop = new shop
+            var newShop = new merchant
             {
-                shop_id = Guid.NewGuid().ToString(),
-                shop_name = shop_name,
+                merchant_id = Guid.NewGuid().ToString(),
+                merchant_name = shop_name,
                 price_tier_id = priceTierId,
-                shop_group_id = shop_group_id,
+                merchant_group_id = shop_group_id,
                 created_by = userId,
                 updated_by = userId,
                 updated_date = _dtnow,
@@ -72,13 +72,13 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
             return newShop;
         }
 
-        public async Task<shopaddress> createNewShopAddress(string shopId, string shop_name, string address1, string address2, string address3, string zipcode, string phone_number, string userId)
+        public async Task<merchantaddress> createNewShopAddress(string shopId, string shop_name, string address1, string address2, string address3, string zipcode, string phone_number, string userId)
         {
-            var newShopAddress = new shopaddress
+            var newShopAddress = new merchantaddress
             {
-                shop_id = shopId,
+                merchant_id = shopId,
                 address_id = Guid.NewGuid().ToString(),
-                shop_title = shop_name,
+                address_title = shop_name,
                 address1 = address1,
                 address2 = address2,
                 address3 = address3,

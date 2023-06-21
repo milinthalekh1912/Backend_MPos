@@ -44,9 +44,10 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.CreateUser.Command.
             {
                 new Claim(ClaimTypes.Name, acc.username ?? ""),
                 new Claim(ClaimTypes.System, acc.id),
-                new Claim("username",acc.username ?? ""),
-                new Claim("userId",acc.id),
-                new Claim("shopId",acc.shop_id ?? ""),
+                new Claim("Username",acc.username ?? ""),
+                new Claim("UserId",acc.id),
+                new Claim("MerchantID",acc.shop_id ?? ""),
+                new Claim("BranchID",acc.shop_id ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
