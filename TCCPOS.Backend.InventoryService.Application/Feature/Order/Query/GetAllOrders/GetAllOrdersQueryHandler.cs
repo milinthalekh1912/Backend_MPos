@@ -41,6 +41,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
                 GetAllOrdersResult getOrder = new GetAllOrdersResult();
                 
                 getOrder.order_id = ord.order_id;
+                getOrder.order_no = ord.order_no;
                 getOrder.is_read = ord.is_read ?? true;
                 getOrder.order_status = ord.order_status ?? 1;
                 getOrder.shop_id = ord.merchant_id;

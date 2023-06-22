@@ -290,6 +290,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 var sku_list = await _context.sku.Where(x => x.supplier_id == supplierId).ToListAsync();
 
                 getOrder.order_id = ord.order_id;
+                getOrder.order_no = ord.order_no;
                 getOrder.is_read = ord.is_read ?? true;
                 getOrder.order_status = ord.order_status ?? 1;
                 getOrder.shop_id = ord.merchant_id;
@@ -382,6 +383,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     .Select(group => new GetAllOrderByMerchantIdItemResult
                     {
                         order_id = group.Key,
+                        order_no = group.First().Order.order_no,
                         is_read = true,
                         user_id = group.First().Order.user_id,
                         shop_id = group.First().Order.merchant_id,
