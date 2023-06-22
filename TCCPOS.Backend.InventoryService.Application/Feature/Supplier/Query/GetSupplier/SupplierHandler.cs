@@ -18,7 +18,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Supplier.Query.Get
         public async Task<List<SupplierResult>> Handle(GetSupplierQuery request, CancellationToken cancellationToken)
         {
             var suppliers = await _repo.Supplier.GetSupplier(); // Call the GetSupplier method in your repository
-
+            suppliers = suppliers.OrderBy(x => x.shopTitle).ToList();
             return suppliers.ToList();
         }
     }

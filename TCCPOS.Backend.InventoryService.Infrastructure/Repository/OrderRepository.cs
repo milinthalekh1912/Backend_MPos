@@ -348,22 +348,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var merchant = await _context.merchant.FirstOrDefaultAsync(x => x.merchant_id == merchantID);
 
             var results = await sku_join.AsNoTracking().ToListAsync();
-            //var results = await query.AsNoTracking().ToListAsync();
-            foreach (var order in results)
-            {
-                /*GetAllOrderByMerchantIdItemResult item = new GetAllOrderByMerchantIdItemResult();
-                item.order_id = order.Order.order_id;
-                item.order_no = order.Order.order_no;
-                item.total = 0.00;
-                item.total_discount = 0.00;
-                item.is_read = (bool)order.Order.is_read;
-                item.order_status = (int)order.Order.order_status;
-                item.user_id = order.Order.user_id;
-                item.merchant_id = order.Order.merchant_id;
-                item.supplier_id = order.Order.supplier_id;
-                item.customer_name = merchant.merchant_name;*/
 
-                var orderResult = results.GroupBy(r => r.Order.order_id)
+            var orderGroup = results.GroupBy(r => r.Order.order_id)
                     .Select(group => new GetAllOrderByMerchantIdItemResult
                     {
                         order_id = group.Key,
@@ -387,13 +373,24 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                             image_url = r.SKU.image_url,
                             sku_category_id = r.SKU.category_id,
                         }).ToList()
-                    })
-                    .FirstOrDefault();
-
-                result.item.Add(orderResult);
+                    }).ToList();
+            //var results = await query.AsNoTracking().ToListAsync();
+            foreach (var order in orderGroup)
+            {
+                /*GetAllOrderByMerchantIdItemResult item = new GetAllOrderByMerchantIdItemResult();
+                item.order_id = order.Order.order_id;
+                item.order_no = order.Order.order_no;
+                item.total = 0.00;
+                item.total_discount = 0.00;
+                item.is_read = (bool)order.Order.is_read;
+                item.order_status = (int)order.Order.order_status;
+                item.user_id = order.Order.user_id;
+                item.merchant_id = order.Order.merchant_id;
+                item.supplier_id = order.Order.supplier_id;
+                item.customer_name = merchant.merchant_name;*/
+                result.item.Add(order);
 
             }
-
 
             return result;
         }

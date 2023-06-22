@@ -23,6 +23,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.Get
         public async Task<GetAllMerchantAddressResult> Handle(GetllAllMerchantAddressQuery request, CancellationToken cancellationToken)
         {
             var shopWithAddress = await _repo.Merchant.getAllShopWithAddressAsync();
+            shopWithAddress.shopAddress = shopWithAddress.shopAddress.OrderBy(x => x.merchant_address_title).ToList();
             return shopWithAddress;
         }
     }

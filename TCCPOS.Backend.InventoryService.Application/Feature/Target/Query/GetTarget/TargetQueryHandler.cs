@@ -20,7 +20,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Target.Query.GetTar
         {
 
             var res = await _repo.Target.GetTarget(); 
-
+            res = res.OrderBy(x => x.StartDate).ToList();
             return res.ToList();
 
         }

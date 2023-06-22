@@ -39,6 +39,8 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Address.Query.GetA
                 obj.phoneNumber = item.phone_number;
                 results.items.Add(obj);
             }
+
+            results.items = results.items.OrderBy(x => x.shopTitle).ToList();
             return results;
         }
     }

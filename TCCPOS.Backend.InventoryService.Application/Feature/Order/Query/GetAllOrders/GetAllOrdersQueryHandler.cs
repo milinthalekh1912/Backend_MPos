@@ -72,7 +72,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
                 getOrder.order_amount = count_amount_item;
                 res.Add(getOrder);
             }
-
+            res = res.OrderBy(x => x.created_date).ToList();
             return res;
 
         }

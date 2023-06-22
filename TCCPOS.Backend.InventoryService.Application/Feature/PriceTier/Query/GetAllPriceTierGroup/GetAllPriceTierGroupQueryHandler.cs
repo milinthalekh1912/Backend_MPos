@@ -28,6 +28,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.PriceTier.Query.Ge
                 item.description = element.description;
                 res.items.Add(item);
             }
+            res.items = res.items.OrderBy(x => x.title).ToList();
             return res;
 
         }
