@@ -43,9 +43,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(List<SkuRecommendResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> GetRecommendedSku(string supplier_id)
+        public async Task<IActionResult> GetRecommendedSku(string supplierId)
         {
-            var query = new GetSkuRecommendQuery(supplier_id,Identity.GetMerchantID());
+            var query = new GetSkuRecommendQuery(supplierId, Identity.GetMerchantID());
             var res = await _mediator.Send(query);
             return Ok(res);
         }
@@ -55,9 +55,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(GetAllSkuResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> GetAllSkuBySupplierId(string supplier_id)
+        public async Task<IActionResult> GetAllSkuBySupplierId(string supplierId)
         {
-            var query = new GetAllSkuBySupplierIdQuery(Identity.GetMerchantID(),supplier_id);
+            var query = new GetAllSkuBySupplierIdQuery(Identity.GetMerchantID(), supplierId);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

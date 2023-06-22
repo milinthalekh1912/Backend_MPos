@@ -21,6 +21,5 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.Regist
         public string zipcode { get; set; } = null!;
         [Required]
         public string phone_number { get; set; } = null!;
-
     }
 }
