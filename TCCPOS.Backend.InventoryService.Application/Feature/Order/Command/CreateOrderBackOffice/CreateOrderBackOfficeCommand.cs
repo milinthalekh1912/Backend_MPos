@@ -5,7 +5,6 @@ using System.Text;
 using MediatR;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrderBackOffice
 {
@@ -15,12 +14,20 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
         public string MerchantID { get; set; }
         public string SupplierID { get; set; }
         public string? CouponID { get; set; } = null!;
+        public double? Total { get; set; } = null!;
+        public double? TotalDiscount { get; set; } = null!;
+
         [Required]
         public string AddressID { get; set; }
-        public List<OrderItemRequest> Order_Items { get; set; }
-        public CreateOrderBackOfficeCommand(string userId,string merchantId,string supplierId,string? couponId,string addressId, List<OrderItemRequest>  orderItem)
+        public List<CreateOrderBackofficeItemRequest> Order_Items { get; set; }
+        public CreateOrderBackOfficeCommand(string userId,CreateOrderBackOfficeRequest request)
         {
-
+            UserID= userId;
+            MerchantID= request.merchant_id;
+            SupplierID= request.supplier_id;
+            CouponID= request.coupon_id;
+            AddressID= request.address_id;
+            Order_Items = request.order_items;
         }
 
     }

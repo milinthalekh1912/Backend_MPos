@@ -1,6 +1,7 @@
 ﻿using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrderBackOffice;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrderByMerchantId;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
@@ -24,5 +25,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<List<orderdetail>> GetOrderDetailByOrderId(string order_id);
 
         public Task<GetAllOrderByMerchantIdResult> getAllOrderByMerchantID(string merchantID);
+        public Task<order> createOrderBackOffice(string order_id, CreateOrderBackOfficeCommand command);
+        public Task<List<orderdetail>> createOrderItemBackOffice(string order_id, List<CreateOrderBackofficeItemRequest> orderItems, string userId, string merchantId);
     }
 }

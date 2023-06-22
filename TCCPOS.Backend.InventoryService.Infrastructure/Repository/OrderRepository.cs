@@ -11,6 +11,7 @@ using TCCPOS.Backend.InventoryService.Entities;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrderByMerchantId;
 using MediatR;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrderBackOffice;
 
 namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 {
@@ -35,9 +36,36 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<order> createOrderBackOffice(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon)
+        public async Task<List<orderdetail>> createOrderItemBackoffice(string order_id, List<CreateOrderBackofficeItemRequest> orderItems, string userId, string merchantId)
         {
-            var supplier = await _context.supplier.FirstOrDefaultAsync(e => e.supplier_id == supplierId);
+
+            var merchantDetail = await getShopProfileAsync(merchantId);
+
+            List<orderdetail> newOrderItems = orderItems.Select(e =>
+            {
+                return new orderdetail
+                {
+                    order_item_id = Guid.NewGuid().ToString(),
+                    sku_id = e.sku_id,
+                    order_id = order_id,
+                    amount = e.amount,
+                    price = e.price,
+                    created_by = userId,
+                    updated_by = userId,
+                    created_date = _dtnow,
+                    updated_date = _dtnow,
+                };
+            }).ToList();
+
+            await _context.AddRangeAsync(newOrderItems);
+            await _context.SaveChangesAsync();
+
+            return newOrderItems;
+        }
+
+        public async Task<order> createOrderBackOffice(string order_id, CreateOrderBackOfficeCommand command)
+        {
+            var supplier = await _context.supplier.FirstOrDefaultAsync(e => e.supplier_id == command.SupplierID);
             if (supplier == null)
             {
                 throw InventoryServiceException.IE017;
@@ -46,20 +74,25 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var newStringSupplierNo = (int.Parse(supplierDocNo) + 1).ToString();
             supplier.DocNo = newStringSupplierNo.PadLeft(5, '0');
 
+            var sum = command.Order_Items.Sum(x => x.amount * x.price);
+
             var newOrder = new order
             {
                 order_id = order_id,
                 order_no = $"PO{_dtnow.Month}{_dtnow.Year}/{supplierDocNo}",
-                user_id = userId,
-                merchant_id = shopId,
-                supplier_id = supplierId,
-                address_id = addressId,
-                coupon_id = coupon,
+                order_type = 1,
+                total = sum,
+                total_discount = 0.00,
+                user_id = command.UserID,
+                merchant_id = command.MerchantID,
+                supplier_id = command.SupplierID,
+                address_id = command.AddressID,
+                coupon_id = command.CouponID,
                 is_read = false,
                 order_status = 1,
                 payment_status = 1,
-                created_by = userId,
-                updated_by = userId,
+                created_by = command.UserID,
+                updated_by = command.UserID,
                 created_date = _dtnow,
                 updated_date = _dtnow,
             };
@@ -68,6 +101,33 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
 
             return newOrder;
+        }
+        public async Task<List<orderdetail>> createOrderItemBackOffice(string order_id, List<CreateOrderBackofficeItemRequest> orderItems, string userId, string merchantId)
+        {
+
+            var shopDetail = await getShopProfileAsync(merchantId);
+
+            List<orderdetail> newOrderItems = orderItems.Select(e =>
+            {
+                return new orderdetail
+                {
+                    order_item_id = Guid.NewGuid().ToString(),
+                    sku_id = e.sku_id,
+                    title = e.title,
+                    order_id = order_id,
+                    amount = e.amount,
+                    price = e.price,
+                    created_by = userId,
+                    updated_by = userId,
+                    created_date = _dtnow,
+                    updated_date = _dtnow,
+                };
+            }).ToList();
+
+            await _context.AddRangeAsync(newOrderItems);
+            await _context.SaveChangesAsync();
+
+            return newOrderItems;
         }
 
 
@@ -78,6 +138,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 throw InventoryServiceException.IE017;
             }
+
             var supplierDocNo = supplier.DocNo;
             var newStringSupplierNo = (int.Parse(supplierDocNo) + 1).ToString();
             supplier.DocNo = newStringSupplierNo.PadLeft(5, '0');
@@ -85,6 +146,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 order_id = order_id,
                 order_no = $"PO{_dtnow.Month}{_dtnow.Year}/{supplierDocNo}",
+                order_type = 2,
+                total = 0.00,
+                total_discount= 0.00,
                 user_id = userId,
                 merchant_id = shopId,
                 supplier_id = supplierId,
@@ -123,13 +187,13 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var shopDetail = await getShopProfileAsync(shopId);
 
             var skuPriceList = await _context.pricetier.Where(e => e.price_tier_group_id == shopDetail.price_tier_id).ToListAsync();
-
             List<orderdetail> newOrderItems = orderItems.Select(e =>
             {
                 return new orderdetail
                 {
                     order_item_id = Guid.NewGuid().ToString(),
                     sku_id = e.sku_id,
+                    title = "",
                     order_id = order_id,
                     amount = e.amount,
                     price = skuPriceList?.FirstOrDefault(x => x.sku_id == e.sku_id)?.price ?? 0,

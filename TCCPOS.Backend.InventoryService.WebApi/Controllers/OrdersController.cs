@@ -77,25 +77,17 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             return Ok(res);
         }
 
-        /*[HttpPost]
+        [HttpPost]
         [Route("OrderBackOffice")]
-        [SwaggerOperation(Summary = "Create order Backoffice", Description = "")]
+        [SwaggerOperation(Summary = "Create Order Backoffice", Description = "")]
         [ProducesResponseType(typeof(CreateOrderResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> CreateOrderBackOffice([FromBody] CreateOrderBackOfficeRequest request)
         {
-            var com = new CreateOrderBackOfficeCommand(Identity.GetUserID(),,request);
-            var res = await _mediator.Send(new CreateOrderCommand
-            {
-                supplier_id = request.supplier_id,
-                address_id = request.address_id,
-                coupon_id = request.coupon_id,
-                user_id = Identity.GetUserID(),
-                merchant_id = Identity.GetMerchantID(),
-                order_items = request.order_items,
-            });
+            var com = new CreateOrderBackOfficeCommand(Identity.GetUserID(), request);
+            var res = await _mediator.Send(com);
             return Ok(res);
-        }*/
+        }
 
         [HttpGet]
         [Route("All/{supplierId}")]

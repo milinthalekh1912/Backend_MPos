@@ -20,7 +20,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
         public string address_id { get; set; }
 
         [Required]
-        public List<OrderItemRequest> order_items { get; set; }
+        public List<CreateOrderBackofficeItemRequest> order_items { get; set; }
 
     }
 }

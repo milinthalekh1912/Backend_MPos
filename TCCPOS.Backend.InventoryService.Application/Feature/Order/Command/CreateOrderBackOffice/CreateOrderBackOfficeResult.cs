@@ -15,6 +15,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
         public string supplier_id { get; set; }
         public string? coupon_id { get; set; } = null!;
         public string address_id { get; set; }
-        public List<OrderItemRequest> order_items { get; set; }
+        public List<CreateOrderBackofficeItemRequest> order_items { get; set; } = new List<CreateOrderBackofficeItemRequest>();
     }
 }

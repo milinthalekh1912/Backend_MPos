@@ -32,26 +32,19 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
             _config = config;
         }
 
-        public async Task<CreateOrderBackOfficeResult> Handle(CreateOrderBackOfficeCommand request, CancellationToken cancellationToken)
+        public async Task<CreateOrderBackOfficeResult> Handle(CreateOrderBackOfficeCommand command, CancellationToken cancellationToken)
         {
             CreateOrderBackOfficeResult res = new CreateOrderBackOfficeResult();
-            //var order_id = Guid.NewGuid().ToString();
-            /*var all_sku = await _repo.Sku.getAllSkuAsync(request.supplier_id);
 
-            request.order_items.ForEach(e =>
-            {
-                var index = all_sku.FindIndex(x => x.sku_id == e.sku_id);
-                if (index == -1)
-                {
-                    throw InventoryServiceException.IE016;
-                }
-            });*/
-
-            //var newOrder = await _repo.Order.createOrderAsync(order_id, request.user_id, request.merchant_id, request.supplier_id, request.address_id, request.coupon_id);
-            //var newOrderItem = await _repo.Order.createOrderItemAsync(order_id, request.order_items, request.user_id, request.merchant_id);
+            var order_id = Guid.NewGuid().ToString();
+            var newOrder = await _repo.Order.createOrderBackOffice(order_id,command);
+            var newOrderItem = await _repo.Order.createOrderItemBackOffice(order_id, command.Order_Items,command.UserID, command.MerchantID);
             //var newDeliveryDetail = await _repo.createOrderDeliveryDetailAsync(newOrder.order_id, request.user_id);
-
-            //add price 
+            res.supplier_id = command.SupplierID;
+            res.address_id = command.AddressID;
+            res.user_id = command.UserID;
+            res.coupon_id = command.CouponID;
+            res.order_items = command.Order_Items;
             return res;
         }
 
