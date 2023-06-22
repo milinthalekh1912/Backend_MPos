@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TCCPOS.Backend.SecurityService.Application.Feature;
+using TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.RegisterMerchantBackOffice;
 using TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.RegisterShop;
 
 namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
@@ -47,6 +48,19 @@ namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
             cmd.address3 = request.address3;
             cmd.zipcode = request.zipcode;
             cmd.phone_number = request.phone_number;
+            var res = await _mediator.Send(cmd);
+            return Ok(res);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("BackOffice")]
+        [SwaggerOperation(Summary = "", Description = "")]
+        [ProducesResponseType(typeof(RegisterShopCommand), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> RegisterShopBackOffice([FromBody] RegisterShopBackOfficeRequest request)
+        {
+            var cmd = new RegisterMerchantBackOfficeCommand(request);
             var res = await _mediator.Send(cmd);
             return Ok(res);
         }

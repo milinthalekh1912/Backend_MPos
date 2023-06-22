@@ -28,7 +28,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.Regist
         {
             var user = await _repo.getUserById(request.userId);
             if (user.shop_id != null) throw SecurityServiceException.SE019;
-            var newShop = await _repo.createShopAsync(request.shop_name, request.priceTierId, request.shop_group_id, request.userId);
+            var newShop = await _repo.createMerchantAsync(request.shop_name, request.priceTierId, request.shop_group_id, request.userId);
             var newAddressShop = await _repo.createNewShopAddress(newShop.merchant_id, request.shop_name, request.address1, request.address2, request.address3, request.zipcode, request.phone_number, request.userId);
             await _repo.updateUserShopId(request.userId, newShop.merchant_id);
 

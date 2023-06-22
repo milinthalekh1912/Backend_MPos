@@ -53,7 +53,7 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
             return acc;
         }
 
-        public async Task<merchant> createShopAsync(string shop_name, string priceTierId, string shop_group_id, string userId)
+        public async Task<merchant> createMerchantAsync(string shop_name, string priceTierId, string shop_group_id, string userId)
         {
             var newShop = new merchant
             {
