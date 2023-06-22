@@ -240,6 +240,36 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return new deliverydetail();
         }
 
+        public async Task<deliverydetail> CreateOrderDeliveryDetailBackOffice(string order_id, string userId)
+        {
+            List<deliverydetail> deliveryDetails = new List<deliverydetail>();
+
+            deliveryDetails.Add(new deliverydetail
+            {
+                delivery_detail_id = Guid.NewGuid().ToString(),
+                order_id = order_id,
+                cost = 0,
+                estimate_date = _dtnow,
+                due_date = _dtnow,
+                is_express = false,
+            });
+
+
+            deliveryDetails.Add(new deliverydetail
+            {
+                delivery_detail_id = Guid.NewGuid().ToString(),
+                order_id = order_id,
+                cost = 0,
+                estimate_date = _dtnow,
+                due_date = _dtnow,
+                is_express = true,
+            });
+
+            await _context.AddRangeAsync(deliveryDetails);
+            await _context.SaveChangesAsync();
+            return new deliverydetail();
+        }
+
         public async Task<List<GetAllOrdersResult>> getAllOrderAsync(string supplierId, string userId, string shopId)
         {
             var orders = new List<GetAllOrdersResult>();
@@ -342,7 +372,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                             from sku in _context.sku
                             join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
                             select new { SKU = sku, OrderItem = oi }
-                        ) on order.order_id equals orderItem.OrderItem.order_id
+                        ) on order.orderId equals orderItem.OrderItem.orderId
                         select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };*/
 
             var merchant = await _context.merchant.FirstOrDefaultAsync(x => x.merchant_id == merchantID);
@@ -378,15 +408,15 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             foreach (var order in orderGroup)
             {
                 /*GetAllOrderByMerchantIdItemResult item = new GetAllOrderByMerchantIdItemResult();
-                item.order_id = order.Order.order_id;
+                item.orderId = order.Order.orderId;
                 item.order_no = order.Order.order_no;
                 item.total = 0.00;
                 item.total_discount = 0.00;
                 item.is_read = (bool)order.Order.is_read;
                 item.order_status = (int)order.Order.order_status;
-                item.user_id = order.Order.user_id;
+                item.userId = order.Order.userId;
                 item.merchant_id = order.Order.merchant_id;
-                item.supplier_id = order.Order.supplier_id;
+                item.supplierId = order.Order.supplierId;
                 item.customer_name = merchant.merchant_name;*/
                 result.item.Add(order);
 
@@ -546,6 +576,33 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 note = command.note,
             };
 
+            await _context.AddRangeAsync(deli_Details);
+            await _context.SaveChangesAsync();
+            return order_obj;
+        }
+
+        public async Task<order> ConfirmOrderByBackOffice(ConfirmOrderCommand command)
+        {
+            var order_obj = await _context.order.FirstOrDefaultAsync(x => x.order_id == command.orderId);
+
+            if (order_obj == null) throw InventoryServiceException.IE018;
+
+            order_obj.order_status = 3;
+            order_obj.updated_date = DateTime.Now;
+            order_obj.updated_by = command.userId;
+
+            deliverydetail deli_Details = new deliverydetail
+            {
+                delivery_detail_id = Guid.NewGuid().ToString(),
+                order_id = command.orderId,
+                cost = 0,
+                estimate_date = command.esimate_date,
+                due_date = command.due_date,
+                is_express = false,
+                note = command.note,
+            };
+
+            order_obj.delivery_detail_id = deli_Details.delivery_detail_id;
             await _context.AddRangeAsync(deli_Details);
             await _context.SaveChangesAsync();
             return order_obj;

@@ -27,5 +27,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<GetAllOrderByMerchantIdResult> getAllOrderByMerchantID(string merchantID);
         public Task<order> createOrderBackOffice(string order_id, CreateOrderBackOfficeCommand command);
         public Task<List<orderdetail>> createOrderItemBackOffice(string order_id, List<CreateOrderBackofficeItemRequest> orderItems, string userId, string merchantId);
+        public Task<order> ConfirmOrderByBackOffice(ConfirmOrderCommand command);
     }
 }

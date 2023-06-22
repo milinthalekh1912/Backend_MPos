@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using TCCPOS.Backend.InventoryService.Application.Contract;
 using TCCPOS.Backend.InventoryService.Application.Exceptions;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 
 namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrderBackOffice
 {
@@ -39,12 +40,25 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
             var order_id = Guid.NewGuid().ToString();
             var newOrder = await _repo.Order.createOrderBackOffice(order_id,command);
             var newOrderItem = await _repo.Order.createOrderItemBackOffice(order_id, command.Order_Items,command.UserID, command.MerchantID);
-            //var newDeliveryDetail = await _repo.createOrderDeliveryDetailAsync(newOrder.order_id, request.user_id);
-            res.supplier_id = command.SupplierID;
-            res.address_id = command.AddressID;
-            res.user_id = command.UserID;
-            res.coupon_id = command.CouponID;
-            res.order_items = command.Order_Items;
+            
+            ConfirmOrderRequest confirmOrderRequest = new ConfirmOrderRequest();
+            confirmOrderRequest.orderId = order_id;
+            confirmOrderRequest.esimate_date = command.EsimateDate;
+            confirmOrderRequest.due_date = command.DueDate;
+            confirmOrderRequest.is_boardcase = command.IsBoardcase;
+            confirmOrderRequest.note = command.Note;
+
+            ConfirmOrderCommand confirmOrder = new ConfirmOrderCommand(command.UserID,command.MerchantID,confirmOrderRequest);
+            var newDeliveryDetail = await _repo.Order.ConfirmOrderByBackOffice(confirmOrder);
+
+            res.orderId = newOrder.order_id;
+            res.merchantId = newOrder.merchant_id;
+            res.supplierId = newOrder.supplier_id;
+            res.deliverlyId = newDeliveryDetail.delivery_detail_id;
+            res.addressId = newOrder.address_id;
+            res.userId = newOrder.user_id;
+            res.couponId = command.CouponID;
+            res.orderItem = command.Order_Items;
             return res;
         }
 

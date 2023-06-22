@@ -2426,6 +2426,9 @@
       "CreateOrderBackOfficeRequest": {
         "required": [
           "address_id",
+          "due_date",
+          "esimate_date",
+          "is_boardcase",
           "merchant_id",
           "order_items",
           "supplier_id"
@@ -2453,6 +2456,21 @@
             "items": {
               "$ref": "#/components/schemas/CreateOrderBackofficeItemRequest"
             }
+          },
+          "esimate_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "is_boardcase": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

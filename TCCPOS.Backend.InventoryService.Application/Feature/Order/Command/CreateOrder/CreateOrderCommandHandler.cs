@@ -47,7 +47,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
 
             var newOrder = await _repo.Order.createOrderAsync(order_id, request.user_id, request.shop_id, request.supplier_id, request.address_id, request.coupon_id);
             var newOrderItem = await _repo.Order.createOrderItemAsync(order_id, request.order_items, request.user_id, request.shop_id);
-            //var newDeliveryDetail = await _repo.createOrderDeliveryDetailAsync(newOrder.order_id, request.user_id);
+            //var newDeliveryDetail = await _repo.createOrderDeliveryDetailAsync(newOrder.orderId, request.userId);
 
             //add price 
             return new CreateOrderResult

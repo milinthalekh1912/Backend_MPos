@@ -21,6 +21,15 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
 
         [Required]
         public List<CreateOrderBackofficeItemRequest> order_items { get; set; }
+        
+        [Required]
+        public DateTime esimate_date { get; set; }
+        [Required]
+        public DateTime due_date { get; set; }
+        [Required]
+        public bool is_boardcase { get; set; }
+ 
+        public string? note { get; set; } = null;
 
     }
 }

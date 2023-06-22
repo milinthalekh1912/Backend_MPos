@@ -39,7 +39,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
 
-        [HttpGet("Recommended/{supplier_id}")]
+        [HttpGet("Recommended/{supplierId}")]
         [ProducesResponseType(typeof(List<SkuRecommendResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
@@ -51,7 +51,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("All/{supplier_id}")]
+        [Route("All/{supplierId}")]
         [ProducesResponseType(typeof(GetAllSkuResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
@@ -63,7 +63,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("All/WithPriceTier/{supplier_id}/{price_tier_id}")]
+        [Route("All/WithPriceTier/{supplierId}/{price_tier_id}")]
         [ProducesResponseType(typeof(GetAllSkuResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]

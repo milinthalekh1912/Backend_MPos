@@ -10,11 +10,13 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
 {
     public class CreateOrderBackOfficeResult
     {
-        public string user_id { get; set; }
-        public string shop_id { get; set; }
-        public string supplier_id { get; set; }
-        public string? coupon_id { get; set; } = null!;
-        public string address_id { get; set; }
-        public List<CreateOrderBackofficeItemRequest> order_items { get; set; } = new List<CreateOrderBackofficeItemRequest>();
+        public string userId { get; set; }
+        public string orderId { get; set; }
+        public string merchantId { get; set; }
+        public string supplierId { get; set; }
+        public string deliverlyId { get; set; }
+        public string? couponId { get; set; } = null!;
+        public string addressId { get; set; }
+        public List<CreateOrderBackofficeItemRequest> orderItem { get; set; } = new List<CreateOrderBackofficeItemRequest>();
     }
 }

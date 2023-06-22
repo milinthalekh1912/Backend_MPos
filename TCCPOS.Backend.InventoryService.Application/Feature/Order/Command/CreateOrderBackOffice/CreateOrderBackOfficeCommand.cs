@@ -16,8 +16,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
         public string? CouponID { get; set; } = null!;
         public double? Total { get; set; } = null!;
         public double? TotalDiscount { get; set; } = null!;
-
-        [Required]
+        public DateTime EsimateDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public bool IsBoardcase { get; set; }
+        public string? Note { get; set; } = null;
         public string AddressID { get; set; }
         public List<CreateOrderBackofficeItemRequest> Order_Items { get; set; }
         public CreateOrderBackOfficeCommand(string userId,CreateOrderBackOfficeRequest request)
@@ -28,6 +30,10 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
             CouponID= request.coupon_id;
             AddressID= request.address_id;
             Order_Items = request.order_items;
+            EsimateDate= request.esimate_date;
+            DueDate= request.due_date;
+            IsBoardcase= request.is_boardcase;
+            Note= request.note;
         }
 
     }

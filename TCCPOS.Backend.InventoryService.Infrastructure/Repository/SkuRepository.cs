@@ -44,7 +44,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         {
             //var skus = await _context.sku.Join(_context.pricetier, sku => sku.sku_id, pricetier => pricetier.sku_id,
             //        (sku, pricetier) => new { SKU = sku, PriceTier = pricetier })
-            //        .Where(x => x.SKU.supplier_id == supplier_id)
+            //        .Where(x => x.SKU.supplierId == supplierId)
             //        .ToListAsync();
 
             var query = from order in _context.order
