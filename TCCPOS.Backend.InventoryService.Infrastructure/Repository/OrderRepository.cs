@@ -78,7 +78,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var newOrder = new order
             {
                 order_id = order_id,
-                order_no = $"PO{_dtnow.Month}{_dtnow.Year}-{supplierDocNo}",
+                order_no = $"PO{_dtnow.Month}{_dtnow.Year}/{supplierDocNo}",
                 order_type = 1,
                 total = sum,
                 total_discount = 0.00,
@@ -144,7 +144,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var newOrder = new order
             {
                 order_id = order_id,
-                order_no = $"PO{_dtnow.Month}{_dtnow.Year}-{supplierDocNo}",
+                order_no = $"PO{_dtnow.Month}{_dtnow.Year}/{supplierDocNo}",
                 order_type = 2,
                 total = 0.00,
                 total_discount= 0.00,
