@@ -56,7 +56,7 @@ namespace TCCPOS.Backend.SecurityService.WebApi.Controllers
         [HttpPost]
         [Route("BackOffice")]
         [SwaggerOperation(Summary = "", Description = "")]
-        [ProducesResponseType(typeof(RegisterShopCommand), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(RegisterMerchantBackOfficeResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> RegisterShopBackOffice([FromBody] RegisterShopBackOfficeRequest request)
         {

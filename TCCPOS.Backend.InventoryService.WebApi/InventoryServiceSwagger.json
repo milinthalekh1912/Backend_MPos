@@ -1619,7 +1619,7 @@
         }
       }
     },
-    "/api/v1/Sku/Recommended/{supplier_id}": {
+    "/api/v1/Sku/Recommended/{supplierId}": {
       "get": {
         "tags": [
           "Sku"
@@ -1627,6 +1627,13 @@
         "parameters": [
           {
             "name": "supplier_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "supplierId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1690,7 +1697,7 @@
         }
       }
     },
-    "/api/v1/Sku/All/{supplier_id}": {
+    "/api/v1/Sku/All/{supplierId}": {
       "get": {
         "tags": [
           "Sku"
@@ -1698,6 +1705,13 @@
         "parameters": [
           {
             "name": "supplier_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "supplierId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1752,7 +1766,7 @@
         }
       }
     },
-    "/api/v1/Sku/All/WithPriceTier/{supplier_id}/{price_tier_id}": {
+    "/api/v1/Sku/All/WithPriceTier/{supplierId}/{price_tier_id}": {
       "get": {
         "tags": [
           "Sku"
@@ -1760,14 +1774,21 @@
         "parameters": [
           {
             "name": "supplier_id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
             "name": "price_tier_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "supplierId",
             "in": "path",
             "required": true,
             "schema": {

@@ -21,3 +21,15 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.Regist
         public string phoneNumber { get; set; } = null!;
     }
 }
+/*
+ public string merchant_id { get; set; }
+        public string price_tier_id { get; set; }
+        public string merchant_name { get; set; }
+        public string merchant_address_id { get; set; }
+        public string merchant_address_title { get; set; }
+        public string merchant_address_1 { get; set; }
+        public string merchant_address_2 { get; set; }
+        public string merchant_address_3 { get; set; }
+        public string merchant_address_zipcode { get; set; }
+ 
+ */
