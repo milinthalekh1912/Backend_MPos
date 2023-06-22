@@ -7,6 +7,9 @@ namespace TCCPOS.Backend.SecurityService.Entities
     {
         public string order_id { get; set; } = null!;
         public string? order_no { get; set; }
+        public int? order_type { get; set; }
+        public double? total { get; set; }
+        public double? total_discount { get; set; }
         public string? user_id { get; set; }
         public string? merchant_id { get; set; }
         public string? supplier_id { get; set; }
