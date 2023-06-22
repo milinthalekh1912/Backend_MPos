@@ -13,7 +13,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.Regist
         public string userId { get; set; }
         [Required]
         public string priceTierId { get; set; }
-        [Required] 
+        
         public string merchantGroupId { get; set; }
 
         [Required]
