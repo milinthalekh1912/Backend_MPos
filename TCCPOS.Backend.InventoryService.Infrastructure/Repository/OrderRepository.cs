@@ -215,19 +215,40 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         public async Task<GetAllOrderByMerchantIdResult> getAllOrderByMerchantID(string merchantID)
         {
             var result = new GetAllOrderByMerchantIdResult();
-            var query = from order in _context.order
+
+            var order_join = from order in _context.order
+                             where order.merchant_id == merchantID
+                             join orderItem in _context.orderdetail
+                             on order.order_id equals orderItem.order_id
+                             select new
+                             {
+                                 Order = order,
+                                 OrderItem = orderItem,
+                             };
+            var sku_join = from order in order_join
+                           join sku in _context.sku
+                           on order.OrderItem.sku_id equals sku.sku_id
+                           where order.Order.supplier_id == sku.supplier_id
+                           select new
+                           {
+                               Order = order.Order,
+                               OrderItem = order.OrderItem,
+                               SKU = sku,
+                           };
+
+            /*var query = from order in _context.order
                         where order.merchant_id == merchantID
                         join orderItem in (
                             from sku in _context.sku
                             join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
                             select new { SKU = sku, OrderItem = oi }
                         ) on order.order_id equals orderItem.OrderItem.order_id
-                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
+                        select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };*/
 
             var merchant = await _context.merchant.FirstOrDefaultAsync(x => x.merchant_id == merchantID);
 
-            
-            var results = await query.AsNoTracking().ToListAsync();
+            var results = await sku_join.AsNoTracking().ToListAsync();
+            //var results = await query.AsNoTracking().ToListAsync();
             foreach (var order in results)
             {
                 /*GetAllOrderByMerchantIdItemResult item = new GetAllOrderByMerchantIdItemResult();
