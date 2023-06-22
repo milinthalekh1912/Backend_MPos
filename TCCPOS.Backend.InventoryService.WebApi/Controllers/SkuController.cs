@@ -67,9 +67,9 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         [ProducesResponseType(typeof(GetAllSkuResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> GetAllSkuWithPriceTierBySupplierId(string supplier_id,string price_tier_id)
+        public async Task<IActionResult> GetAllSkuWithPriceTierBySupplierId(string supplierId, string price_tier_id)
         {
-            var query = new GetAllSkuWithPriceTierByPriceTierIDQuery(supplier_id, price_tier_id);
+            var query = new GetAllSkuWithPriceTierByPriceTierIDQuery(supplierId, price_tier_id);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

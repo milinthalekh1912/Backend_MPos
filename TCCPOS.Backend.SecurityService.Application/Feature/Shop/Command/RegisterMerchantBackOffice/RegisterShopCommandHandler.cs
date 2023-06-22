@@ -33,17 +33,17 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.Regist
             
             return new RegisterMerchantBackOfficeResult
             {
-                merchantId = newMerchant.merchant_id,
-                merchantName = newMerchant.merchant_name,
-                priceTierId = newMerchant.price_tier_id,
-                merchantGroupId = newMerchant.merchant_group_id,
-                merchantAddressId = newAddressMerchant.address_id,
-                addressTitle = newAddressMerchant.address_title,
-                address1 = newAddressMerchant.address1,
-                address2 = newAddressMerchant.address2,
-                address3 = newAddressMerchant.address3,
-                zipcode = newAddressMerchant.zipcode,
-                phoneNumber = newAddressMerchant.phone_number,
+                merchant_id = newMerchant.merchant_id,
+                merchant_name = newMerchant.merchant_name,
+                price_tier_id = newMerchant.price_tier_id,
+                //merchantGroupId = newMerchant.merchant_group_id,
+                merchant_address_id = newAddressMerchant.address_id,
+                merchant_address_title = newAddressMerchant.address_title,
+                merchant_address_1 = newAddressMerchant.address1,
+                merchant_address_2 = newAddressMerchant.address2,
+                merchant_address_3 = newAddressMerchant.address3,
+                merchant_address_zipcode = newAddressMerchant.zipcode,
+                //phoneNumber = newAddressMerchant.phone_number,
             };
         }
 

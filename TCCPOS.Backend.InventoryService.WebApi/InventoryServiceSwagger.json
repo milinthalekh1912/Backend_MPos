@@ -1773,14 +1773,7 @@
         ],
         "parameters": [
           {
-            "name": "supplier_id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "price_tier_id",
+            "name": "supplierId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1788,7 +1781,7 @@
             }
           },
           {
-            "name": "supplierId",
+            "name": "price_tier_id",
             "in": "path",
             "required": true,
             "schema": {
