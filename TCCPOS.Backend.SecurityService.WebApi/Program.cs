@@ -125,6 +125,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(_ => true) // allow any origin
+    .AllowCredentials());// allow credentials
+
 app.UseExceptionHandler(x =>
 {
     x.Run(async context =>
