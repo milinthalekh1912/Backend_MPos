@@ -38,7 +38,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<sku>> getAllSkuAsync(string supplierId)
         {
-            var all_sku = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplierId).ToListAsync();
+            var all_sku = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplierId && e.IsActive == true).ToListAsync();
             return all_sku;
         }
         public async Task<List<SkuRecommendResult>> GetSkuRecommend(string supplier_id,string merchantId)
@@ -52,7 +52,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         where order.supplier_id == supplier_id && order.merchant_id == merchantId
                         join orderItem in (
                             from sku in _context.sku
-                            where sku.supplier_id == supplier_id
+                            where sku.supplier_id == supplier_id && sku.IsActive == true
                             join oi in _context.orderdetail on sku.sku_id equals oi.sku_id
                             select new { SKU = sku, OrderItem = oi }
                         ) on order.order_id equals orderItem.OrderItem.order_id
@@ -79,7 +79,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<sku>> GetAllSkuBySupplierId(string supplier_id)
         {
-            var query = await _context.sku.Where(x => x.supplier_id == supplier_id).ToListAsync();
+            var query = await _context.sku.Where(x => x.supplier_id == supplier_id && x.IsActive == true).ToListAsync();
             if (query == null && query.Count == 0) throw InventoryServiceException.IE016;
             return query;
         }
@@ -87,7 +87,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         public async Task<GetAllSkuWithPriceTierByPriceTierIDResult> GetAllSkuWithPriceTierByPriceTierId(string supplier_id, string price_tier_id)
         {
             var sku_unit = from sku in _context.sku
-                           where sku.supplier_id == supplier_id
+                           where sku.supplier_id == supplier_id && sku.IsActive == true
                            join unit in _context.unit
                            on sku.unit_id equals unit.unit_id
                            select new
@@ -165,7 +165,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<GetProductByCatResult>> GetSkuBycateID(string categoryId, string supplierId, string shopId)
         {
-            var productinfo = await _context.sku.AsNoTracking().Where(x => x.category_id == categoryId && x.supplier_id == supplierId).ToListAsync();
+            var productinfo = await _context.sku.AsNoTracking().Where(x => x.category_id == categoryId && x.supplier_id == supplierId && x.IsActive == true).ToListAsync();
             List<GetProductByCatResult> results = new List<GetProductByCatResult>();
             if (productinfo == null || !productinfo.Any())
             {

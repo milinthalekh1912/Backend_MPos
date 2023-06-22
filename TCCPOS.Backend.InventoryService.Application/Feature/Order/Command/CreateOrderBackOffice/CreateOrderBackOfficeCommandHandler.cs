@@ -51,6 +51,37 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.Crea
             ConfirmOrderCommand confirmOrder = new ConfirmOrderCommand(command.UserID,command.MerchantID,confirmOrderRequest);
             var newDeliveryDetail = await _repo.Order.ConfirmOrderByBackOffice(confirmOrder);
 
+            /*if (command.IsBoardcase)
+            {
+                var user = await _repo.User.GetUserByUserID(command.userId);
+                if (user != null && user.line_sub_Id != null)
+                {
+                    var chanelToken = "8MGabTsr+8vXmZt39lv/CvuoTLi56qiS/hH+EW4npP++z0eQ9axdV/XimTLWZ1oNkJpvg5IqO0gY3ITT7+K0yC6MxOXkslBkgI8eEi5N+CGCzxLs7839NS74w9+0t+4Eu6Lgiu9x+q+JR2OLQ3QvBgdB04t89/1O/w1cDnyilFU=";
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", chanelToken);
+
+                    MessageModel mss = new MessageModel
+                    {
+                        type = "text",
+                        text = $"Order no . {command.orderId} Confirmed"
+                    };
+
+
+                    PushMessageModel pushMessageModel = new PushMessageModel();
+                    pushMessageModel.to = user.line_sub_Id;
+                    pushMessageModel.messages.Add(mss);
+
+                    var content = JsonConvert.SerializeObject(pushMessageModel);
+                    var requestContent = new StringContent(content, Encoding.UTF8, "application/json");
+                    var response = await httpClient.PostAsync("https://api.line.me/v2/bot/message/push", requestContent);
+                    response.EnsureSuccessStatusCode();
+
+                }
+
+            }
+*/
+            
+            
             res.orderId = newOrder.order_id;
             res.merchantId = newOrder.merchant_id;
             res.supplierId = newOrder.supplier_id;

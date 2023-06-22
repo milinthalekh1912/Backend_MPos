@@ -2984,7 +2984,7 @@
             "type": "string",
             "nullable": true
           },
-          "unitTitel": {
+          "unitTitle": {
             "type": "string",
             "nullable": true
           },

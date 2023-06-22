@@ -14,7 +14,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         Task SaveChangeAsyncWithCommit();
         public Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon);
         public Task<List<orderdetail>> createOrderItemAsync(string order_id, List<OrderItemRequest> orderItems, string userId, string shopId);
-        public Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId);
+        //public Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId);
         public Task<List<GetAllOrdersResult>> getAllOrderAsync(string supplierId, string userId, string shopId);
         public Task<List<order>> getAllOrder(string supplierId, string userId, string shopId);
         public Task<GetOrderByIdResult> getOrderByIdAsync(string order_id, string shopId);

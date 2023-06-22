@@ -20,7 +20,6 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         protected readonly InventoryContext _context;
         DateTime _dtnow;
 
-
         public OrderRepository(InventoryContext context, DateTime _dtnow)
         {
             _context = context;
@@ -52,8 +51,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     price = e.price,
                     created_by = userId,
                     updated_by = userId,
-                    created_date = _dtnow,
-                    updated_date = _dtnow,
+                    created_date = DateTime.Now,
+                    updated_date = DateTime.Now,
                 };
             }).ToList();
 
@@ -93,8 +92,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 payment_status = 1,
                 created_by = command.UserID,
                 updated_by = command.UserID,
-                created_date = _dtnow,
-                updated_date = _dtnow,
+                created_date = DateTime.Now,
+                updated_date = DateTime.Now,
             };
 
             await _context.AddAsync(newOrder);
@@ -119,8 +118,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     price = e.price,
                     created_by = userId,
                     updated_by = userId,
-                    created_date = _dtnow,
-                    updated_date = _dtnow,
+                    created_date = DateTime.Now,
+                    updated_date = DateTime.Now,
                 };
             }).ToList();
 
@@ -159,8 +158,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 payment_status = 1,
                 created_by = userId,
                 updated_by = userId,
-                created_date = _dtnow,
-                updated_date = _dtnow,
+                created_date = DateTime.Now,
+                updated_date = DateTime.Now,
             };
 
             await _context.AddAsync(newOrder);
@@ -199,8 +198,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     price = skuPriceList?.FirstOrDefault(x => x.sku_id == e.sku_id)?.price ?? 0,
                     created_by = userId,
                     updated_by = userId,
-                    created_date = _dtnow,
-                    updated_date = _dtnow,
+                    created_date = DateTime.Now,
+                    updated_date = DateTime.Now,
                 };
             }).ToList();
 
@@ -210,7 +209,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             return newOrderItems;
         }
 
-        public async Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId)
+        /*public async Task<deliverydetail> createOrderDeliveryDetailAsync(string order_id, string userId)
         {
             List<deliverydetail> deliveryDetails = new List<deliverydetail>();
 
@@ -238,9 +237,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.AddRangeAsync(deliveryDetails);
             await _context.SaveChangesAsync();
             return new deliverydetail();
-        }
+        }*/
 
-        public async Task<deliverydetail> CreateOrderDeliveryDetailBackOffice(string order_id, string userId)
+       /* public async Task<deliverydetail> CreateOrderDeliveryDetailBackOffice(string order_id, string userId)
         {
             List<deliverydetail> deliveryDetails = new List<deliverydetail>();
 
@@ -268,7 +267,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.AddRangeAsync(deliveryDetails);
             await _context.SaveChangesAsync();
             return new deliverydetail();
-        }
+        }*/
 
         public async Task<List<GetAllOrdersResult>> getAllOrderAsync(string supplierId, string userId, string shopId)
         {
@@ -625,7 +624,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 throw InventoryServiceException.IE001;
             }
             order.delivery_detail_id = delivery_detail_id;
-            order.updated_date = _dtnow;
+            order.updated_date = DateTime.Now;
             order.updated_by = user_id;
             order.order_status = 3;
 
