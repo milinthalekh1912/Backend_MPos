@@ -15,6 +15,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Sku.Query.GetAllSk
         public string? barcode { get; set; }
         public string? imageUrl { get; set; }
         public string? categoryId { get; set; }
+        public string? unitTitle { get; set; }
         public double? price { get; set; }
     }
 }

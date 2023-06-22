@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
@@ -85,7 +86,25 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         //GetAllSkuWithPriceTierByPriceTierIDResult
         public async Task<GetAllSkuWithPriceTierByPriceTierIDResult> GetAllSkuWithPriceTierByPriceTierId(string supplier_id, string price_tier_id)
         {
-            var query = from sku in _context.sku
+            var sku_unit = from sku in _context.sku
+                           where sku.supplier_id == supplier_id
+                           join unit in _context.unit
+                           on sku.unit_id equals unit.unit_id
+                           select new
+                           {
+                               SKU = sku,
+                               Unit = unit,
+                           };
+            var query = from skuIsUnit in sku_unit
+                         join pricetier in _context.pricetier
+                         on skuIsUnit.SKU.sku_id equals pricetier.sku_id
+                         select new
+                         {
+                             SKU = skuIsUnit.SKU,
+                             UNIT = skuIsUnit.Unit,
+                             PRICETIER = pricetier
+                         };
+           /* var query = from sku in _context.sku
                         where sku.supplier_id == supplier_id
                         join pricetier in _context.pricetier
                         on sku.sku_id equals pricetier.sku_id
@@ -93,8 +112,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         {
                             SKU = sku,
                             PriceTier = pricetier
-                        };
-            var search =  await query.AsNoTracking().Where(e => e.PriceTier.price_tier_group_id == price_tier_id).ToListAsync();
+                        };*/
+            var search =  await query.AsNoTracking().Where(e => e.PRICETIER.price_tier_group_id == price_tier_id).ToListAsync();
             var res = new GetAllSkuWithPriceTierByPriceTierIDResult();
 
             foreach(var sku_with_price in search)
@@ -105,8 +124,9 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 item.title = sku_with_price.SKU.title;
                 item.aliasTitle = sku_with_price.SKU.alias_title;
                 item.imageUrl = sku_with_price.SKU.image_url;
-                item.price = sku_with_price.PriceTier.price;
+                item.price = sku_with_price.PRICETIER.price;
                 item.categoryId = sku_with_price.SKU.category_id;
+                item.unitTitle = sku_with_price.UNIT.unit_name;
                 res.item.Add(item);
             }
 
