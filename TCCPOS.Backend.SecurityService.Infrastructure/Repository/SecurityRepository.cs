@@ -72,13 +72,13 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
             return newShop;
         }
 
-        public async Task<merchantaddress> createNewShopAddress(string shopId, string shop_name, string address1, string address2, string address3, string zipcode, string phone_number, string userId)
+        public async Task<merchantaddress> createNewShopAddress(string shopId, string address_title, string address1, string address2, string address3, string zipcode, string phone_number, string userId)
         {
             var newShopAddress = new merchantaddress
             {
                 merchant_id = shopId,
                 address_id = Guid.NewGuid().ToString(),
-                address_title = shop_name,
+                address_title = address_title,
                 address1 = address1,
                 address2 = address2,
                 address3 = address3,

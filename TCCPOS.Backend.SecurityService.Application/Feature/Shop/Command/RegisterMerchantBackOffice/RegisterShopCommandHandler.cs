@@ -29,7 +29,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.Regist
             if (request.UserId != "ADMIN") throw SecurityServiceException.SE019;
 
             var newMerchant = await _repo.createMerchantAsync(request.MerchanrName, request.PriceTierId, request.MerchantGroupId, request.UserId);
-            var newAddressMerchant = await _repo.createNewShopAddress(newMerchant.merchant_id, request.MerchanrName, request.Address1, request.Address2, request.Address3, request.Zipcode, request.PhoneNumber, request.UserId);
+            var newAddressMerchant = await _repo.createNewShopAddress(newMerchant.merchant_id, request.AddressTitle, request.Address1, request.Address2, request.Address3, request.Zipcode, request.PhoneNumber, request.UserId);
             
             return new RegisterMerchantBackOfficeResult
             {
