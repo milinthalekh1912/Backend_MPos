@@ -3164,19 +3164,39 @@
       "ShopWithAddressResult": {
         "type": "object",
         "properties": {
-          "shop_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "shop_name": {
-            "type": "string",
-            "nullable": true
-          },
-          "shop_address_id": {
+          "merchant_id": {
             "type": "string",
             "nullable": true
           },
           "price_tier_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchant_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchant_address_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchant_address_title": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchant_address_1": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchant_address_2": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchant_address_3": {
+            "type": "string",
+            "nullable": true
+          },
+          "merchant_address_zipcode": {
             "type": "string",
             "nullable": true
           }

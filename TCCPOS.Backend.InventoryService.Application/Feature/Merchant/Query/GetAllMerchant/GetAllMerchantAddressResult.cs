@@ -14,12 +14,15 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Merchant.Query.Get
 
     public class ShopWithAddressResult
     {
-        public string shop_id { get; set; }
-
-        public string shop_name { get; set; }
-
-        public string shop_address_id { get; set; }
+        public string merchant_id { get; set; }
         public string price_tier_id { get; set; }
+        public string merchant_name { get; set; }
+        public string merchant_address_id { get; set; }
+        public string merchant_address_title { get; set; }
+        public string merchant_address_1 { get; set; }
+        public string merchant_address_2 { get; set; }
+        public string merchant_address_3 { get; set; }
+        public string merchant_address_zipcode { get; set; }
 
     }
 }

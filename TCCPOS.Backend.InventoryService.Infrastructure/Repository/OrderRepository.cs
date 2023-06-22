@@ -35,6 +35,42 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<order> createOrderBackOffice(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon)
+        {
+            var supplier = await _context.supplier.FirstOrDefaultAsync(e => e.supplier_id == supplierId);
+            if (supplier == null)
+            {
+                throw InventoryServiceException.IE017;
+            }
+            var supplierDocNo = supplier.DocNo;
+            var newStringSupplierNo = (int.Parse(supplierDocNo) + 1).ToString();
+            supplier.DocNo = newStringSupplierNo.PadLeft(5, '0');
+
+            var newOrder = new order
+            {
+                order_id = order_id,
+                order_no = $"PO{_dtnow.Month}{_dtnow.Year}/{supplierDocNo}",
+                user_id = userId,
+                merchant_id = shopId,
+                supplier_id = supplierId,
+                address_id = addressId,
+                coupon_id = coupon,
+                is_read = false,
+                order_status = 1,
+                payment_status = 1,
+                created_by = userId,
+                updated_by = userId,
+                created_date = _dtnow,
+                updated_date = _dtnow,
+            };
+
+            await _context.AddAsync(newOrder);
+            await _context.SaveChangesAsync();
+
+            return newOrder;
+        }
+
+
         public async Task<order> createOrderAsync(string order_id, string userId, string shopId, string supplierId, string addressId, string coupon)
         {
             var supplier = await _context.supplier.FirstOrDefaultAsync(e => e.supplier_id == supplierId);
@@ -259,7 +295,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                 item.is_read = (bool)order.Order.is_read;
                 item.order_status = (int)order.Order.order_status;
                 item.user_id = order.Order.user_id;
-                item.shop_id = order.Order.merchant_id;
+                item.merchant_id = order.Order.merchant_id;
                 item.supplier_id = order.Order.supplier_id;
                 item.customer_name = merchant.merchant_name;*/
 

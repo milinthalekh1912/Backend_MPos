@@ -44,7 +44,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
                 item.is_read = (bool)order.is_read;
                 item.order_status = (int)order.order_status;
                 item.user_id = order.user_id;
-                item.shop_id = order.merchant_id;
+                item.merchant_id = order.merchant_id;
                 item.supplier_id = order.supplier_id;
                 item.customer_name = merchant.merchant_name;
                 foreach (var itemDetail in order_detail)
@@ -74,7 +74,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrd
     "is_read": false,
     "order_status": 1,
     "user_id": "4d819af2-801b-4e28-94d5-c2656424b607",
-    "shop_id": "ed22d3b5-f175-4be0-a12c-5bbd3003174d",
+    "merchant_id": "ed22d3b5-f175-4be0-a12c-5bbd3003174d",
     "supplier_name": "changhouse",
     "customer_name": "ร้าน test1",
     "order_amount": 1,

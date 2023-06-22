@@ -25,7 +25,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
 
 
         //ดึงข้อมูลร้านค้าทั้งหมดที่มีในระบบ รวมถึงที่อยู่
-        [HttpGet("GetAllShopWithAddress")]
+        [HttpGet("GetAllMerchantWithAddress")]
         [ProducesResponseType(typeof(GetAllMerchantAddressResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]

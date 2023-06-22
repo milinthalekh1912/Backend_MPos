@@ -8,6 +8,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature;
 using TCCPOS.Backend.InventoryService.Application.Feature.ConfirmLogistic.Command.ConfirmLogistic;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.ConfirmOrder;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrder;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOrderBackOffice;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.UpdateOrderStatus;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrderByMerchantId;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
@@ -75,6 +76,26 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             });
             return Ok(res);
         }
+
+        /*[HttpPost]
+        [Route("OrderBackOffice")]
+        [SwaggerOperation(Summary = "Create order Backoffice", Description = "")]
+        [ProducesResponseType(typeof(CreateOrderResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> CreateOrderBackOffice([FromBody] CreateOrderBackOfficeRequest request)
+        {
+            var com = new CreateOrderBackOfficeCommand(Identity.GetUserID(),,request);
+            var res = await _mediator.Send(new CreateOrderCommand
+            {
+                supplier_id = request.supplier_id,
+                address_id = request.address_id,
+                coupon_id = request.coupon_id,
+                user_id = Identity.GetUserID(),
+                merchant_id = Identity.GetMerchantID(),
+                order_items = request.order_items,
+            });
+            return Ok(res);
+        }*/
 
         [HttpGet]
         [Route("All/{supplierId}")]

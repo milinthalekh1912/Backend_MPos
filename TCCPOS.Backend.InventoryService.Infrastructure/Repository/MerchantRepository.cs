@@ -47,6 +47,11 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                                     s.merchant_name,
                                     s.price_tier_id,
                                     sg.address_id,
+                                    sg.address_title,
+                                    sg.address1,
+                                    sg.address2,
+                                    sg.address3,
+                                    sg.zipcode
                                 };
 
                 var results = await queryable.ToListAsync();
@@ -57,10 +62,15 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                     {
                         return new ShopWithAddressResult
                         {
-                            shop_id = e.merchant_id,
-                            shop_name = e.merchant_name,
-                            shop_address_id = e.address_id,
+                            merchant_id = e.merchant_id,
+                            merchant_name = e.merchant_name,
+                            merchant_address_id = e.address_id,
                             price_tier_id = e.price_tier_id,
+                            merchant_address_title = e.address_title,
+                            merchant_address_1 = e.address1,
+                            merchant_address_2 = e.address2,
+                            merchant_address_3 = e.address3,
+                            merchant_address_zipcode = e.zipcode,
                         };
                     }).ToList()
                 };
