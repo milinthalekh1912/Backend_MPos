@@ -14,7 +14,7 @@ namespace TCCPOS.Backend.SecurityService.Application.Feature.Shop.Command.Regist
         [Required]
         public string priceTierId { get; set; }
         
-        public string merchantGroupId { get; set; }
+        public string? merchantGroupId { get; set; } = null;
 
         [Required]
         public string merchantName { get; set; } = null!;
