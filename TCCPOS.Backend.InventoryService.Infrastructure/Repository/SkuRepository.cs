@@ -58,7 +58,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
                         ) on order.order_id equals orderItem.OrderItem.order_id
                         select new { Order = order, SKU = orderItem.SKU, OrderItem = orderItem.OrderItem };
 
-            var skus = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplier_id).ToListAsync();
+            var skus = await _context.sku.AsNoTracking().Where(e => e.supplier_id == supplier_id && e.IsActive == true).ToListAsync();
 
             List<SkuRecommendResult> result = new List<SkuRecommendResult>();
 
@@ -140,7 +140,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.alias_title.Contains(keyword) || x.title.Contains(keyword) || x.barcode.Contains(keyword));
+                query = query.Where(x => x.alias_title.Contains(keyword) || x.title.Contains(keyword) || x.barcode.Contains(keyword) && x.IsActive == true);
             }
 
             var products = await query.ToListAsync();

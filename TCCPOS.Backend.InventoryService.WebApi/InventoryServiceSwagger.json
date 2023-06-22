@@ -1626,13 +1626,6 @@
         ],
         "parameters": [
           {
-            "name": "supplier_id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "supplierId",
             "in": "path",
             "required": true,
@@ -1703,13 +1696,6 @@
           "Sku"
         ],
         "parameters": [
-          {
-            "name": "supplier_id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "supplierId",
             "in": "path",
