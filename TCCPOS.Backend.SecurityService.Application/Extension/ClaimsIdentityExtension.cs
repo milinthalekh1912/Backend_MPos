@@ -38,5 +38,12 @@ namespace System
             if (claim == null) throw new Exception("");
             return claim.Value;
         }
+
+        public static string GetSupplierID(this ClaimsIdentity iden)
+        {
+            var claim = iden.FindFirst("SupplierID");
+            if (claim == null) throw new Exception("");
+            return claim.Value;
+        }
     }
 }

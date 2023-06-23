@@ -25,7 +25,6 @@ namespace TCCPOS.Backend.InventoryService.Application.Contract
         public Task<List<GetAllShopResult>> getAllShopAsync();
 
         public Task updateNameByGroupId(string groupName, string shopGroupId, string userId);
-
-
+       
     }
 }

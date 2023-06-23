@@ -90,15 +90,15 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("All/{supplierId}")]
-        [SwaggerOperation(Summary = "Get all order by supplierId", Description = "")]
+        [Route("All")]
+        [SwaggerOperation(Summary = "Get all order by supplier token", Description = "")]
         [ProducesResponseType(typeof(List<GetAllOrdersResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> getAllOrders(string supplierId)
+        public async Task<IActionResult> getAllOrders()
         {
             var res = await _mediator.Send(new GetAllOrdersQuery
             {
-                supplierId = supplierId,
+                supplierId = Identity.GetSupplierID(),
                 userId = Identity.GetUserID(),
                 shopId = Identity.GetMerchantID(),
             });

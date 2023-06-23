@@ -32,14 +32,13 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
         {
             List<GetAllOrdersResult> res= new List<GetAllOrdersResult>();
             var order_context = await _repo.Order.getAllOrder(request.supplierId, request.userId, request.shopId);
-            var custommer = await _repo.Merchant.getMerchantById(request.shopId);
+            var custommer = await _repo.Merchant.getllMerchant();
             var sku_list = await _repo.Sku.getAllSkuAsync(request.supplierId);
-
 
             foreach (var ord in order_context)
             {
                 GetAllOrdersResult getOrder = new GetAllOrdersResult();
-                
+                var cm_name = custommer.FirstOrDefault(x => x.merchant_id == ord.merchant_id).merchant_name ?? "";
                 getOrder.order_id = ord.order_id;
                 getOrder.order_no = ord.order_no;
                 getOrder.is_read = ord.is_read ?? true;
@@ -47,7 +46,7 @@ namespace TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAll
                 getOrder.shop_id = ord.merchant_id;
                 getOrder.user_id = ord.user_id;
                 getOrder.supplier_name = ord.supplier_id;
-                getOrder.customer_name = custommer.merchant_name ?? "";
+                getOrder.customer_name = cm_name;
                 getOrder.address_id = ord.address_id;
                 getOrder.created_date = ord.created_date ?? DateTime.Now;
                 getOrder.order_items = new List<OrderItemResult>();

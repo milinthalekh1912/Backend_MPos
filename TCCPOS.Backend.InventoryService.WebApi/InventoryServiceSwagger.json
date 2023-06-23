@@ -1092,23 +1092,13 @@
         }
       }
     },
-    "/api/v1/Orders/All/{supplierId}": {
+    "/api/v1/Orders/All": {
       "get": {
         "tags": [
           "Orders"
         ],
-        "summary": "Get all order by supplierId",
+        "summary": "Get all order by supplier token",
         "description": "",
-        "parameters": [
-          {
-            "name": "supplierId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",

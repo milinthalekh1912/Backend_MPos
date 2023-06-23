@@ -272,15 +272,15 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
         public async Task<List<GetAllOrdersResult>> getAllOrderAsync(string supplierId, string userId, string shopId)
         {
             var orders = new List<GetAllOrdersResult>();
-            List<order> order_context;
-            if (shopId == "ADMIN")
+            List<order> order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync(); ;
+            /*if (shopId == "ADMIN")
             {
                 order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync();
             }
             else
             {
                 order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.merchant_id == shopId).ToListAsync();
-            }
+            }*/
 
             foreach (var ord in order_context)
             {
@@ -328,8 +328,8 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
         public async Task<List<order>> getAllOrder(string supplierId, string userId, string shopId)
         {
-            List<order> order_context;
-            if (shopId == "ADMIN")
+            List<order> order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync();
+            /*if (shopId == "ADMIN")
             {
                 order_context = await _context.order.Where(x => x.supplier_id == supplierId).ToListAsync();
             }
@@ -337,7 +337,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             {
                 order_context = await _context.order.Where(x => x.supplier_id == supplierId && x.merchant_id == shopId).ToListAsync();
             }
-
+*/
             return order_context;
             
         }
@@ -561,7 +561,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             if (order_obj == null) throw InventoryServiceException.IE018;
 
             if (order_obj.order_status != 1) throw InventoryServiceException.IE019;
-
+            order_obj.is_read = false;
             order_obj.order_status = 2;
             order_obj.updated_date = DateTime.Now;
             order_obj.updated_by = command.userId;
@@ -591,7 +591,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             order_obj.order_status = 3;
             order_obj.updated_date = DateTime.Now;
             order_obj.updated_by = command.userId;
-
+            order_obj.is_read = false;
             deliverydetail deli_Details = new deliverydetail
             {
                 delivery_detail_id = Guid.NewGuid().ToString(),
@@ -614,6 +614,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             var order_obj = await _context.order.FirstOrDefaultAsync(x => x.order_id == orderID);
             if (order_obj == null) throw InventoryServiceException.IE018;
             order_obj.order_status = order_obj.order_status + 1;
+            order_obj.is_read=false;
             await _context.SaveChangesAsync();
             return order_obj;
         }
@@ -629,7 +630,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             order.updated_date = DateTime.Now;
             order.updated_by = user_id;
             order.order_status = 3;
-
+            order.is_read = false;
             var updatedelivery = new ConfirmLogisticResult
             {
                 delivery_detail_id = delivery_detail_id,

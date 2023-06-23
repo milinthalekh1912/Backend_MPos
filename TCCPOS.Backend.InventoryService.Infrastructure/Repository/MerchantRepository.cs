@@ -112,6 +112,12 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
             
             return merchant_obj;
         }
+
+        public async Task<List<merchant>> getllMerchant()
+        {
+            var merchant_obj = await _context.merchant.Where(x => true).ToListAsync();
+            return merchant_obj;
+        }
     }
 }
 
