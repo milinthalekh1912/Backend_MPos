@@ -90,7 +90,7 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("All")]
+        [Route("All/Supplier")]
         [SwaggerOperation(Summary = "Get all order by supplier token", Description = "")]
         [ProducesResponseType(typeof(List<GetAllOrdersResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
