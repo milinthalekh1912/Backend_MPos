@@ -12,6 +12,7 @@ using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.CreateOr
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Command.UpdateOrderStatus;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrderByMerchantId;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetAllOrders;
+using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderBackOfficeById;
 using TCCPOS.Backend.InventoryService.Application.Feature.Order.Query.GetOrderById;
 
 namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
@@ -44,8 +45,20 @@ namespace TCCPOS.Backend.InventoryService.WebApi.Controllers
             var res = await _mediator.Send(query);
             return Ok(res);
         }
+        [HttpGet]
+        [Route("BackOffice/{id}")]
+        [SwaggerOperation(Summary = "Get order by id", Description = "")]
+        [ProducesResponseType(typeof(GetOrderByIdResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FailedResult), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetOrderBackOfficeById(string id)
+        {
+            var query = new GetOrderBackOfficeByIdQuery(Identity.GetSupplierID(), id);
+            var res = await _mediator.Send(query);
+            return Ok(res);
+        }
 
-    
+
         [HttpGet]
         [Route("")]
         [SwaggerOperation(Summary = "Get All order by Merchant", Description = "")]
