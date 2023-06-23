@@ -111,15 +111,17 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
 
             modelBuilder.Entity<employeelogin>(entity =>
             {
-                entity.HasKey(e => e.Username)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => new { e.TenantID, e.Username })
+                    .HasName("PRIMARY")
+                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
                 entity.HasCharSet("latin1")
                     .UseCollation("latin1_swedish_ci");
 
+                entity.Property(e => e.TenantID).HasMaxLength(36);
+
                 entity.Property(e => e.Username)
                     .HasMaxLength(25)
-                    .HasDefaultValueSql("''")
                     .UseCollation("utf8mb4_unicode_ci")
                     .HasCharSet("utf8mb4");
 
@@ -138,8 +140,7 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
 
             modelBuilder.Entity<employeetenant>(entity =>
             {
-                entity.HasKey(e => e.TanantID)
-                    .HasName("PRIMARY");
+                entity.HasNoKey();
 
                 entity.HasCharSet("latin1")
                     .UseCollation("latin1_swedish_ci");
@@ -149,6 +150,10 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(50);
+
+                entity.Property(e => e.SupplierID).HasMaxLength(36);
+
+                entity.Property(e => e.TanantID).HasMaxLength(36);
             });
 
             modelBuilder.Entity<merchant>(entity =>

@@ -8,42 +8,45 @@ using System.Text;
 using TCCPOS.Backend.SecurityService.Application.Contract;
 using TCCPOS.Backend.SecurityService.Application.Exceptions;
 using TCCPOS.Backend.SecurityService.Application.Feature.CreateUser.Command.CreateUser;
+using TCCPOS.Backend.SecurityService.Application.Feature.LoginUser.Query.LoginEmployee;
 
 namespace TCCPOS.Backend.SecurityService.Application.Feature.LoginUser.Query.Login
 {
-    public class LoginQueryHandler : IRequestHandler<LoginQuery, LoginResult>
+    public class LoginEmployeeQueryHandler : IRequestHandler<LoginEmployeeQuery, LoginEmployeeResult>
     {
-        private readonly ILogger<LoginQueryHandler> _logger;
+        private readonly ILogger<LoginEmployeeQueryHandler> _logger;
         ISecurityRepository _repo;
         IConfiguration _config;
 
-        public LoginQueryHandler(ILogger<LoginQueryHandler> logger, ISecurityRepository repo, IConfiguration config)
+        public LoginEmployeeQueryHandler(ILogger<LoginEmployeeQueryHandler> logger, ISecurityRepository repo, IConfiguration config)
         {
             _logger = logger;
             _repo = repo;
             _config = config;
         }
 
-        public async Task<LoginResult> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<LoginEmployeeResult> Handle(LoginEmployeeQuery request, CancellationToken cancellationToken)
         {
-            var user = await _repo.getUserByUsername(request.Username);
+            var user = await _repo.getUserEmployeeByUsername(request.Username);
 
             if (user == null) throw SecurityServiceException.SE001;
-            if (user.password != request.Password) throw SecurityServiceException.SE002;
-
+            if (user.Password != request.Password) throw SecurityServiceException.SE002;
+            //SupplierID -> 
+            var employee_tennant = await _repo.getEmployeeTenantByTenantId(user.TenantID);
+            var supplier = await _repo.getSupplierById(employee_tennant.SupplierID);
             var authclaims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.username ?? ""),
-                new Claim(ClaimTypes.System, user.id),
-                new Claim("Username",user.username ?? ""),
-                new Claim("UserId",user.id),
-                new Claim("MerchantID",user.shop_id ?? ""),
-                new Claim("BranchID",user.shop_id ?? ""),
-                new Claim("SupplierID",""),
+                new Claim(ClaimTypes.Name, user.Username ?? ""),
+                new Claim(ClaimTypes.System, user.TenantID),
+                new Claim("Username",user.Username ?? ""),
+                new Claim("UserId",user.TenantID),
+                new Claim("MerchantID","ADMIN-" + supplier.supplier_name),
+                new Claim("BranchID","ADMIN-" + supplier.supplier_name),
+                new Claim("SupplierID",employee_tennant.SupplierID ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var token = GetToken(authclaims, _config["JWT:ValidIssuer"], _config["JWT:ValidAudience"], _config["JWT:Secret"]);
-            var res = new LoginResult();
+            var res = new LoginEmployeeResult();
             res.accessToken = new JwtSecurityTokenHandler().WriteToken(token);
             return res;
         }

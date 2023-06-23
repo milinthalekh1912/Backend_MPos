@@ -21,9 +21,17 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
             return acc;
         }
 
+    
+
         public async Task<user> getUserByUsername(string username)
         {
             var acc = await _context.user.AsNoTracking().FirstOrDefaultAsync(e => e.username == username);
+            return acc;
+        }
+
+        public async Task<employeelogin> getUserEmployeeByUsername(string username)
+        {
+            var acc = await _context.employeelogin.AsNoTracking().FirstOrDefaultAsync(e => e.Username == username);
             return acc;
         }
 
@@ -50,6 +58,18 @@ namespace TCCPOS.Backend.SecurityService.Infrastructure.Repository
         public async Task<user> getUserByLineId(string lineId)
         {
             var acc = await _context.user.AsNoTracking().FirstOrDefaultAsync(e => e.line_sub_Id == lineId);
+            return acc;
+        }
+
+        public async Task<employeetenant> getEmployeeTenantByTenantId(string TenantID)
+        {
+            var acc = await _context.employeetenant.AsNoTracking().FirstOrDefaultAsync(e => e.TanantID == TenantID);
+            return acc;
+        }
+
+        public async Task<supplier> getSupplierById(string supplierID)
+        {
+            var acc = await _context.supplier.AsNoTracking().FirstOrDefaultAsync(e => e.supplier_id == supplierID);
             return acc;
         }
 
