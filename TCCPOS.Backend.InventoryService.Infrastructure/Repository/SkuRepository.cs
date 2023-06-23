@@ -140,7 +140,7 @@ namespace TCCPOS.Backend.InventoryService.Infrastructure.Repository
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.alias_title.Contains(keyword) || x.title.Contains(keyword) || x.barcode.Contains(keyword) && x.IsActive == true);
+                query = query.Where(x => (x.alias_title.Contains(keyword) || x.title.Contains(keyword) || x.barcode.Contains(keyword)) && x.IsActive == true);
             }
 
             var products = await query.ToListAsync();
